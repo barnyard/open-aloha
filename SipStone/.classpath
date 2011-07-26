@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="etc/properties"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/commons-pool-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/jain-sip-api-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jain-sip-ri-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jmf.jar"/>
+	<classpathentry kind="lib" path="lib/Mockphones.jar"/>
+	<classpathentry kind="lib" path="lib/nist-sdp-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/pe-sdk-common.jar"/>
+	<classpathentry kind="lib" path="lib/SimpleSipStack.jar"/>
+	<classpathentry kind="lib" path="lib/spring-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="lib" path="lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.32.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/itext-2.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="lib/concurrent-1.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="lib/j2ssh-core-0.2.9.jar"/>
+	<classpathentry kind="lib" path="lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql-8.1-405.jdbc3.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aspects-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/spring-mock-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/xbean-2.3.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
+  

@@ -1,0 +1,103 @@
+	* HOUSEKEEPING OF NON-EXPIRED AND NOT DEAD DIALOG
+	* I would like to create and connect a dialog.
+	* Housekeeper of dialogCollection shouldn't remove that dialog from collection.
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|check|cleanDialogCollection|OK|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|dialogMaxTTL|5000|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|enter|waitSeconds|1|
+|press|storeDialogCollectionSize|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|0|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|0|
+|press|terminateFirstDialog|
+|check|waitForTerminatedEvent|OK|
+|check|cleanDialogCollection|OK|
+|check|dialogCollectionSize|0|
+
+	* HOUSEKEEPING OF EXPIRED BUT NOT DEAD DIALOG
+	* I would like to create and connect a dialog. This dialog will expire but will not be dead.
+	* Housekeeper of dialogCollection should first terminate that dialog and when running next time should remove that dialog from collection.
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|dialogMaxTTL|500|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|enter|waitSeconds|1|
+|press|storeDialogCollectionSize|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|0|
+|check|waitForTerminatedEvent|OK|
+|check|firstDialogTerminationCause|Housekept|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|-1|
+|check|dialogCollectionSize|0|
+
+	* HOUSEKEEPING OF NON-EXPIRED AND DEAD DIALOG
+	* I would like to create and connect a dialog, then terminate it.
+	* Housekeeper of dialogCollection should remove that dialog from collection when the objects expires.
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|dialogMaxTTL|5000|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|enter|waitSeconds|1|
+|press|terminateFirstDialog|
+|check|waitForTerminatedEvent|OK|
+|check|firstDialogTerminationCause|TerminatedByServer|
+|enter|waitSeconds|1|
+|press|storeDialogCollectionSize|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|0|
+|enter|waitSeconds|1|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|0|
+|check|cleanDialogCollection|OK|
+|check|dialogCollectionSize|0|
+
+	* HOUSEKEEPING OF EXPIRED AND DEAD DIALOG
+	* I would like to create and connect a dialog, then terminate it.
+	* Housekeeper of dialogCollection should remove that dialog from collection when the objects expires.
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|dialogMaxTTL|500|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|enter|waitSeconds|1|
+|press|terminateFirstDialog|
+|check|waitForTerminatedEvent|OK|
+|check|firstDialogTerminationCause|TerminatedByServer|
+|enter|waitSeconds|1|
+|press|storeDialogCollectionSize|
+|press|housekeepDialogCollection|
+|check|dialogCollectionSizeDelta|-1|
+|check|dialogCollectionSize|0|
+|enter|dialogMaxTTL|3600000|
+

@@ -1,0 +1,5 @@
+ERROR - gov.nist.javax.sip.SipProviderImpl.getNewClientTransaction(SipProviderImpl.java:303) [listeningPoint gov.nist.javax.sip.ListeningPointImpl@471e30]
+ERROR - gov.nist.javax.sip.SipProviderImpl.getNewClientTransaction(SipProviderImpl.java:306) [port = 5060]
+ERROR - gov.nist.javax.sip.SipStackImpl.createListeningPoint(SipStackImpl.java:745) [Invalid argument address = 192.168.1.4 port = 5060 transport = udp]
+ERROR - gov.nist.javax.sip.SipStackImpl.createListeningPoint(SipStackImpl.java:745) [Invalid argument address = 192.168.1.4 port = 5060 transport = udp]
+ERROR - gov.nist.javax.sip.SipStackImpl.createListeningPoint(SipStackImpl.java:745) [Invalid argument address = 192.168.1.4 port = 5060 transport = udp]

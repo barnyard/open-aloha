@@ -1,0 +1,4 @@
+sip.stack.ip.address.pattern=@sip.stack.ip.address.pattern@
+sip.stack.port=@inbound.sip.stack.port@
+sipp.home=@sipp.home@
+sipp.local.port=5067

@@ -1,0 +1,9 @@
+!1 Web21c SDK Call Control
+!3 Acceptance Test Suite for the SimpleSipStack API
+
+The following service-specific acceptance test suites are currently available:
+!3   * ^OutboundCallTests
+!3   * ^OutboundDialogTests
+!3   * ^LoadBalancedOutboundCallTests
+!3   * ^InboundCallTests
+!3   * ^CallStatusPersistency

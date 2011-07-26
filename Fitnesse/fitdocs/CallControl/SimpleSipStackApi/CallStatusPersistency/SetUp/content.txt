@@ -1,0 +1,5 @@
+* clear the database, db connection details are in database.properties 
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.SetupFixture-!|
+|check|clearDatabaseData||

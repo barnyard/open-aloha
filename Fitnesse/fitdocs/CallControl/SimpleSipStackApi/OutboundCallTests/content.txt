@@ -1,0 +1,520 @@
+   * I would like to create a call from two outbound dialogs, and then terminate this call
+   		* A Call Connected event should be raised upon connection
+   		* A Call Terminated event should be raised upon termiation
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|2|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-TerminatedByApplication-!|
+|check|callLegCausingTermination|Neither|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * I would like to create a call from two outbound dialogs, and then get notified of call termination based on one of the parties hanging up
+   		* A Call Connected event should be raised upon connection
+   		* A Call Disconnected event should be raised upon hangup
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:hangup.3000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|3|
+|check|waitForCallDisconnectedEventWithSecondRemotePartyHungUp|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-RemotePartyHungUp-!|
+|check|callLegCausingTermination|Second|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * Similar to the test above but the calling party disconnects which can be seen as termination cause.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.3000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|3|
+|check|waitForCallDisconnectedEventWithFirstRemotePartyHungUp|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-RemotePartyHungUp-!|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:busy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithFirstRemotePartyBusy|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-RemotePartyBusy-!|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * As above, but with the second broken dialog
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:broken@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithSecondServiceUnavailable|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-ServiceUnavailable-!|
+|check|callLegCausingTermination|Second|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * CallAnswerTimeout CallTerminationCause caused by first call leg
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|firstDialogCallAnswerTimeout|2000|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithFirstCallAnswerTimeout|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|CallAnswerTimeout|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * CallAnswerTimeout CallTerminationCause caused by second call leg
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondDialogCallAnswerTimeout|2000|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithSecondCallAnswerTimeout|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|CallAnswerTimeout|
+|check|callLegCausingTermination|Second|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * RemotePartyUnavailable CallTerminationCause
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|firstDialogCallAnswerTimeout|8000|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithFirstRemotePartyUnavailable|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|RemotePartyUnavailable|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * RemotePartyUnknown CallTerminationCause
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:loser@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|waitForCallConnectionFailedEventWithFirstRemotePartyUnknown|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|RemotePartyUnknown|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * SipSessionError CallTerminationCause
+    * I would like to create a call from two outbound dialogs, and get notified if call setup fails
+   		* A Call Connection failed event should be raised upon call setup failure
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:error@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus||
+|check|waitForCallConnectionFailedEventWithFirstSipSessionError|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|SipSessionError|
+|check|callLegCausingTermination|First|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * I would like to be able to dynamically create a new call from an existing dialog (already in another call) and a new dialog
+    	* The original call should terminate upon one of the dialogs being detached
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|createThirdDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|joinDialogsTwoAndThree|OK|
+|check|callStatus|Terminated|
+|check|waitForCallTerminatedEventWithSecondCallLegDetached|OK|
+|check|callTerminationCause|!-CallLegDetached-!|
+|check|callLegCausingTermination|Second|
+|enter|setActiveCall|2|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * I would like to be able to dynamically create a new call from an existing dialog (already in another call) and a new dialog
+    	* The original call should terminate upon one of the dialogs being detached
+    	* But when I call terminate call on the original call, it should not terminate the current call
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|createThirdDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|joinDialogsTwoAndThree|OK|
+|check|callStatus|Terminated|
+|check|waitForCallTerminatedEventWithSecondCallLegDetached|OK|
+|check|callTerminationCause|!-CallLegDetached-!|
+|check|callLegCausingTermination|Second|
+|enter|setActiveCall|2|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|setActiveCall|1|
+|press|terminateCall|
+|enter|setActiveCall|2|
+|check|waitForCallTerminatedEvent|No event|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * I would like to create a call from two outbound dialogs. When one of the parties hangs up with the autoTerminateDialogs flag set, the other dialog should be terminated for me.
+   		* A Call Connected event should be raised upon connection
+   		* A Call Disconnected event should be raised upon hangup
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:hangup.3000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwoWithAutoTerminateDialogs|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|waitSeconds|3|
+|check|waitForCallDisconnectedEventWithSecondRemotePartyHungUp|OK|
+|enter|waitSeconds|1|
+|check|dialogOneStatus|Terminated|
+|check|dialogOneTerminationCause|AutoTerminated|
+|check|callTerminationCause|RemotePartyHungUp|
+|check|callLegCausingTermination|Second|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+    * I would like to be able to dynamically create a new call from an existing dialog (already in another call) and a new dialog
+    	* The hanging dialog should automatically be terminated when the autoTerminateDialogs flag is set
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|createThirdDialog|OK|
+|check|joinDialogsOneAndTwoWithAutoTerminateDialogs|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|joinDialogsTwoAndThree|OK|
+|check|waitForCallTerminatedEventWithSecondCallLegDetached|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|CallLegDetached|
+|check|callLegCausingTermination|Second|
+|enter|waitSeconds|1|
+|check|dialogOneStatus|Terminated|
+|check|dialogOneTerminationCause|AutoTerminated|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+
+   * I would like to create a call from two outbound dialogs, and then terminate this call after a duration
+   		* A Call Connected event should be raised upon connection
+   		* A Call Terminated event should be raised upon termiation
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.OutboundCallFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.90000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:hangup.90000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwoWithOneMinuteDuration|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|62|
+|check|waitForCallTerminatedEventWithMaxCallDurationExceeded|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|MaximumCallDurationExceeded|
+|check|callLegCausingTermination|Neither|
+|check|dialogOneTerminationCause|TerminatedByServer|
+|check|dialogTwoTerminationCause||
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * Make a 3PC between a 'video' phone and a happy phone calling the video phone first. Terminate the call.
+   		* A Call Connected event should be raised upon connection
+   		* A Call Terminated event should be raised upon termiation
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:video@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|2|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-TerminatedByApplication-!|
+|check|callLegCausingTermination|Neither|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * Make a 3PC between a 'video' phone and a happy phone calling the happy phone first. Terminate the call.
+   		* A Call Connected event should be raised upon connection
+   		* A Call Terminated event should be raised upon termiation
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:video@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|2|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-TerminatedByApplication-!|
+|check|callLegCausingTermination|Neither|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * I would like to create a call from two outbound dialogs, one of which requires authentication, and then terminate this call
+   		* A Call Connected event should be raised upon connection
+   		* A Call Terminated event should be raised upon termiation
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:authenticating@${mockphonesIpAddress}:${mockphonesPort};username=Fred;password=Wilma|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|2|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-TerminatedByApplication-!|
+|check|callLegCausingTermination|Neither|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+
+   * as above, but supplying wrong password
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:authenticating@${mockphonesIpAddress}:${mockphonesPort};username=Fred;password=badWilma|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectionFailedEventWithSecondCallLegForbidden|OK|
+|check|callStatus|Terminated|
+|check|callTerminationCause|!-RemotePartyForbidden-!|
+|check|callLegCausingTermination|Second|
+|check|firstCallLegId||
+|check|firstCallLegIdNotNull|true|
+|check|secondCallLegId||
+|check|secondCallLegIdNotNull|true|
+|check|isFirstCallLegAMediaLeg|false|
+|check|isSecondCallLegAMediaLeg|false|
+

@@ -1,0 +1,11 @@
+#unselected_participants ul li, #selected_participants ul li {
+  list-style: none;
+  cursor: -moz-grab;
+}
+
+#unselected_participants, #selected_participants {
+  border: 1px solid gray;
+}
+.hover {
+  background-color: #888888;
+}

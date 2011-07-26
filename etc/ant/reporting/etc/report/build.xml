@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+ This is the main target for generating the report 
+-->
+<project name="report">
+	<target name="prepare.report">
+		<move file="${build.report.stats}/tests.xml" failonerror="false"
+			tofile="${build.report.stats}/001.tests.xml"/>
+		<move file="${build.report.stats}/coverage.xml" failonerror="false"
+			tofile="${build.report.stats}/002.coverage.xml"/>
+		<move file="${build.report.stats}/cycles.xml" failonerror="false"
+			tofile="${build.report.stats}/003.cycles.xml"/>
+		<move file="${build.report.stats}/bugs.xml" failonerror="false"
+			tofile="${build.report.stats}/004.bugs.xml"/>
+		<move file="${build.report.stats}/duplication.xml" failonerror="false"
+			tofile="${build.report.stats}/005.duplication.xml"/>
+		<move file="${build.report.stats}/conventions.xml" failonerror="false"
+			tofile="${build.report.stats}/006.conventions.xml"/>
+
+		<fileset dir="${build.report.stats}" id="stats.xml.files">
+			<include name="*.xml"/>
+			<exclude name="combined.xml"/>
+			<exclude name="properties.xml"/>
+		</fileset>
+
+		<!-- Convert the fileset to use the semi colon as a separator-->
+		<pathconvert
+			pathsep=";"
+			targetos="unix"
+			property="stats.xml.files.list"
+			refid="stats.xml.files">
+		</pathconvert>
+
+		<delete file="${build.report.stats}/combined.xml"/>
+
+		<!-- Collate all the xml output from the various tasks and merge into
+		     a single xml (combined.xml) file, it also adds a project and user name.
+	     -->
+		<xslt
+			in="${build.report.etc}/report/empty-stats.xml"
+			out="${build.report.stats}/combined.xml"
+			style="${build.report.etc}/report/stats-merge.xsl">
+			<param name="xmlfiles" expression="${stats.xml.files.list}"/>
+			<param name="project" expression="${ant.project.name}"/>
+			<param name="user" expression="${user.name}"/>
+		</xslt>
+
+		<delete quiet="true" file="${build.report.stats}/properties.xml"/>
+
+		<echoproperties destfile="${build.report.stats}/properties.xml" format="xml"/>
+
+		<!-- Converts the combined report and adds the text for each section on the front page 
+			 so from
+			 <tool type="tests" name="junit" description="Tests" root="junit/">
+				<statistic name="errors" description="Errors" value="0"/>
+				<statistic name="failures" description="Failures" value="0"/>
+				<statistic name="passed" description="Passed" value="100.00" unit="%"/>
+			</tool>
+			
+			to 
+			
+			<tool type="tests" name="junit" root="junit/" description="Tests">
+				<statistic description="Errors" text="0 (at most 0 allowed)" success="true"/>
+				<statistic description="Failures" text="0 (at most 0 allowed)" success="true"/>
+			</tool>
+		
+		-->
+		<xslt
+			style="${build.report.etc}/report/stats-xml.xsl"
+			in="${build.report.stats}/combined.xml"
+			out="${build.report.stats}/stats.xml">
+			<param name="properties-xml" expression="${build.report.stats}/properties.xml"/>
+		</xslt>
+
+		<!-- Build the final output for the report web site -->
+		<xslt
+			style="${build.report.etc}/report/stats-html.xsl"
+			in="${build.report.stats}/stats.xml"
+			out="${build.report.reports}/index.html">
+			<param name="title" expression="${ant.project.name}"/>
+			<param name="excludes" expression="${build.report.exclude}"/>
+		</xslt>
+
+		<!-- This creates an xml format ant properties file to allow the build to fail if certain properties are set -->
+		<xslt
+			style="${build.report.etc}/report/stats-properties.xsl"
+			in="${build.report.stats}/combined.xml"
+			out="${build.report.stats}/stats-properties.xml">
+			<param name="properties-xml" expression="${build.report.stats}/properties.xml"/>
+			<param name="title" expression="${ant.project.name}"/>
+		</xslt>
+    
+	</target>
+</project>

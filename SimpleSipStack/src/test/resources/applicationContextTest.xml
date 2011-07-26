@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:core-ctx.xml" />
+	<import resource="classpath:memory-collections-ctx.xml" />
+	<!-- import resource="classpath:database-collections-ctx.xml" /-->
+	<import resource="classpath:database-defaultdatasource-ctx.xml" />
+	<import resource="classpath:config-ctx.xml" />
+ 	<import resource="classpath:mockphone-ctx.xml" />
+
+	<!-- inbound dialog handling rules -->
+	<bean id="incomingDialogRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*[in|out]bound.*" />
+		<property name="dialogSipBean" ref="inboundCallLegBean" />
+	</bean>
+
+	<bean id="brokenMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*broken.*" />
+		<property name="dialogSipBean" ref="brokenMockphoneBean" />
+	</bean>
+
+	<bean id="errorMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*error.*" />
+		<property name="dialogSipBean" ref="errorMockphoneBean" />
+	</bean>
+
+	<bean id="busyMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*busy.*" />
+		<property name="dialogSipBean" ref="busyMockphoneBean" />
+	</bean>
+
+	<bean id="authenticatingMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*authenticating.*" />
+		<property name="dialogSipBean" ref="authenticatingMockphoneBean" />
+	</bean>
+
+	<bean id="noAnswerMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*noanswer.*" />
+		<property name="dialogSipBean" ref="noAnswerMockphoneBean" />
+		<property name="dialogProperties">
+			<props>
+				<prop key="max.call.duration">1000</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="slowAnswerMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*slowanswer.*" />
+		<property name="dialogSipBean" ref="slowAnswerMockphoneBean" />
+		<property name="dialogProperties">
+			<props>
+				<prop key="initial.delay">2000</prop>
+				<prop key="hang.up.period">1000</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="hangUpMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*hangup.*" />
+		<property name="dialogSipBean" ref="hangUpMockphoneBean" />
+		<property name="dialogProperties">
+			<props>
+				<prop key="hang.up.period">1000</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="happyMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*happy.*" />
+		<property name="dialogSipBean" ref="happyMockphoneBean" />
+	</bean>
+
+	<bean id="videoMockphoneRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+		<property name="rulePattern" value=".*video.*" />
+		<property name="dialogSipBean" ref="hangUpMockphoneBean" />
+		<property name="dialogProperties">
+			<props>
+				<prop key="hang.up.period">1000</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dialogRouter" class="com.bt.aloha.dialog.DialogRouter">
+		<constructor-arg index="0">
+			<list>
+ 				<ref local="brokenMockphoneRule"/>
+ 				<ref local="errorMockphoneRule"/>
+				<ref local="busyMockphoneRule"/>
+				<ref local="hangUpMockphoneRule"/>
+				<ref local="happyMockphoneRule"/>
+				<ref local="noAnswerMockphoneRule"/>
+				<ref local="slowAnswerMockphoneRule"/>
+ 				<ref local="incomingDialogRule"/>
+ 				<ref local="videoMockphoneRule"/>
+ 				<ref local="authenticatingMockphoneRule"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- dialog beans -->
+	<bean id="inboundCallLegBean" class="com.bt.aloha.callleg.InboundCallLegBeanImpl" >
+ 		<property name="dialogCollection" ref="dialogCollection" />
+	</bean>
+
+	<bean id="outboundCallLegBean" class="com.bt.aloha.callleg.OutboundCallLegBeanImpl" >
+ 		<property name="dialogCollection" ref="dialogCollection" />
+	</bean>
+
+ 	<bean id="callBean" class="com.bt.aloha.call.CallBeanImpl">
+		<property name="inboundCallLegBean" ref="inboundCallLegBean" />
+		<property name="outboundCallLegBean" ref="outboundCallLegBean" />
+	</bean>
+
+	<bean id="housekeeperAwareThrowingException" class="com.bt.aloha.testing.HousekeeperAwareBrokenStub"/>
+</beans>

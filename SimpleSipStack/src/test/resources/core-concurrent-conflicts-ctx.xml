@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  	<bean id="simpleSipStack" class="com.bt.aloha.stack.SimpleSipStack" init-method="init" destroy-method="destroy">
+		<property name="ipAddress" value="^127.*" />
+		<property name="port" value="5060" />
+		<property name="stackName" value="sipStack" />
+		<property name="transport" value="udp" />
+  		<property name="sipListener" ref="dialogSipListener" />
+  		<property name="jainStackProperties">
+  			<props>
+  				<prop key="gov.nist.javax.sip.TRACE_LEVEL">0</prop>
+  				<prop key="gov.nist.javax.sip.DEBUG_LOG">debugLog.txt</prop>
+  				<prop key="gov.nist.javax.sip.SERVER_LOG">serverLog.txt</prop>
+  				<prop key="gov.nist.javax.sip.THREAD_POOL_SIZE">100</prop>
+  				<prop key="javax.sip.ROUTER_PATH">com.bt.aloha.stack.NextHopRouter</prop>
+				<prop key="gov.nist.javax.sip.CANCEL_CLIENT_TRANSACTION_CHECKED">false</prop>
+				<prop key="gov.nist.javax.sip.MAX_SERVER_TRANSACTIONS">50000</prop>
+			</props>
+  		</property>
+		<property name="nextHopRoutes" value="" />
+		<property name="sipStackMessageQueueCollection" ref="sipStackMessageQueueCollection" />
+		<property name="contactAddress" value="" />
+  	</bean>
+  	
+  	<bean id="sipStackMessageQueueCollection" class="com.bt.aloha.stack.SipStackMessageQueueCollection">
+		<property name="maxTimeToLive" value="10000" />
+		<property name="queuedSipMessageBlockingInterval" value="50" />
+		<property name="scheduledExecutorService" ref="scheduledExecutorService" />
+  	</bean>
+
+  	<bean id="dialogSipListener" class="com.bt.aloha.dialog.DialogJainSipListener">
+		<constructor-arg index="0" ref="simpleSipStack" />
+		<constructor-arg index="1" ref="dialogCollection" />
+	</bean>
+
+	<bean id="dialogCollection" class="com.bt.aloha.testing.AlternateConcurrentUpdateFailureDialogCollectionStub" init-method="init" destroy-method="destroy">
+		<property name="maxTimeToLive" value="86400000" />
+	</bean>
+
+	<bean id="callCollection" class="com.bt.aloha.testing.AlternateConcurrentUpdateFailureCallCollectionStub" init-method="init" destroy-method="destroy">
+		<property name="maxTimeToLive" value="86400000" />
+	</bean>
+
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="100" />
+	</bean>
+
+	<bean id="scheduledExecutorService" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean" />
+
+	<bean id="housekeepingTimerTask" class="com.bt.aloha.util.HousekeepingTimerTask"/>
+
+	<bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    	<property name="delay" value="300000" />
+    	<property name="period" value="300000" />
+    	<property name="timerTask" ref="housekeepingTimerTask" />
+	</bean>
+
+	<bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+    	<property name="scheduledTimerTasks">
+        	<list>
+            	<ref bean="scheduledTask" />
+        	</list>
+    	</property>
+	</bean>
+
+	<bean id="eventDispatcher" class="com.bt.aloha.eventing.EventDispatcher">
+		<property name="taskExecutor" ref="taskExecutor"/>
+	</bean>
+
+	<bean id="maxCallDurationScheduler" class="com.bt.aloha.call.ScheduledExecutorServiceMaxCallDurationScheduler" />
+
+	<bean id="maxCallDurationTermination" class="com.bt.aloha.call.MaxCallDurationTermination" init-method="runTask">
+		<property name="maxCallDurationScheduler" ref="maxCallDurationScheduler"/>
+		<property name="callCollection" ref="callCollection" />
+		<property name="runOnStartup" value="true" />
+		<property name="taskExecutor" ref="taskExecutor"/>
+	</bean>
+	
+	<bean id="URIParser" class="com.bt.aloha.callleg.URIParser" >
+		<property name="usernameParameterName" value="username" />
+		<property name="passwordParameterName" value="password" />
+		<property name="removeUserAndPasswordParameters" value="true" />
+	</bean>
+
+	<bean class="com.bt.aloha.spring.CallBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.DialogSipBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.MediaCallLegBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.MediaCallBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.SimpleSipBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.IncomingDialogRouterBeanFactoryPostProcessor" />
+	<bean class="com.bt.aloha.spring.MaxCallDurationSchedulerPostProcessor" />
+	<bean class="com.bt.aloha.spring.OutboundCallLegBeanPostProcessor" />
+</beans>

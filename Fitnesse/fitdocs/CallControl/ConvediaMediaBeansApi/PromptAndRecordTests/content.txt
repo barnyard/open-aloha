@@ -1,0 +1,137 @@
+	* I would like to execute a 'prompt and record' command against the media server, where a prompt is played to the user, and media recorded and stored on a file share.
+	* don't enter termination key, expect duration to be maxlength
+	* I would like to start with recording audio, specifying the following parameters
+		* barged
+		* toAppend
+		* audio format
+		* max duration timeout
+		* initial timeout
+		* final timeout
+		* termination key
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|/provisioned/short.wav|
+|enter|recordedFileUri|file://mnt/172.25.58.146/audio/fitnesse/fitnesse.wav|
+|enter|maxDurationOfAudio|5|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,5,5,5,#-!|
+|check|promptAndRecord||
+|enter|sendDtmfToMediaDialog|1|
+|enter|sendAnnouncementToMediaDialog|file://mnt/172.25.58.146/audio/fitnesse/3SecondsBackground.wav|
+|check|waitPromptAndRecordCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|recordedDurationEqualMaxDurationOfAudio|true|
+
+
+	* same as above
+	* to assert the barge, a audio file will be played, then the barge, then the audio file
+	* assert that the time of the call is more then the length of one audio file, but not the length of two.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|/provisioned/short.wav|
+|enter|recordedFileUri|file://mnt/172.25.58.146/audio/fitnesse/fitnesse.wav|
+|enter|maxDurationOfAudio|5|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,15,5,5,#-!|
+|check|promptAndRecord||
+|enter|sendDtmfToMediaDialog|1|
+|enter|sendAnnouncementToMediaDialog|file://mnt/172.25.58.146/audio/fitnesse/3SecondsBackground.wav|
+|enter|sendDtmfToMediaDialog|#|
+|check|waitPromptAndRecordCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|recordedDurationLessThanMaxDurationOfAudio|true|
+
+	* same as first test
+	* failed event on non existent file share
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|/provisioned/short.wav|
+|enter|recordedFileUri|file://mnt/1.2.3.4/fitnesse.wav|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,5,5,5,#-!|
+|check|promptAndRecord||
+|check|waitPromptAndRecordFailedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If the announcement fails to play (non supported media file), I would like to receive a failure event
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|!-/provisioned/broken.wav-!|
+|enter|recordedFileUri|file://mnt/172.25.58.146/audio/fitnesse/fitnesse.wav|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,5,5,5,#-!|
+|check|promptAndRecord||
+|check|waitPromptAndRecordFailedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to start a prompt and record, cancel it and get prompt and record terminated event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|enter|recordedFileUri|file://mnt/172.25.58.146/audio/fitnesse/fitnesse.wav|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,5,5,5,#-!|
+|check|promptAndRecord||
+|check|cancelLastMediaCommand|OK|
+|check|waitPromptAndRecordTerminated|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to start a prompt and record NOT barge it and NOT provide any sound input
+   * I expect to get a PromptAndRecordFailedEvent
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|audioFileUri|/provisioned/short.wav|
+|enter|recordedFileUri|file://mnt/172.25.58.146/audio/fitnesse/fitnesse.wav|
+|enter|maxDurationOfAudio|5|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|promptAndRecordCommand|!-true,false,audio/wav,15,5,5,#-!|
+|check|promptAndRecord||
+|check|waitPromptAndRecordFailedEvent|OK|
+|check|getPromptAndRecordFailedEvent|record.failed.prespeech|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   

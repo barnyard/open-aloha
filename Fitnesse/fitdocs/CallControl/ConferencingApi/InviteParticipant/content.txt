@@ -1,0 +1,96 @@
+!3 Acceptance Test Suite for the Conferencing API - InviteParticipant
+
+   * HAPPY
+   * I would like to invite a participant to a conference.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|waitSeconds|2|
+|press|endConference|
+|enter|activeParticipant|1|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+
+  * UNHAPPY
+  * I would like to receive a meaningful error message when inviting a participant to a non-existent conference
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|enter|conferenceId|xyz|
+|check|inviteParticipant|!-Exception:IllegalArgumentException-!|
+
+   * UNHAPPY
+   * I would like to receive a meaningful error message when inviting participant to already ended conference
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|check|conferenceState|Initial|
+|enter|waitSeconds|1|
+|check|endConference|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|!-Exception:IllegalStateException-!|
+
+  * UNHAPPY
+  * I would like to receive an event when trying to inviting a busy participant
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:busy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantFailedEvent|OK|
+|enter|waitSeconds|1|
+|check|endConference|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+
+  * UNHAPPY
+  * I would like to check that max number of participant limit applies
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setMaxNumberParticipants|2|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|enter|activeParticipant|2|
+|check|createDialog|OK|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|enter|activeParticipant|3|
+|check|createDialog|OK|
+|check|inviteParticipant|Exception:IllegalStateException|
+|enter|waitSeconds|1|
+|check|endConference|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|

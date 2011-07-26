@@ -1,0 +1,6 @@
+sssDatasource.driverClassName=@database.driverClassName@
+sssDatasource.url=@database.url@
+sssDatasource.username=@database.username@
+sssDatasource.password=@database.password@
+
+sssDatasource.maxActive=20

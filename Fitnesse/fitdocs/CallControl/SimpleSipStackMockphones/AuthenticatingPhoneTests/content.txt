@@ -1,0 +1,13 @@
+   * I would like to ring a mock broken phone and get a service unavailable response
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallControlFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|mySipAddress|!-mock:whitephone@localhost-!|
+|enter|remoteSipAddress|sip:broken@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|remoteSipProxy|${mockphonesIpAddress}:${mockphonesPort}/udp|
+|press|createMyPhone|
+|check|sendInvite|true|
+|enter|waitTimeout|2000|
+|check|waitResponseServiceUnavailable|true|
+|check|tearDown|OK|

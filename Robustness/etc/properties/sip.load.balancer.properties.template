@@ -1,0 +1,8 @@
+simpleSipStack.stackName=SipLoadBalancerStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=@sip.load.balancer.port@
+
+simpleSipStack.jainStackPropertiesTraceLevel=@sip.trace.level@
+simpleSipStack.jainStackPropertiesThreadPoolSize=200
+
+sipLoadBalancer.hosts=sip:@sip.stack.ip.address.pattern@:@batch.run.sip.stack.port@,sip:@sip.stack.ip.address.pattern@:@batch.run.sip.stack2.port@

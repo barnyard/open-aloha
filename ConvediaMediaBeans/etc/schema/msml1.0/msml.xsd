@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- Convedia Corporation A0-8466-01-07 -->
+<xs:schema xmlns:cvd="http://convedia.com/moml/ext" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="moml.xsd"/>
+	<xs:include schemaLocation="msml-datatypes.xsd"/>
+	<xs:element name="msml">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:group ref="msmlRequest" maxOccurs="unbounded"/>
+				<xs:element name="event">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:sequence>
+								<xs:element name="name" type="msmlEventNameValue.datatype"/>
+								<xs:element name="value" type="xs:string"/>
+								<!-- had to change the value to just be xs:string
+								    as the Media Server seems to send out invalid responses -->
+								<!--  xs:element name="value">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:pattern value="[a-zA-Z0-9.*#]+"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element-->
+							</xs:sequence>
+						</xs:choice>
+						<xs:attribute name="name" type="msmlEventName.datatype" use="required"/>
+						<xs:attribute name="id" type="msmlEventSource.datatype" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="result">
+					<xs:complexType mixed="true">
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="confid" type="confID.datatype"/>
+							<xs:element name="dialogid" type="dialogID.datatype"/>
+						</xs:choice>
+						<xs:attribute name="response">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="\d{3}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="version" type="xs:string" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="msmlRequest.type">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="createconference"/>
+			<xs:element name="destroyconference"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:group name="msmlRequest">
+		<xs:choice>
+			<xs:element name="createconference">
+				<xs:annotation>
+					<xs:documentation>ri may be between 2 and 600s</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="type" type="conferenceType.datatype" use="optional" default="audio.advanced"/>
+					<xs:attribute name="id" type="msmlInstanceID.datatype"/>
+					<xs:attribute name="n" default="3">
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:minInclusive value="1"/>
+								<xs:maxInclusive value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="asn" type="boolean.datatype" default="false"/>
+					<xs:attribute name="ri" type="posDuration.datatype" default="5s"/>
+					<xs:attribute ref="cvd:asth"/>
+					<xs:attribute ref="cvd:deletewhen" use="required"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="destroyconference">
+				<xs:complexType>
+					<xs:attribute name="id" type="confID.datatype" use="required"/>
+					<xs:attribute name="term" type="boolean.datatype" default="true"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dialogstart">
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:group ref="recSinkSourcePrimitiveType"/>
+						<xs:group ref="sendType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="target" type="independentID.datatype" use="required"/>
+					<xs:attribute name="type" type="dialogLanguage.datatype" use="required" fixed="application/moml+xml"/>
+					<xs:attribute name="id" type="msmlInstanceID.datatype"/>
+					<xs:attribute name="duplex" type="duplex.datatype" fixed="full"/>
+					<xs:attribute name="src" type="xs:anyURI" use="prohibited"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dialogend">
+				<xs:complexType>
+					<xs:attribute name="id" type="dialogID.datatype" use="required"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="join">
+				<xs:complexType>
+					<xs:attribute name="id1" type="independentID.datatype" use="required"/>
+					<xs:attribute name="id2" type="independentID.datatype" use="required"/>
+					<xs:attribute name="duplex" type="duplex.datatype" fixed="full"/>
+					<xs:attribute name="class" type="confclass.datatype" fixed="standard"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="unjoin">
+				<xs:complexType>
+					<xs:attribute name="id1" type="independentID.datatype" use="required"/>
+					<xs:attribute name="id2" type="independentID.datatype" use="required"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="insert">
+				<xs:complexType>
+					<xs:group ref="transformPrimitiveType"/>
+					<xs:attribute name="id1" type="insertID.datatype" use="required"/>
+					<xs:attribute name="id2" type="insertID.datatype" use="required"/>
+					<xs:attribute name="type" type="xs:string" use="required" fixed="application/moml+xml"/>
+					<xs:attribute name="duplex" type="duplex.datatype" fixed="half"/>
+					<xs:attribute name="objid" type="operatorTerm.datatype" use="required"/>
+					<xs:attribute name="class" type="confclass.datatype" fixed="standard"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="remove">
+				<xs:complexType>
+					<xs:attribute name="objid" type="removeID.datatype" use="required"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="send">
+				<xs:complexType>
+					<xs:attribute name="event" type="msmlEvent.datatype" use="required"/>
+					<xs:attribute name="target" type="msmlTarget.datatype" use="required"/>
+					<xs:attribute name="namelist" type="xs:string"/>
+					<xs:attribute ref="mark"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="reset">
+				<xs:complexType>
+					<xs:attribute name="context" type="sipContext.datatype" use="optional" default="all"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:attribute name="mark" type="xs:unsignedInt"/>
+</xs:schema>

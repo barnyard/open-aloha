@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+   The is the findbugs target for running within the Common Build Library
+-->
+<project name="findbugs">
+	<target name="prepare.findbugs">
+		<property name="findbugs.home" value="${build.report.etc}/findbugs"/>
+		<property name="findbugs.excludes.file" value="${findbugs.home}/exclusions.xml"/>
+
+
+		<path id="findbugs.classpath">
+			<fileset dir="${findbugs.home}/lib" includes="*.jar"/>
+		</path>
+
+		<delete dir="${build.report.tmp}/findbugs/classes" quiet="true"/>
+		<mkdir dir="${build.report.tmp}/findbugs/classes"/>
+		<copy todir="${build.report.tmp}/findbugs/classes">
+			<fileset dir="${build.report.classes}" excludes="${build.report.exclude}"/>
+		</copy>
+
+		<delete dir="${build.report.reports}/findbugs" />
+		<mkdir dir="${build.report.reports}/findbugs" />
+		
+		<!-- Runs findbugs output going to raw.html.
+		     It runs with all bugs being reported(-low), plain output (plain.xsl)
+		-->
+		<java fork="true" classname="edu.umd.cs.findbugs.FindBugs">
+			<classpath>
+				<path refid="findbugs.classpath"/>
+				<path refid="run.classpath"/>
+				<path refid="external.classpath"/>
+			</classpath>
+			<jvmarg value="-Xmx512m"/>
+			<jvmarg value="-Dfindbugs.conserveSpace=true"/>
+			<arg line="-home ${findbugs.home}"/>
+			<arg line="-outputFile ${build.report.reports}/findbugs/raw.html"/>
+			<arg line="-sourcepath ${build.report.src}"/>
+			<arg value="-low"/>
+			<arg value="-html:plain.xsl"/>
+			<arg value="-exclude"/>
+			<arg value="${findbugs.excludes.file}"/>
+			<arg value="${build.report.tmp}/findbugs/classes"/>
+		</java>
+
+		<!-- Runs findbugs as before but outputs the content as XML
+		     with human readable messages, output to findbugs.xml
+		     to the temporary build location.
+		-->		
+		<java fork="true" classname="edu.umd.cs.findbugs.FindBugs">
+			<classpath>
+				<path refid="findbugs.classpath"/>
+				<path refid="run.classpath"/>
+				<path refid="external.classpath"/>
+			</classpath>
+			<jvmarg value="-Xmx512m"/>
+			<jvmarg value="-Dfindbugs.conserveSpace=true"/>
+			<arg line="-home ${findbugs.home}"/>
+			<arg line="-outputFile ${build.report.tmp}/findbugs.xml"/>
+			<arg line="-sourcepath ${build.report.src}"/>
+			<arg value="-low"/>
+			<arg value="-xml:withMessages"/>
+			<arg value="-exclude"/>
+			<arg value="${findbugs.excludes.file}"/>
+			<arg value="${build.report.tmp}/findbugs/classes"/>
+		</java>
+
+		<!-- Takes the XML report from the previous task and 
+		     inserts a package attribute into the Class and SourceLine element
+		     so 
+		     
+		     <Class classname="com.bt.capabilities.sms.SmsCharacterMapper">
+		     <SourceLine classname="com.bt.capabilities.sms.SmsCharacterMapper" start="-1" end="-1" startBytecode="-1" endBytecode="-1" sourcefile="SmsCharacterMapper.java" sourcepath="com/bt/capabilities/sms/SmsCharacterMapper.java">
+		     
+		     becomes
+		     
+		     <Class package="com.bt.capabilities.sms" class="SmsCharacterMapper" classname="com.bt.capabilities.sms.SmsCharacterMapper">
+		     <SourceLine package="com.bt.capabilities.sms" class="SmsCharacterMapper" classname="com.bt.capabilities.sms.SmsCharacterMapper" start="-1" end="-1" startBytecode="-1" endBytecode="-1" sourcefile="SmsCharacterMapper.java" sourcepath="com/bt/capabilities/sms/SmsCharacterMapper.java">
+		     
+		     and it also removes a number of the elements that I am guessing are no longer required.
+		     
+		-->
+		<xslt
+			in="${build.report.tmp}/findbugs.xml"
+			out="${build.report.tmp}/findbugs-post.xml"
+			style="${build.report.etc}/findbugs/preparse.xsl">
+			<param
+				name="messages.xml"
+				expression="${build.report.etc}/findbugs/messages.xml"/>
+		</xslt>
+		
+		<!--  This generates the main findbugs html pages that is linked from the main report
+		      using the previously generated findbugs-post.xml
+         -->
+		<xslt
+			basedir="${build.report.tmp}"
+			destdir="${build.report.reports}/findbugs"
+			includes="findbugs-post.xml"
+			style="${build.report.etc}/findbugs/report.xsl">
+			<param
+				name="messages.xml"
+				expression="${build.report.etc}/findbugs/messages.xml"/>
+			<param name="output.dir" expression="${build.report.reports}/findbugs"/>
+		</xslt>
+		
+		<!-- This gets the number of high, medium and low bugs and outputs them, this is then
+		     used to generate the main report
+		  -->
+		<xslt
+			in="${build.report.tmp}/findbugs-post.xml"
+			out="${build.report.stats}/bugs.xml"
+			style="${build.report.etc}/findbugs/stats.xsl">
+		</xslt>
+	</target>
+	
+	<target name="check.findbugs">
+		<fail if="bugs.high.fail" message="${bugs.high.fail}"/>
+		<fail if="bugs.medium.fail" message="${bugs.medium.fail}"/>
+		<fail if="bugs.low.fail" message="${bugs.low.fail}"/>
+	</target>
+
+</project>

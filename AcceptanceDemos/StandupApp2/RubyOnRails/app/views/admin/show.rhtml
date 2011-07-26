@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <td><b>Name:</b></td><td><%=h(@conference.name) %></td>
+  </tr>
+  <tr>
+    <td><b>Time:</b></td><td><%=h(@conference.strtime) %></td>
+  </tr>
+  <tr>
+    <th valign="top">Participants:</th>
+	<td>
+	  <% for participant in @conference.participants %>
+         <%= h(participant.name) %>(<%= h(participant.telno) %>)<br/>
+      <% end %>
+	</td>
+  </tr>
+</table>
+
+<%= link_to 'Edit', :action => 'edit', :id => @conference %> |
+<%= link_to 'Back', :action => 'list' %>

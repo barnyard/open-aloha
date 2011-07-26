@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- Convedia Corporation A0-8466-01-07 -->
+<xs:schema xmlns:cvd="http://convedia.com/moml/ext" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="duration.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\+|\-)?([0-9]*\.)?[0-9]+(ms|s)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9][a-zA-Z0-9._\-]{0,31}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="posDuration.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\+)?([0-9]*\.)?[0-9]+(ms|s)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="repeat.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="-1|[1-9]\d*|forever"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="boolean.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dtmfDigits.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9#*]{1,50}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="iterate.datatype">
+		<xs:union memberTypes="xs:positiveInteger">
+			<xs:simpleType>
+				<xs:restriction base="xs:negativeInteger">
+					<xs:minInclusive value="-1"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="forever"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="conferenceType.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="audio.basic"/>
+			<xs:enumeration value="audio.advanced"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="msmlInstanceID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="confID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="conf:[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="operatorID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{1,64}:[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="operatorTerm.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{1,64}:[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dialogID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(conf:[a-zA-Z0-9]{1,64}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5});dialog:[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="independentID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="conf:[a-zA-Z0-9]{1,64}"/>
+			<xs:pattern value="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="insertID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((conf:[a-zA-Z0-9]{1,64}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})(;[a-zA-Z0-9]{1,64}:[a-zA-Z0-9]{1,64})*)|all"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="removeID.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((conf:[a-zA-Z0-9]{1,64}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})(;[a-zA-Z0-9]{1,64}:([a-zA-Z0-9]{1,64}|\*))*)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="duplex.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="half"/>
+			<xs:enumeration value="full"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="confclass.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="standard"/>
+			<xs:enumeration value="preferred"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dialogLanguage.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="application/moml+xml"/>
+			<xs:enumeration value="application/voicexml+xml"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlNamelist.datatype">
+		<xs:list>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="play.amt"/>
+					<xs:enumeration value="play.end"/>
+					<xs:enumeration value="dtmfgen.end"/>
+					<xs:enumeration value="record.len"/>
+					<xs:enumeration value="record.end"/>
+					<xs:enumeration value="record.recordid"/>
+					<xs:enumeration value="dtmf.digits"/>
+					<xs:enumeration value="dtmf.end"/>
+					<xs:enumeration value="dtmf.len"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:list>
+	</xs:simpleType>
+	<xs:simpleType name="msmlEvent.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="n"/>
+			<xs:enumeration value="asn"/>
+			<xs:enumeration value="ri"/>
+			<xs:enumeration value="cvd:asth"/>
+			<xs:enumeration value="mute"/>
+			<xs:enumeration value="unmute"/>
+			<xs:enumeration value="reset"/>
+			<xs:enumeration value="amt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="msmlEventName.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="msml.dialog.exit"/>
+			<xs:pattern value="msml.conf.asn"/>
+			<xs:pattern value="msml.conf.nomedia"/>
+			<xs:pattern value="msml.dialog.exit"/>
+			<xs:pattern value="app\.[a-zA-Z0-9_\-.]{1,251}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlEvent.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="app\.[a-zA-Z0-9_\-.]{1,251}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="msmlTarget.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="conf:[a-zA-Z0-9]{1,64}(;[a-zA-Z0-9]{1,64}:([a-zA-Z0-9]{1,64}|\*))*"/>
+			<xs:pattern value="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}(;[a-zA-Z0-9]{1,64}:[a-zA-Z0-9]{1,64}|\*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="msmlEventSource.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="conf:[a-zA-Z0-9]{1,64}"/>
+			<xs:pattern value="(conf:[a-zA-Z0-9]{1,64}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5});dialog:[a-zA-Z0-9]{1,64}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="msmlEventNameValue.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="play.amt"/>
+			<xs:enumeration value="play.end"/>
+			<xs:enumeration value="dtmfgen.end"/>
+			<xs:enumeration value="record.len"/>
+			<xs:enumeration value="record.end"/>
+			<xs:enumeration value="record.recordid"/>
+			<xs:enumeration value="dtmf.digits"/>
+			<xs:enumeration value="dtmf.end"/>
+			<xs:enumeration value="dtmf.len"/>
+			<xs:enumeration value="sp"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="basicDigits.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="length=[0-9]{1,2}(;cancel=[0-9#*])?"/>
+			<xs:pattern value="cancel=[0-9#*](;length=[0-9]{1,2})?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;max=[0-9]{1,2})?(;rtk=[0-9#*])?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;rtk=[0-9#*])?(;max=[0-9]{1,2})?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;min=[0-9]{1,2})?(;rtk=[0-9#*])?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;rtk=[0-9#*])?(;min=[0-9]{1,2})?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="rtk=[0-9#*](;min=[0-9]{1,2})?(;max=[0-9]{1,2})?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="rtk=[0-9#*](;max=[0-9]{1,2})?(;min=[0-9]{1,2})?(;cancel=[0-9#*])?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;max=[0-9]{1,2})?(;cancel=[0-9#*])?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;rtk=[0-9#*])?(;cancel=[0-9#*])?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;min=[0-9]{1,2})?(;cancel=[0-9#*])?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;rtk=[0-9#*])?(;cancel=[0-9#*])?(;min=[0-9]{1,2})?"/>
+			<xs:pattern value="rtk=[0-9#*](;min=[0-9]{1,2})?(;cancel=[0-9#*])?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="rtk=[0-9#*](;max=[0-9]{1,2})?(;cancel=[0-9#*])?(;min=[0-9]{1,2})?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;cancel=[0-9#*])?(;max=[0-9]{1,2})?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="min=[0-9]{1,2}(;cancel=[0-9#*])?(;rtk=[0-9#*])?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;cancel=[0-9#*])?(;min=[0-9]{1,2})?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="max=[0-9]{1,2}(;cancel=[0-9#*])?(;rtk=[0-9#*])?(;min=[0-9]{1,2})?"/>
+			<xs:pattern value="rtk=[0-9#*](;cancel=[0-9#*])?(;min=[0-9]{1,2})?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="rtk=[0-9#*](;cancel=[0-9#*])?(;max=[0-9]{1,2})?(;min=[0-9]{1,2})?"/>
+			<xs:pattern value="cancel=[0-9#*](;min=[0-9]{1,2})?(;max=[0-9]{1,2})?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="cancel=[0-9#*](;min=[0-9]{1,2})?(;rtk=[0-9#*])?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="cancel=[0-9#*](;max=[0-9]{1,2})?(;min=[0-9]{1,2})?(;rtk=[0-9#*])?"/>
+			<xs:pattern value="cancel=[0-9#*](;max=[0-9]{1,2})?(;rtk=[0-9#*])?(;min=[0-9]{1,2})?"/>
+			<xs:pattern value="cancel=[0-9#*](;rtk=[0-9#*])?(;min=[0-9]{1,2})?(;max=[0-9]{1,2})?"/>
+			<xs:pattern value="cancel=[0-9#*](;rtk=[0-9#*])?(;max=[0-9]{1,2})?(;min=[0-9]{1,2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlVarType.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="date"/>
+			<xs:pattern value="digits"/>
+			<xs:pattern value="duration"/>
+			<xs:pattern value="month"/>
+			<xs:pattern value="money"/>
+			<xs:pattern value="number"/>
+			<xs:pattern value="silence"/>
+			<xs:pattern value="time"/>
+			<xs:pattern value="weekday"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlVarSubtype.datatype">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="dmy"/>
+			<xs:pattern value="mdy"/>
+			<xs:pattern value="ymd"/>
+			<xs:pattern value="gen"/>
+			<xs:pattern value="gen2"/>
+			<xs:pattern value="ndn"/>
+			<xs:pattern value="usd"/>
+			<xs:pattern value="eur"/>
+			<xs:pattern value="cny"/>
+			<xs:pattern value="crd"/>
+			<xs:pattern value="ord"/>
+			<xs:pattern value="t12"/>
+			<xs:pattern value="t24"/>
+			<xs:pattern value="null"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="momlVarValue.datatype">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="sipContext.datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="all"/>
+			<xs:enumeration value="annc"/>
+			<xs:enumeration value="conf"/>
+			<xs:enumeration value="dialog"/>
+			<xs:enumeration value="msml"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

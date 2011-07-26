@@ -1,0 +1,10 @@
+simpleSipStack.stackName=SimpleSipStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=6060
+simpleSipStack.nextHopRoutes=radon190.nat.bt.com=radon193.nat.bt.com
+
+simpleSipStack.jainStackPropertiesTraceLevel=@sip.trace.level@
+simpleSipStack.jainStackPropertiesMaxServerTransactions=5000
+simpleSipStack.jainStackPropertiesThreadPoolSize=20
+
+taskExecutor.corePoolSize=20

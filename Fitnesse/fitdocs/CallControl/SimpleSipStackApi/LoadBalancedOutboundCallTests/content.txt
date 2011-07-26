@@ -1,0 +1,63 @@
+   * I want to be able to load-balance between two instances of the SIP stack at API level without 'stickiness'
+   		* A call is set up using instance 1
+   		* That same call is terminated using instance 2
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.LoadBalancedOutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|2|
+|press|terminateCallSecondContext|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+
+   * I want to be able to load-balance between two instances of the SIP stack at API level without 'stickiness'
+   		* A call is set up using instance 1 between a slow-answer mock phone and a happy mock phone
+   		* We then terminate the call using instance 2 before the phone has responded with an OK 
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.LoadBalancedOutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:slowanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallLegAlertingEvent|OK|
+|press|terminateCallSecondContext|
+|check|waitForCallConnectionFailedEventWithTerminatedByApplication|OK|
+|check|callStatus|Terminated|
+
+   * I want to be able to load-balance between two instances of the SIP stack at SIP level without 'stickiness'
+   		* A call is set up using one of the stack instances
+   		* One of the called SIP endpoints then sends a BYE request
+   		* The BYE should be processed & the call terminated regardless of which of the two stacks handles that BYE request
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.LoadBalancedOutboundCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:hangup.3000@${mockphonesIpAddress}:${mockphonesPort}|
+|press|setLoadBalancerContactAddress||
+|enter|currentSipLoadBalancerHostIndex|1|
+|check|createFirstDialog|OK|
+|check|createSecondDialog|OK|
+|check|joinDialogsOneAndTwo|OK|
+|check|callStatus|Connecting|
+|check|waitForCallConnectedEvent|OK|
+|check|callStatus|Connected|
+|enter|waitSeconds|4|
+|check|waitForCallDisconnectedEventWithSecondRemotePartyHungUp|OK|
+|check|callStatus|Terminated|
+|press|unsetLoadBalancerContactAddress|

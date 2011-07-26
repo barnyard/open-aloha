@@ -1,0 +1,74 @@
+# /etc/ha.d/ldirectord.cf
+# configuration for UltraMonkey, balances top/bottom end of a
+# cluster of two sample web applications using the SimpleSipStack
+#
+# Global Directives
+#
+
+# timeout for real server response. if expired the server is considered not available
+checktimeout=1
+
+# how often to check the real server for availability 
+checkinterval=1
+
+# where to redirect responses if no real servers are available
+#fallback=127.0.0.1:80
+
+# set to 'yes' will reload cf file after change
+autoreload=yes
+
+# where to log files (only if started in non deamon mode)
+logfile="/var/log/ldirectord.log"
+
+# set to yes to set the virtual server weight to 0 for non available servers 
+# (as opposite to deleting them from the lvs virtual table) - see man 
+# for side effect on client connection persistency 
+quiescent=no
+
+#
+# http virtual service
+#
+virtual=172.25.58.154:9072
+	# first real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+	real=172.25.58.147:9072 masq 1
+	# second real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+	real=172.25.58.146:9072 masq 1
+	# type of service
+	service=http
+	# where to send http request for checking availability
+	request="/SpringRing/status"
+	# what to match on the response to verify the server to be available
+	receive="Sample SpringRing web application"
+	# type of scheduling - rr: round robin
+	scheduler=rr
+	# type of protocol for this service
+	protocol=tcp
+	# type of check: negotiate means send request and verify response (see man for others)
+	checktype=negotiate
+	# client connection pesistency timeout
+	#persistent=1
+	# client connection persistency netmask - specifies granularity
+	#netmask=0.0.0.0
+#
+# udp/sip virtual service
+#
+virtual=172.25.58.154:7072
+	# first real server ip address, port, forwarding mecahnism, weight. masq -> NAT 
+        real=172.25.58.147:7072 masq 1
+	# second real server ip address, port, forwarding mecahnism, weight. masq -> NAT 
+        real=172.25.58.146:7072 masq 1
+	# type of service
+ 	service=sip
+	# type of shceduling
+	scheduler=rr
+	# type of protocol
+	protocol=udp
+	# type of check
+	checktype=negotiate
+	# for sip, login is the from address that goes in the option message used for checking availability
+	#login="sip:ldirectord@132.146.185.190"
+        # client connection pesistency timeout 
+	persistent=1
+	# client connection pesistency netmask
+        #netmask=0.0.0.0
+

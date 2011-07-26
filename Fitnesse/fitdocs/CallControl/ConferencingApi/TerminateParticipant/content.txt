@@ -1,0 +1,56 @@
+!3 Acceptance Test Suite for the Conferencing API - TerminateParticipant
+
+   * HAPPY
+   * I would like to terminate the only participant of a conference.
+   * Participant should be terminated and the conference ended.
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|waitSeconds|2|
+|check|terminateParticipant||
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithLastParticipantTerminated|OK|
+|check|conferenceTerminationCause|LastParticipantTerminated|
+
+
+   * UNHAPPY
+   * Terminating an already terminated participant 
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|terminateParticipant|OK|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|terminateParticipant||
+
+   * UNHAPPY
+   * Terminating an already disconnected participant 
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.1000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForParticipantDisconnectedEvent|OK|
+|check|terminateParticipant||

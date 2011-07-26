@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="outboundCallLegBean" class="com.bt.sdk.callcontrol.sip.callleg.OutboundCallLegBeanImpl" />
+	<bean id="mediaCallLegBean" class="com.bt.sdk.callcontrol.sip.media.convedia.MediaCallLegBeanImpl"/>
+    <bean id="callBean" class="com.bt.sdk.callcontrol.sip.call.CallBeanImpl">
+		<property name="outboundCallLegBean" ref="outboundCallLegBean" />
+		<property name="callListeners">
+			<list>
+				<ref local="conferenceBean"/>
+				<!-- ref local="standupBean"/-->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="mediaCallBean" class="com.bt.sdk.callcontrol.sip.media.convedia.MediaCallBeanImpl" >
+		<property name="callBean" ref="callBean" />
+		<property name="mediaCallLegBean" ref="mediaCallLegBean" />
+		<!--  property name="mediaCallListeners">
+			<list>
+				<ref local="standupBean"/>
+			</list>
+		</property-->
+	</bean>
+	
+	<bean id="conferenceBean" class="com.bt.sdk.callcontrol.sip.media.convedia.conference.ConferenceBeanImpl">
+  	    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+		<property name="callBean" ref="callBean" />
+		<property name="conferenceListeners">
+			<list>
+				<ref local="conferenceCallbackHandler"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="scheduledExecutor1" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean" >
+		<property name="continueScheduledExecutionAfterException" value="true" />
+		<property name="poolSize" value="2" />
+		<property name="scheduledExecutorTasks">
+			<list>
+				<ref local="scheduledExecutorTask1"/>
+				<ref local="scheduledExecutorTask2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="scheduledExecutorTask1" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask" >
+		<property name="runnable" ref="mainBean" />
+		<property name="delay" value="0" />
+		<property name="fixedRate" value="true" />
+		<property name="period" value="30000" />
+	</bean>
+	
+	<bean id="scheduledExecutorTask2" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask" >
+		<property name="runnable" ref="mapHousekeeper" />
+		<property name="delay" value="60000" />
+		<property name="fixedRate" value="true" />
+		<property name="period" value="60000" />
+	</bean>
+	
+	<bean id="mainBean" class="com.bt.sdk.callcontrol.demo.standup.MainBean">
+		<property name="dataSource" ref="datasource" />
+		<property name="rowCallbackHandler" ref="conferenceCallbackHandler"/>
+	</bean>
+	
+	<bean id="scheduledExecutor2" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean" >
+		<property name="continueScheduledExecutionAfterException" value="true" />
+		<property name="poolSize" value="10" />
+	</bean>
+
+	<bean id="conferenceCallbackHandler" class="com.bt.sdk.callcontrol.demo.standup.ConferenceRowCallbackHandler">
+		<property name="dataSource" ref="datasource" />
+		<property name="scheduledExecutorService" ref="scheduledExecutor2"/>
+		<property name="conferenceBean" ref="conferenceBean" />
+		<property name="conferenceFutures" ref="conferenceFutures"/>
+		<property name="conferences" ref="conferences"/>
+	</bean>
+	
+	<bean id="conferenceFutures" class="java.util.Hashtable"/>
+	
+	<bean id="conferences" class="java.util.Hashtable"/>
+	
+	<bean id="mapHousekeeper" class="com.bt.sdk.callcontrol.demo.standup.MapHousekeeper">
+		<property name="conferenceFutures" ref="conferenceFutures"/>
+		<property name="conferences" ref="conferences"/>
+	</bean>
+
+	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/standup_development</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value></value>
+		</property>
+	</bean>
+</beans>

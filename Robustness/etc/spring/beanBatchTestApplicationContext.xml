@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/aop
+              http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean name="batchTestBean" class="com.bt.aloha.batchtest.BatchTest">
+        <property name="audioFileUri" value="/provisioned/behave.wav"/>
+        <property name="maximumScenarioCompletionWaitTimeSeconds" value="300"/>
+        <property name="numberOfConcurrentStarts" value="4"/>
+        <property name="numberOfRuns" value="125"/>
+        <property name="executorServiceNewFixedThreadPool" value="4"/>
+    </bean>
+
+    <bean name="performanceBatchTestBean" class="com.bt.aloha.batchtest.PerformanceBatchTest">
+        <property name="maximumScenarioCompletionWaitTimeSeconds" value="360"/>
+        <property name="numberOfInitialConcurrentStarts" value="16"/>
+        <property name="numberOfMaxConcurrentStarts" value="32"/>
+        <property name="numberOfConcurrentStartsIncrements" value="4"/>
+        <property name="numberOfRuns" value="30"/>
+        <property name="failIfSuccessPercentLessThan" value="95"/>
+        <property name="failIfRunsPerSecLessThan" value="1"/>
+
+        <property name="initialJainPoolSize" value="80"/>
+        <property name="maxJainPoolSize" value="100"/>
+        <property name="jainPoolSizeIncrement" value="20"/>
+
+        <property name="initialSssPoolSize" value="80"/>
+        <property name="maxSssPoolSize" value="100"/>
+        <property name="sssPoolSizeIncrement" value="20"/>
+    </bean>
+
+
+	<bean id="propertyLister" class="com.bt.aloha.batchtest.utils.PropertyLister">
+		<property name="dataSourceDriver">
+			<value>org.postgresql.Driver</value>
+		</property>
+		<property name="dataSourceUrl">
+			<value>jdbc:postgresql://localhost:5432/springring</value>
+		</property>
+		<property name="dataSourcePoolCount">
+			<value>20</value>
+		</property>
+		<property name="simpleSipStackThreadCount">
+			<value>200</value>
+		</property>
+		<property name="jainSipStackThreadCount">
+			<value>200</value>
+		</property>
+	</bean>
+
+    <bean name="performanceMeasurementDaoBean" class="com.bt.aloha.batchtest.PerformanceMeasurmentDao" init-method="createSchemaIfNecessary">
+        <property name="jdbcTemplate" ref="jdbcTemplateBean" />
+    </bean>
+
+    <bean name="maintenanceDaoBean" class="com.bt.aloha.batchtest.MaintenanceDao">
+    	<!-- this should really use the sssDatasource - it is not because -->
+        <property name="jdbcTemplate" ref="jdbcTemplateBean" />
+    </bean>
+
+    <bean name="jdbcTemplateBean" class="org.springframework.jdbc.core.JdbcTemplate" >
+        <constructor-arg index="0" ref="perf.db.datasource"/>
+    </bean>
+
+
+   	<bean id="perf.db.datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>org.postgresql.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:postgresql://localhost:5432/springringperformance</value>
+		</property>
+		<property name="username">
+			<value>springringperformanceuser</value>
+		</property>
+		<property name="password">
+			<value>springringperformanceuser</value>
+		</property>
+		<property name="maxActive">
+			<value>20</value>
+		</property>
+	</bean>
+
+</beans>
+

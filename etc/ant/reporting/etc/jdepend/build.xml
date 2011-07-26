@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+ This is the build file for running JDepend on a project
+-->
+<project name="jdepend">
+	<target name="prepare.jdepend">
+		<delete dir="${build.report.reports}/jdepend" />
+		<mkdir dir="${build.report.reports}/jdepend" />
+		<jdepend format="xml" outputfile="${build.report.tmp}/jdepend.xml">
+			<exclude name="test.*" />
+			<exclude name="java.*" />
+			<exclude name="javax.*" />
+			<exclude name="org.*" />
+			<exclude name="junit.*" />
+			<classespath>
+				<pathelement location="${build.report.classes}" />
+			</classespath>
+			<classpath>
+				<path refid="run.classpath" />
+			</classpath>
+		</jdepend>
+		
+		<!-- 
+			 Take the output from jdepend and create the jdepend website that is
+			 part of the report
+		-->
+		<xslt
+			basedir="${build.report.tmp}"
+			destdir="${build.report.reports}/jdepend"
+			includes="jdepend.xml"
+			style="${build.report.etc}/jdepend/report.xsl">
+			<param name="output.dir" expression="${build.report.reports}/jdepend"/>
+		</xslt>
+		
+		<!--
+			Get the number of cycles that are contained within the project and output.  It is used
+			in the report generation.
+			
+			This looks like
+			
+			<?xml version="1.0" encoding="iso-8859-1"?>
+			<tool type="cycles" name="jdepend" description="Cyclic Dependencies" root="jdepend/">
+				<statistic name="cycles" description="Cycles" value="8"/>
+			</tool>
+		-->
+		<xslt
+			in="${build.report.tmp}/jdepend.xml"
+			out="${build.report.stats}/cycles.xml"
+			style="${build.report.etc}/jdepend/stats.xsl" />
+		
+	</target>
+
+	<target name="check.jdepend">
+		<fail if="cycles.cycles.fail" message="${cycles.cycles.fail}"/>
+	</target>
+
+</project>

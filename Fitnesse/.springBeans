@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>
+		<config>etc/spring/mediaApplicationContext.xml</config>
+		<config>etc/spring/secondTestApplicationContext.xml</config>
+		<config>etc/spring/sipLoadBalancerApplicationContext.xml</config>
+		<config>etc/spring/inboundTestApplicationContext.xml</config>
+		<config>etc/spring/mockphonesApplicationContext.xml</config>
+		<config>etc/spring/testApplicationContext.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

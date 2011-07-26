@@ -1,0 +1,12 @@
+simpleSipStack.stackName=SimpleSipStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=6066
+
+simpleSipStack.jainStackPropertiesTraceLevel=@sip.trace.level@
+simpleSipStack.jainStackPropertiesThreadPoolSize=20
+simpleSipStack.jainStackPropertiesMaxServerTransactions=5000
+
+sipStackMessageQueueCollection.maxTimeToLive=10000
+sipStackMessageQueueCollection.queuedSipMessageBlockingInterval=50
+
+taskExecutor.corePoolSize=20

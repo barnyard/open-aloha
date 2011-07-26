@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+ This is the Same target for running within the Common Build Library
+-->
+<project name="same">
+	<target name="prepare.same">
+		<property name="same.home" value="${build.report.etc}/same"/>
+		<path id="same.classpath">
+			<fileset dir="${same.home}/lib" includes="*.jar"/>
+			<fileset dir="${same.home}/lib" includes="*.zip"/>
+		</path>
+
+		<!-- Declare the same task -->
+		<taskdef name="same"
+			classname="com.bt.codered.same.ant.SameTask"
+			classpathref="same.classpath"/>
+
+		<!-- This is using the libraries from http://sourceforge.net/projects/same/
+		 	 It is using them to find duplicate lines in a projects source, ie to
+		 	 stop people copying and pasting.
+		 -->
+		<same
+			filterType="java"
+			fragmentSize="${duplication.lines.max}"
+			output="${build.report.tmp}/same.xml">
+			<fileset dir="${build.report.src}" excludes="${build.report.exclude}" includes="**/*.java"/>
+		</same>
+		
+		<echo message="${build.report.exclude}"/>
+		<replace file="${build.report.tmp}/same.xml">
+			<replacetoken><![CDATA[<?xml version="1.0"?>]]></replacetoken>
+			<replacevalue><![CDATA[<?xml version="1.0" encoding="iso-8859-1"?>]]></replacevalue>
+		</replace>
+		
+		<!--  Tests how many duplicate lines there are and converts the format to allow
+		      a report to be produced.  It basically looks at the duplication element
+		      and the length attribute the output then write out something like this
+ 		      
+               <duplication frequency="2" length="24">
+				<file name="C:\Development\Workspace3.2\CommonBuildLibraryDemo\src\main\java\com\bt\demo\CopyOfHelloWorld.java" line="30" class="CopyOfHelloWorld" package="com.bt.demo"/>
+				<file name="C:\Development\Workspace3.2\CommonBuildLibraryDemo\src\main\java\com\bt\demo\CopyOfHelloWorld.java" line="29" class="CopyOfHelloWorld" package="com.bt.demo"/>
+				<codefragment>        System.out.println(new CopyOfHelloWorld().aMethod());
+		-->
+		<xslt
+			in="${build.report.tmp}/same.xml"
+			out="${build.report.tmp}/same-post.xml"
+			style="${build.report.etc}/same/preparse.xsl">
+			<param name="source-root" expression="${build.report.src}/"/>
+			<param name="same-lines-max" expression="${duplication.lines.max}"/>
+		</xslt>
+		
+		<!-- Generate the content for the report web site -->
+		<xslt
+			basedir="${build.report.tmp}"
+			destdir="${build.report.reports}/same"
+			includes="same-post.xml"
+			style="${build.report.etc}/same/report.xsl">
+			<param name="same-lines-max" expression="${duplication.lines.max}"/>
+			<param name="output.dir" expression="${build.report.reports}/same"/>
+		</xslt>
+		
+		<!-- Build the final output for the report web site main page-->
+		<xslt
+			in="${build.report.tmp}/same-post.xml"
+			out="${build.report.stats}/duplication.xml"
+			style="${build.report.etc}/same/stats.xsl">
+		</xslt>
+	</target>
+
+	<target name="check.same">
+		<fail if="duplication.lines.fail" message="${duplication.lines.fail}"/>
+	</target>
+</project>

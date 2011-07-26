@@ -1,0 +1,64 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<?xml version="1.0"?>
+<!-- ha-jdbc xmlns="http://ha-jdbc.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ha-jdbc.sourceforge.net
+D:\Java\ha-jdbc-2.0.8\ha-jdbc-2.0.xsd" -->
+<ha-jdbc>
+    <distributable config="jgroup-stacks.xml" stack="udp-sync" timeout="1000" />
+
+    <sync id="full" class="net.sf.hajdbc.sync.FullSynchronizationStrategy">
+        <property name="fetchSize">1000</property>
+        <property name="maxBatchSize">100</property>
+    </sync>
+
+    <cluster balancer="round-robin"
+             default-sync="full"
+             dialect="hsqldb"
+             meta-data-cache="lazy"
+             transaction-mode="parallel"
+             auto-activate-schedule="0 * * * * ?"
+             failure-detect-schedule="30 * * * * ?"
+             detect-identity-columns="false"
+             min-threads="0"
+             max-threads="500"
+             max-idle="60"
+    >
+
+        <database id="database1" weight="1" local="true">
+            <driver>org.hsqldb.jdbcDriver</driver>
+            <url>jdbc:hsqldb:hsql://127.0.0.1:12000/xdb0</url>
+            <!-- In the default READ_UNCOMMITED mode, a transaction can write over rows inserted or updated by another uncommitted transaction. Setting this property to true will raise an exception when such a write is attempted (SET PROPERTY) -->
+            <property name="sql.tx_no_multi_rewrite">true</property>
+            <user>sa</user>
+            <password />
+        </database>
+
+        <database id="database2" weight="1" local="true">
+            <driver>org.hsqldb.jdbcDriver</driver>
+            <url>jdbc:hsqldb:hsql://127.0.0.1:12001/xdb1</url>
+            <property name="sql.tx_no_multi_rewrite">true</property>
+            <user>sa</user>
+            <password />
+        </database>
+
+    </cluster>
+
+</ha-jdbc>

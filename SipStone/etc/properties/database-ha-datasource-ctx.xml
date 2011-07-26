@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="sss.datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="maxActive">
+			<value>${database.max.active.pool.size}</value>
+		</property>
+        <property name="driverClassName" value="net.sf.hajdbc.sql.Driver" />
+        <property name="url" value="jdbc:ha-jdbc:spike" />
+        <property name="username" value="springringuser" />
+        <property name="password" value="springringuser" />
+	</bean>
+
+</beans>

@@ -1,0 +1,27 @@
+!1 Web21c SDK Call Control
+!3 Acceptance Test Suite
+
+The following service-specific acceptance test suites are currently available:
+!3   * ^SimpleSipStackMockphones
+!3   * ^SimpleSipStackApi
+!3   * ^ConvediaMediaBeansApi
+!3   * ^ConferencingApi
+!3   * ^CollectionTests
+
+----
+!3 Classpath Settings
+!path @FITNESSE_HOME@/etc
+!path @FITNESSE_HOME@/lib/*
+!path @FITNESSE_HOME@/lib/sipunit6b/*
+!path @FITNESSE_HOME@/lib/testapp/*
+
+----
+!3 Global Settings
+You may also wish to change the following settings:
+!define localIpPattern {@SIP_STACK_IP_ADDRESS_PATTERN@}
+!define simpleSipStackPort {@SIP_STACK_PORT@}
+!define inboundSimpleSipStackPort {@INBOUND_SIP_STACK_PORT@}
+!define waitTimeoutSeconds {@WAIT_TIMEOUT_SECONDS@}
+!define waitTimeoutForManualTestsSeconds {@WAIT_TIMEOUT_FOR_MANUAL_TESTS_SECONDS@}
+!define mockphonesIpAddress {@MOCKPHONES_IP_ADDRESS@}
+!define mockphonesPort {@MOCKPHONES_PORT@}

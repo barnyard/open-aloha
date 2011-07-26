@@ -1,0 +1,32 @@
+!3 Acceptance Test Suite for the Conferencing API - MaxConferenceDuration
+
+   * HAPPY
+   * I would like to be able to specify max duration of a conference. After that time the conference should be automatically ended.
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.65000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setMaxDurationInMinutes|1|
+|check|createConference||
+|check|maxDurationInMinutes|1|
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|waitSeconds|60|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithMaxDurationExceeded|OK|
+|check|conferenceTerminationCause|MaximumDurationExceeded|
+   * UNHAPPY
+   * I would like to get an exception when trying to set max conference duration to negative number.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.65000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setMaxDurationInMinutes|-1|
+|check|createConference|!-IllegalArgumentException-!|

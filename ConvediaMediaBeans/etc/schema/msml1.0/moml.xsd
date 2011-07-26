@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- Convedia Corporation A0-8466-01-07 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cvd="http://convedia.com/moml/ext" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="msml-datatypes.xsd"/>
+	<xs:import namespace="http://convedia.com/moml/ext" schemaLocation="cvd.xsd"/>
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	<xs:group name="recSinkSourcePrimitiveType">
+		<xs:choice>
+			<xs:element name="play" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>interval may be from 0 to 2^18 ms. offset may be from -2^31 through 2^31 ms. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="audio" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="uri" type="xs:anyURI" use="required"/>
+									<xs:attribute ref="xml:lang" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="var" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="type" type="momlVarType.datatype" use="required"/>
+									<xs:attribute name="subtype" type="momlVarSubtype.datatype" use="required"/>
+									<xs:attribute name="value" type="momlVarValue.datatype" use="required"/>
+									<xs:attribute ref="xml:lang" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:choice minOccurs="0">
+							<xs:element name="playexit">
+								<xs:complexType>
+									<xs:group ref="sendType"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+					<xs:attribute name="id" type="momlID.datatype" use="optional"/>
+					<xs:attribute name="interval" type="posDuration.datatype" use="optional"/>
+					<xs:attribute name="maxtime" type="posDuration.datatype" use="optional"/>
+					<xs:attribute name="iterations" type="iterate.datatype" use="optional" default="1"/>
+					<xs:attribute name="offset" type="duration.datatype" use="optional"/>
+					<xs:attribute ref="cvd:barge" use="required"/>
+					<xs:attribute ref="cvd:cleardb" use="required"/>
+					<xs:attribute ref="xml:lang" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dtmfgen" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>dur and interval may be from 50-30000ms.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="dtmfgenexit">
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="level" use="optional" default="-6">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonPositiveInteger">
+								<xs:maxInclusive value="0"/>
+								<xs:minInclusive value="-96"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="digits" type="dtmfDigits.datatype" use="required"/>
+					<xs:attribute name="dur" type="posDuration.datatype" use="optional" default="100ms"/>
+					<xs:attribute name="interval" type="posDuration.datatype" use="optional" default="100ms"/>
+					<xs:attribute name="id" type="momlID.datatype" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dtmf" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>fdt may be from 0-300s. idt and edt may be from 1-300s.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:all>
+						<xs:element name="pattern">
+							<xs:annotation>
+								<xs:documentation>constraints: min must be less than max, max must be less than or equal to 50</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+								<xs:attribute name="digits" type="basicDigits.datatype" use="required"/>
+								<xs:attribute name="format" type="xs:string" fixed="moml+digits"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="noinput" minOccurs="0">
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="nomatch" minOccurs="0">
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="dtmfexit" minOccurs="0">
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="id" type="momlID.datatype"/>
+					<xs:attribute name="cleardb" type="boolean.datatype"/>
+					<xs:attribute name="fdt" type="posDuration.datatype" default="0s"/>
+					<xs:attribute name="idt" type="posDuration.datatype" default="4s"/>
+					<xs:attribute name="edt" type="posDuration.datatype" default="4s"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="record" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>maxtime, cvd:pre-speech, and cvd:post-speech may be from 1-108000s (30h). The latter two may also be 0s indicating the timers are not used.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="recordexit">
+							<xs:complexType>
+								<xs:group ref="sendType"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="id" type="momlID.datatype" use="optional"/>
+					<xs:attribute name="append" type="boolean.datatype" use="optional" default="false"/>
+					<xs:attribute name="dest" type="xs:anyURI" use="optional"/>
+					<xs:attribute name="format" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="audio/wav"/>
+								<xs:enumeration value="audio/x-wav"/>
+								<xs:enumeration value="audio/vnd.wave;codec=1"/>
+								<xs:enumeration value="audio/vnd.wave;codec=6"/>
+								<xs:enumeration value="audio/vnd.wave;codec=7"/>
+								<xs:enumeration value="audio/vnd.wave;codec=83"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="maxtime" type="posDuration.datatype" use="required"/>
+					<xs:attribute ref="cvd:pre-speech" default="0s"/>
+					<xs:attribute ref="cvd:post-speech" default="0s"/>
+					<xs:attribute ref="cvd:termkey"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="transformPrimitiveType">
+		<xs:choice>
+			<xs:element name="agc">
+				<xs:complexType>
+					<xs:attribute name="tgtlvl" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonPositiveInteger">
+								<xs:maxInclusive value="0"/>
+								<xs:minInclusive value="-40"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="maxgain" default="10">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonNegativeInteger">
+								<xs:maxInclusive value="40"/>
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gain">
+				<xs:complexType>
+					<xs:attribute name="amt" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:integer">
+								<xs:minInclusive value="-96"/>
+								<xs:maxInclusive value="96"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="clamp"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="sendType">
+		<xs:sequence>
+			<xs:element name="send" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="event" type="momlEvent.datatype" use="required"/>
+					<xs:attribute name="target" type="xs:string" use="required" fixed="source"/>
+					<xs:attribute name="namelist" type="momlNamelist.datatype"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="exit" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="namelist" type="momlNamelist.datatype"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>

@@ -1,0 +1,8 @@
+<cruisecontrol>
+        <property name="cc.home" value="/opt/cruisecontrol"/>
+        <property name="cc.projects.home" value="/opt/cruisecontrol-projects"/>
+        <property name="ant.script" value="${cc.projects.home}/pe-build/ant/bin/ant"/>
+        <property name="svn.cmd" value="/usr/local/bin/svn"/>
+        <include.projects file="pe-sdk-rd/CruiseControl/config.xml" />
+</cruisecontrol>
+

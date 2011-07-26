@@ -1,0 +1,15 @@
+!1 Web21c SDK Call Control
+!3 Acceptance Test Suite for the Conferencing API
+
+The following Conferencing API service-specific acceptance test suites are currently available:
+!3   * ^CreateConferenceDialog
+!3   * ^CreateConference
+!3   * ^InviteParticipant
+!3   * ^TerminateParticipant
+!3   * ^EndConference
+!3   * ^ConferenceInfo
+!3   * ^DisconnectionScenarios
+!3   * ^MaxConferenceDuration
+!3   * ^ConferenceWithInboundLeg
+!3   * ^ConferenceStatusPersistency
+

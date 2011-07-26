@@ -1,0 +1,8 @@
+simpleSipStack.stackName=MockphonesSipStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=@mockphones.port@
+
+simpleSipStack.jainStackPropertiesTraceLevel=@sip.trace.level@
+simpleSipStack.jainStackPropertiesThreadPoolSize=200
+
+taskExecutor.corePoolSize=200

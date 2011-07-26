@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+	 This is the checkstyle target for running within the Common Build Library
+-->
+<project name="checkstyle">
+	<target name="prepare.checkstyle">
+		<path id="checkstyle.classpath">
+			<fileset dir="${build.report.etc}/checkstyle/lib" includes="*.jar"/>
+		</path>
+		
+		<property name="build.report.checkstyle.config.file" value="${build.report.etc}/checkstyle/checks.xml"/>
+
+		<taskdef resource="checkstyletask.properties" classpathref="checkstyle.classpath"/>
+		
+		<!-- Run checkstyle outputting to checkstyle.xml -->
+		<checkstyle config="${build.report.checkstyle.config.file}" failonviolation="false">
+			<classpath>
+				<path refid="run.classpath"/>
+			</classpath>
+			<fileset dir="${build.report.src}" excludes="${build.report.exclude}" includes="**/*.java"/>
+			<fileset dir="${unittest.src.test}" excludes="${build.report.exclude}" includes="**/*.java"/>
+			<formatter type="xml" toFile="${build.report.tmp}/checkstyle.xml"/>
+		</checkstyle>
+		<delete dir="${build.report.reports}/checkstyle"/>
+		<mkdir dir="${build.report.reports}/checkstyle"/>
+		
+		<!-- We need to change the path to windows convention for the XSL, ideally preparse.xsl could do with refactoring, -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+		<if>
+			<os family="windows"/>
+			<then>
+				<propertyregex property="unittestsrc" input="${unittest.src.test}" regexp="\/" replace="\\\" casesensitive="false" global="true" />
+				<property name="pathseparator" value="\"/>				
+			</then>
+			<else>
+				<property name="pathseparator" value="/"/>
+			</else>
+		</if>
+			
+		
+		<!-- This transformation gets the results and changes the file element
+		     so
+		     
+		     <file name="C:\Development\Workspace3.2\CommonBuildLibraryDemo\src\main\java\com\bt\demo\HelloWorld.java">
+		     
+		     becomes
+		     
+		     <file class="HelloWorld" package="com.bt.demo." name="C:\Development\Workspace3.2\CommonBuildLibraryDemo\src\main\java\com\bt\demo\HelloWorld.java">
+		     
+		     This is then used to help render the reporting page.
+	     -->
+		<xslt
+			in="${build.report.tmp}/checkstyle.xml"
+			out="${build.report.tmp}/checkstyle-post.xml"
+			style="${build.report.etc}/checkstyle/preparse.xsl">
+			<!-- param must end in / .. eg "/src/java/" -->
+			<param name="source-root" expression="${build.report.src}/"/>
+			<param name="junit-source-root" expression="${unittestsrc}${pathseparator}"/>
+		</xslt>
+		
+		<!-- This will take the previous output and generate the report detail that you can get
+		     to from the link on the main reporting page
+	     -->
+		<xslt
+			basedir="${build.report.tmp}"
+			destdir="${build.report.reports}/checkstyle"
+			includes="checkstyle-post.xml"
+			style="${build.report.etc}/checkstyle/report.xsl">
+			<param name="source-root" expression="${build.report.src}/"/>
+			<param name="output.dir" expression="${build.report.reports}/checkstyle"/>
+		</xslt>
+		
+		<!-- This generates something like
+		 	 
+		 	<?xml version="1.0" encoding="iso-8859-1"?>
+			<tool type="bugs" name="findbugs" description="Statically Detectable Bugs" root="findbugs/">
+				<statistic name="high" description="High" value="0"/>
+				<statistic name="medium" description="Medium" value="1"/>
+				<statistic name="low" description="Low" value="2"/>
+			</tool>
+			
+			and is used as an input to generate the main page.
+		-->
+			
+		<xslt
+			in="${build.report.tmp}/checkstyle.xml"
+			out="${build.report.stats}/conventions.xml"
+			style="${build.report.etc}/checkstyle/stats.xsl">
+		</xslt>
+	</target>
+
+	<target name="check.checkstyle">
+		<fail if="conventions.errors.fail" message="${conventions.errors.fail}"/>
+	</target>
+</project>

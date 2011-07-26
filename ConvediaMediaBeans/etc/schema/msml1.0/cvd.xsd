@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- Convedia Corporation A0-8466-01-07 -->
+<xs:schema targetNamespace="http://convedia.com/moml/ext" xmlns="http://convedia.com/moml/ext" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:attribute name="barge" type="booleanType"/>
+	<xs:attribute name="cleardb" type="booleanType"/>
+	<xs:attribute name="pre-speech" type="recordDurationType"/>
+	<xs:attribute name="post-speech" type="recordDurationType"/>
+	<xs:attribute name="termkey">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value="[0-9#*]"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	<xs:simpleType name="booleanType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="recordDurationType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\+)?([0-9]*\.)?[0-9]+(ms|s)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attribute name="asth">
+		<xs:simpleType>
+			<xs:restriction base="xs:integer">
+				<xs:minInclusive value="-96"/>
+				<xs:maxInclusive value="96"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	<xs:attribute name="deletewhen">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="nomedia"/>
+				<xs:enumeration value="nocontrol"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+</xs:schema>

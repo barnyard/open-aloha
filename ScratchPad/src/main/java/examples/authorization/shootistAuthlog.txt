@@ -1,0 +1,3178 @@
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= 127.0.0.1:5070/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="127.0.0.1:5060" 
+to="127.0.0.1:5070" 
+time="1201791514228"
+isSender="true" 
+transactionId="z9hg4bk6ffce9ab8bc1dfd0d0ac6e154a831cb0" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="INVITE sip:LittleGuy@127.0.0.1:5070 SIP/2.0" 
+>
+<![CDATA[INVITE sip:LittleGuy@127.0.0.1:5070 SIP/2.0
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bK6ffce9ab8bc1dfd0d0ac6e154a831cb0
+Max-Forwards: 70
+Contact: "BigGuy" <sip:BigGuy@127.0.0.1:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5070" 
+to="127.0.0.1:5060" 
+time="1201791514605"
+isSender="false" 
+transactionId="z9hg4bk6ffce9ab8bc1dfd0d0ac6e154a831cb0" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="SIP/2.0 407 Proxy Authentication required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication required
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bK6ffce9ab8bc1dfd0d0ac6e154a831cb0
+Proxy-Authenticate: Digest realm="nist.gov",nonce="8b51040deacffae7d19016df65c8d6c8",opaque="",stale=FALSE,algorithm=MD5
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5060" 
+to="127.0.0.1:5070" 
+time="1201791514616"
+isSender="true" 
+transactionId="z9hg4bk6ffce9ab8bc1dfd0d0ac6e154a831cb0" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="ACK sip:LittleGuy@127.0.0.1:5070 SIP/2.0" 
+>
+<![CDATA[ACK sip:LittleGuy@127.0.0.1:5070 SIP/2.0
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+Max-Forwards: 70
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bK6ffce9ab8bc1dfd0d0ac6e154a831cb0
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5070" 
+to="127.0.0.1:5060" 
+time="1201791514668"
+isSender="false" 
+transactionId="z9hg4bk6ffce9ab8bc1dfd0d0ac6e154a831cb0" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bK6ffce9ab8bc1dfd0d0ac6e154a831cb0
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5060" 
+to="127.0.0.1:5070" 
+time="1201791514670"
+isSender="true" 
+transactionId="z9hg4bkf8cb3b51e2774e5ff5bf028ecdc8bb5f" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="INVITE sip:LittleGuy@127.0.0.1:5070 SIP/2.0" 
+>
+<![CDATA[INVITE sip:LittleGuy@127.0.0.1:5070 SIP/2.0
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bKf8cb3b51e2774e5ff5bf028ecdc8bb5f
+Max-Forwards: 70
+Contact: "BigGuy" <sip:BigGuy@127.0.0.1:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="95431ab44681fefe98a4080eb7f94f22",username="auth",nonce="8b51040deacffae7d19016df65c8d6c8",realm="nist.gov",uri="sip:LittleGuy@127.0.0.1:5070",algorithm=MD5
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5070" 
+to="127.0.0.1:5060" 
+time="1201791514813"
+isSender="false" 
+transactionId="z9hg4bkf8cb3b51e2774e5ff5bf028ecdc8bb5f" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bKf8cb3b51e2774e5ff5bf028ecdc8bb5f
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="127.0.0.1:5070" 
+to="127.0.0.1:5060" 
+time="1201791515704"
+isSender="false" 
+transactionId="z9hg4bkf8cb3b51e2774e5ff5bf028ecdc8bb5f" 
+callId="80514792c9005084ae98b254f0bf545c@127.0.0.1" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Call-ID: 80514792c9005084ae98b254f0bf545c@127.0.0.1
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:BigGuy@here.com>;tag=12345
+To: "The Little Blister" <sip:LittleGuy@there.com>;tag=4321
+Via: SIP/2.0/UDP 127.0.0.1:5060;branch=z9hG4bKf8cb3b51e2774e5ff5bf028ecdc8bb5f
+Contact: "Shootme" <sip:127.0.0.1:5070>
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= 64.192.112.13:5060/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= 64.192.112.13:5060/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201791803465"
+isSender="true" 
+transactionId="z9hg4bke28a19a851e74f9f6a88df4f1f10f2d8" 
+callId="861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4" 
+firstLine="INVITE sip:0117917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[INVITE sip:0117917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: 861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:0117917024142@here.com>;tag=12345
+To: "Joe Darling" <sip:0117917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKe28a19a851e74f9f6a88df4f1f10f2d8
+Max-Forwards: 70
+Contact: "0117917024142" <sip:0117917024142@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201791803639"
+isSender="false" 
+transactionId="z9hg4bke28a19a851e74f9f6a88df4f1f10f2d8" 
+callId="861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKe28a19a851e74f9f6a88df4f1f10f2d8;received=86.141.71.248
+From: "The Master Blaster" <sip:0117917024142@here.com>;tag=12345
+To: "Joe Darling" <sip:0117917024142@sip.gafachi.com>;tag=gss0640c4080f47682aabde2cba3a0f5e76
+Call-ID: 861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:0117917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201791803648"
+isSender="true" 
+transactionId="z9hg4bke28a19a851e74f9f6a88df4f1f10f2d8" 
+callId="861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4" 
+firstLine="ACK sip:0117917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[ACK sip:0117917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: 861376b50f8d1a16c45d7135f0e30a8b@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:0117917024142@here.com>;tag=12345
+To: "Joe Darling" <sip:0117917024142@sip.gafachi.com>;tag=gss0640c4080f47682aabde2cba3a0f5e76
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKe28a19a851e74f9f6a88df4f1f10f2d8
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= 64.192.112.13:5060/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792301852"
+isSender="true" 
+transactionId="z9hg4bk48d18c9da2c70d468985033094f57470" 
+callId="97f0c1303af9bdc1066d727dea307d69@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: 97f0c1303af9bdc1066d727dea307d69@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK48d18c9da2c70d468985033094f57470
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201792301994"
+isSender="false" 
+transactionId="z9hg4bk48d18c9da2c70d468985033094f57470" 
+callId="97f0c1303af9bdc1066d727dea307d69@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK48d18c9da2c70d468985033094f57470;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssbebbcd011fd12f4ab9c0e2a9b7b90def
+Call-ID: 97f0c1303af9bdc1066d727dea307d69@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792302004"
+isSender="true" 
+transactionId="z9hg4bk48d18c9da2c70d468985033094f57470" 
+callId="97f0c1303af9bdc1066d727dea307d69@192.168.1.4" 
+firstLine="ACK sip:011447917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: 97f0c1303af9bdc1066d727dea307d69@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssbebbcd011fd12f4ab9c0e2a9b7b90def
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK48d18c9da2c70d468985033094f57470
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= 64.192.112.13:5060/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792617404"
+isSender="true" 
+transactionId="z9hg4bkef6b50d99260036441aa712804c46179" 
+callId="b7d6534db229738255a88570758f4101@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: b7d6534db229738255a88570758f4101@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKef6b50d99260036441aa712804c46179
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201792617552"
+isSender="false" 
+transactionId="z9hg4bkef6b50d99260036441aa712804c46179" 
+callId="b7d6534db229738255a88570758f4101@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKef6b50d99260036441aa712804c46179;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss70bf351789e28f534a677ce441d9553a
+Call-ID: b7d6534db229738255a88570758f4101@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792617562"
+isSender="true" 
+transactionId="z9hg4bkef6b50d99260036441aa712804c46179" 
+callId="b7d6534db229738255a88570758f4101@192.168.1.4" 
+firstLine="ACK sip:011447917024142@64.192.112.13:5060 SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@64.192.112.13:5060 SIP/2.0
+Call-ID: b7d6534db229738255a88570758f4101@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss70bf351789e28f534a677ce441d9553a
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKef6b50d99260036441aa712804c46179
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792756379"
+isSender="true" 
+transactionId="z9hg4bk47e799b6bcd395546f1f517a2688c0c6" 
+callId="9b9bd7c9f2df8c9313b068451858537d@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 9b9bd7c9f2df8c9313b068451858537d@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK47e799b6bcd395546f1f517a2688c0c6
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 247
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201792756520"
+isSender="false" 
+transactionId="z9hg4bk47e799b6bcd395546f1f517a2688c0c6" 
+callId="9b9bd7c9f2df8c9313b068451858537d@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK47e799b6bcd395546f1f517a2688c0c6;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss78155d5ccabc4ff5433d84204189f262
+Call-ID: 9b9bd7c9f2df8c9313b068451858537d@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201792756529"
+isSender="true" 
+transactionId="z9hg4bk47e799b6bcd395546f1f517a2688c0c6" 
+callId="9b9bd7c9f2df8c9313b068451858537d@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 9b9bd7c9f2df8c9313b068451858537d@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss78155d5ccabc4ff5433d84204189f262
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK47e799b6bcd395546f1f517a2688c0c6
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201793058907"
+isSender="true" 
+transactionId="z9hg4bk61f60791f97b3ebaf6311bf0c20413a7" 
+callId="fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK61f60791f97b3ebaf6311bf0c20413a7
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 229
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201793059099"
+isSender="false" 
+transactionId="z9hg4bk61f60791f97b3ebaf6311bf0c20413a7" 
+callId="fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK61f60791f97b3ebaf6311bf0c20413a7;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf1514fc3518fb63937b3710e692fe607
+Call-ID: fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201793059110"
+isSender="true" 
+transactionId="z9hg4bk61f60791f97b3ebaf6311bf0c20413a7" 
+callId="fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: fb9606038d8bb61e0299a4beabe6f22a@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf1514fc3518fb63937b3710e692fe607
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK61f60791f97b3ebaf6311bf0c20413a7
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201793737077"
+isSender="true" 
+transactionId="z9hg4bkda50091d11410edb6cd2e9563937e270" 
+callId="aae36deba5ccb3a73c7352e778797a63@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aae36deba5ccb3a73c7352e778797a63@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKda50091d11410edb6cd2e9563937e270
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201793737234"
+isSender="false" 
+transactionId="z9hg4bkda50091d11410edb6cd2e9563937e270" 
+callId="aae36deba5ccb3a73c7352e778797a63@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKda50091d11410edb6cd2e9563937e270;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gsscef9fe4b4911ed64b7159ab1a73676a0
+Call-ID: aae36deba5ccb3a73c7352e778797a63@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201793737243"
+isSender="true" 
+transactionId="z9hg4bkda50091d11410edb6cd2e9563937e270" 
+callId="aae36deba5ccb3a73c7352e778797a63@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aae36deba5ccb3a73c7352e778797a63@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gsscef9fe4b4911ed64b7159ab1a73676a0
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKda50091d11410edb6cd2e9563937e270
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201795989564"
+isSender="true" 
+transactionId="z9hg4bk41a44fa0056e3dc68be3c0f139a5cb7b" 
+callId="2577ef34721ac112393ec83f1d6f513e@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2577ef34721ac112393ec83f1d6f513e@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK41a44fa0056e3dc68be3c0f139a5cb7b
+Max-Forwards: 70
+Contact: "joe" <sip:joe@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201795989722"
+isSender="false" 
+transactionId="z9hg4bk41a44fa0056e3dc68be3c0f139a5cb7b" 
+callId="2577ef34721ac112393ec83f1d6f513e@192.168.1.4" 
+firstLine="SIP/2.0 403 Forbidden" 
+>
+<![CDATA[SIP/2.0 403 Forbidden
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport=5060;branch=z9hG4bK41a44fa0056e3dc68be3c0f139a5cb7b;received=86.141.71.248
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd689bf73155f3b532033c5a58872144d
+Call-ID: 2577ef34721ac112393ec83f1d6f513e@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201795989732"
+isSender="true" 
+transactionId="z9hg4bk41a44fa0056e3dc68be3c0f139a5cb7b" 
+callId="2577ef34721ac112393ec83f1d6f513e@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2577ef34721ac112393ec83f1d6f513e@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:joe@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd689bf73155f3b532033c5a58872144d
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK41a44fa0056e3dc68be3c0f139a5cb7b
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796735128"
+isSender="true" 
+transactionId="z9hg4bk96b0d9742d558a157269232205775154" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK96b0d9742d558a157269232205775154
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201796735279"
+isSender="false" 
+transactionId="z9hg4bk96b0d9742d558a157269232205775154" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport=5060;branch=z9hG4bK96b0d9742d558a157269232205775154;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2cca5157822837b784095bc141c14dae
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="0eef1dcba49b92d6",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796735287"
+isSender="true" 
+transactionId="z9hg4bk96b0d9742d558a157269232205775154" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2cca5157822837b784095bc141c14dae
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK96b0d9742d558a157269232205775154
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796735313"
+isSender="true" 
+transactionId="z9hg4bkcc8cfc97354ce08c17918593ad15428a" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bKcc8cfc97354ce08c17918593ad15428a
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="5548773243ba30a4ee91c1c419d78935",username="a4369s4MNuhqieWb",nonce="0eef1dcba49b92d6",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201796735456"
+isSender="false" 
+transactionId="z9hg4bkcc8cfc97354ce08c17918593ad15428a" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport=5060;branch=z9hG4bKcc8cfc97354ce08c17918593ad15428a;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2cca5157822837b784095bc141c14dae
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796735461"
+isSender="true" 
+transactionId="z9hg4bkcc8cfc97354ce08c17918593ad15428a" 
+callId="dc9bfd72726b7ad2bb339934421f1702@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: dc9bfd72726b7ad2bb339934421f1702@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2cca5157822837b784095bc141c14dae
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bKcc8cfc97354ce08c17918593ad15428a
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796810214"
+isSender="true" 
+transactionId="z9hg4bke8d2234a9a3558eea8f22d154f3d4795" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bKe8d2234a9a3558eea8f22d154f3d4795
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201796810388"
+isSender="false" 
+transactionId="z9hg4bke8d2234a9a3558eea8f22d154f3d4795" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport=5060;branch=z9hG4bKe8d2234a9a3558eea8f22d154f3d4795;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss9d04203ccdc309b7281eb03f2ccb6ec7
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="ec3c8ddd42da81e0",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796810397"
+isSender="true" 
+transactionId="z9hg4bke8d2234a9a3558eea8f22d154f3d4795" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss9d04203ccdc309b7281eb03f2ccb6ec7
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bKe8d2234a9a3558eea8f22d154f3d4795
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796810412"
+isSender="true" 
+transactionId="z9hg4bk9756cca092841d286a5045292959e2f6" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK9756cca092841d286a5045292959e2f6
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="b94a7b233d9b7debc7feffd7a3b65e0a",username="a4369s4MNuhqieWb",nonce="ec3c8ddd42da81e0",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201796810601"
+isSender="false" 
+transactionId="z9hg4bk9756cca092841d286a5045292959e2f6" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport=5060;branch=z9hG4bK9756cca092841d286a5045292959e2f6;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss9d04203ccdc309b7281eb03f2ccb6ec7
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201796810605"
+isSender="true" 
+transactionId="z9hg4bk9756cca092841d286a5045292959e2f6" 
+callId="aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: aa29fe622f8d698ae2fa476fe2b29b24@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss9d04203ccdc309b7281eb03f2ccb6ec7
+Via: SIP/2.0/UDP 192.168.1.4:5060;rport;branch=z9hG4bK9756cca092841d286a5045292959e2f6
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201797007644"
+isSender="true" 
+transactionId="z9hg4bk0bcc43651edd4905fad123a32ff27a1b" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK0bcc43651edd4905fad123a32ff27a1b
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201797007800"
+isSender="false" 
+transactionId="z9hg4bk0bcc43651edd4905fad123a32ff27a1b" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK0bcc43651edd4905fad123a32ff27a1b;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2876367389393ff3ae468935ea5c853f
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="41f871285c8192a9",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201797007809"
+isSender="true" 
+transactionId="z9hg4bk0bcc43651edd4905fad123a32ff27a1b" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2876367389393ff3ae468935ea5c853f
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bK0bcc43651edd4905fad123a32ff27a1b
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201797007843"
+isSender="true" 
+transactionId="z9hg4bkf078da5873233527934ef2d86ddeb7dc" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKf078da5873233527934ef2d86ddeb7dc
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.4:5060>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="8e9ecd31a271c2dacb73c4e98eab9997",username="a4369s4MNuhqieWb",nonce="41f871285c8192a9",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 240
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.4:5060" 
+time="1201797007993"
+isSender="false" 
+transactionId="z9hg4bkf078da5873233527934ef2d86ddeb7dc" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKf078da5873233527934ef2d86ddeb7dc;received=86.141.71.248
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2876367389393ff3ae468935ea5c853f
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.4:5060" 
+to="64.192.112.13:5060" 
+time="1201797007995"
+isSender="true" 
+transactionId="z9hg4bkf078da5873233527934ef2d86ddeb7dc" 
+callId="730905fef4a10f915f2ab8dd195f153e@192.168.1.4" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 730905fef4a10f915f2ab8dd195f153e@192.168.1.4
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss2876367389393ff3ae468935ea5c853f
+Via: SIP/2.0/UDP 192.168.1.4:5060;branch=z9hG4bKf078da5873233527934ef2d86ddeb7dc
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861209211"
+isSender="true" 
+transactionId="z9hg4bkd8748f0ff61676c9ac155e85be967f72" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd8748f0ff61676c9ac155e85be967f72
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201861209378"
+isSender="false" 
+transactionId="z9hg4bkd8748f0ff61676c9ac155e85be967f72" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd8748f0ff61676c9ac155e85be967f72;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf684d953e5072bf760280f249cba3b4d
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="dd594f4918f95ffc",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861209386"
+isSender="true" 
+transactionId="z9hg4bkd8748f0ff61676c9ac155e85be967f72" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf684d953e5072bf760280f249cba3b4d
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd8748f0ff61676c9ac155e85be967f72
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861209397"
+isSender="true" 
+transactionId="z9hg4bkcd2c7ba966eb87ba9607ebb4c35f50ed" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcd2c7ba966eb87ba9607ebb4c35f50ed
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="b49cfa2ba963541331d5db4e26892620",username="a4369s4MNuhqieWb",nonce="dd594f4918f95ffc",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201861209536"
+isSender="false" 
+transactionId="z9hg4bkcd2c7ba966eb87ba9607ebb4c35f50ed" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcd2c7ba966eb87ba9607ebb4c35f50ed;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf684d953e5072bf760280f249cba3b4d
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861209538"
+isSender="true" 
+transactionId="z9hg4bkcd2c7ba966eb87ba9607ebb4c35f50ed" 
+callId="7de8d28c4e88a518f3b7e5e852026064@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 7de8d28c4e88a518f3b7e5e852026064@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssf684d953e5072bf760280f249cba3b4d
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcd2c7ba966eb87ba9607ebb4c35f50ed
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861248822"
+isSender="true" 
+transactionId="z9hg4bked72454c8daa52836389bfff5b46c782" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKed72454c8daa52836389bfff5b46c782
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201861248970"
+isSender="false" 
+transactionId="z9hg4bked72454c8daa52836389bfff5b46c782" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKed72454c8daa52836389bfff5b46c782;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5247de95af191357785b137d17576ea7
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="10c4e24dd6eea1c8",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861248979"
+isSender="true" 
+transactionId="z9hg4bked72454c8daa52836389bfff5b46c782" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5247de95af191357785b137d17576ea7
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKed72454c8daa52836389bfff5b46c782
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861248999"
+isSender="true" 
+transactionId="z9hg4bkc1c14e3166aea41ceb9fc9418df7560e" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKc1c14e3166aea41ceb9fc9418df7560e
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="a8eaa5f1071a5f6fc3972d4e659a957b",username="a4369s4MNuhqieWb",nonce="10c4e24dd6eea1c8",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201861249139"
+isSender="false" 
+transactionId="z9hg4bkc1c14e3166aea41ceb9fc9418df7560e" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKc1c14e3166aea41ceb9fc9418df7560e;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5247de95af191357785b137d17576ea7
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201861249141"
+isSender="true" 
+transactionId="z9hg4bkc1c14e3166aea41ceb9fc9418df7560e" 
+callId="8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 8006bc36a3744ed9109f1c94a8dc5e66@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5247de95af191357785b137d17576ea7
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKc1c14e3166aea41ceb9fc9418df7560e
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862297226"
+isSender="true" 
+transactionId="z9hg4bkcb6186250c35475184a882290d7b0e75" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcb6186250c35475184a882290d7b0e75
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862297409"
+isSender="false" 
+transactionId="z9hg4bkcb6186250c35475184a882290d7b0e75" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcb6186250c35475184a882290d7b0e75;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssc87fb78b8faff2ed44ab51a854c032a9
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="94dad49bfad6cb22",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862297418"
+isSender="true" 
+transactionId="z9hg4bkcb6186250c35475184a882290d7b0e75" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssc87fb78b8faff2ed44ab51a854c032a9
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKcb6186250c35475184a882290d7b0e75
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862297429"
+isSender="true" 
+transactionId="z9hg4bka0f6f5616421126b9d5fd9db81d6bbb1" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKa0f6f5616421126b9d5fd9db81d6bbb1
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="9b085bbe4c67646d3e99aacb16f25f4d",username="a4369s4MNuhqieWb",nonce="94dad49bfad6cb22",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862297605"
+isSender="false" 
+transactionId="z9hg4bka0f6f5616421126b9d5fd9db81d6bbb1" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKa0f6f5616421126b9d5fd9db81d6bbb1;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssc87fb78b8faff2ed44ab51a854c032a9
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862297608"
+isSender="true" 
+transactionId="z9hg4bka0f6f5616421126b9d5fd9db81d6bbb1" 
+callId="d1dfc042070860434b8f38303e196180@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: d1dfc042070860434b8f38303e196180@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssc87fb78b8faff2ed44ab51a854c032a9
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKa0f6f5616421126b9d5fd9db81d6bbb1
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862325676"
+isSender="true" 
+transactionId="z9hg4bk6d231890ee9594c1d40566fbe724b6e8" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK6d231890ee9594c1d40566fbe724b6e8
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862325849"
+isSender="false" 
+transactionId="z9hg4bk6d231890ee9594c1d40566fbe724b6e8" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK6d231890ee9594c1d40566fbe724b6e8;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd00632b972dd6894829204832f1e035c
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="9c17231cc29b728e",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862325857"
+isSender="true" 
+transactionId="z9hg4bk6d231890ee9594c1d40566fbe724b6e8" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd00632b972dd6894829204832f1e035c
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK6d231890ee9594c1d40566fbe724b6e8
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862325868"
+isSender="true" 
+transactionId="z9hg4bkce14f136f3aef6063ebd36ae09e2d74a" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKce14f136f3aef6063ebd36ae09e2d74a
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="ca0bd4297117bf395f5a17f9899dfd30",username="a4369s4MNuhqieWb",nonce="9c17231cc29b728e",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862326034"
+isSender="false" 
+transactionId="z9hg4bkce14f136f3aef6063ebd36ae09e2d74a" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKce14f136f3aef6063ebd36ae09e2d74a;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd00632b972dd6894829204832f1e035c
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862326037"
+isSender="true" 
+transactionId="z9hg4bkce14f136f3aef6063ebd36ae09e2d74a" 
+callId="2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2c12db2d8cb90ddce91d1e7f6ff69b68@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssd00632b972dd6894829204832f1e035c
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKce14f136f3aef6063ebd36ae09e2d74a
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862900801"
+isSender="true" 
+transactionId="z9hg4bk268c5ebb287c397b728a7633d963ee86" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK268c5ebb287c397b728a7633d963ee86
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862900974"
+isSender="false" 
+transactionId="z9hg4bk268c5ebb287c397b728a7633d963ee86" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK268c5ebb287c397b728a7633d963ee86;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss6d448af202c556d89a65b14f2eef8e98
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="38da43b6e224ea75",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862900982"
+isSender="true" 
+transactionId="z9hg4bk268c5ebb287c397b728a7633d963ee86" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss6d448af202c556d89a65b14f2eef8e98
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK268c5ebb287c397b728a7633d963ee86
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862900993"
+isSender="true" 
+transactionId="z9hg4bk423d14f66507780fae00f59c62b91411" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK423d14f66507780fae00f59c62b91411
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="f6d4824c873334b82313be6491259e10",username="a4369s4MNuhqieWb",nonce="38da43b6e224ea75",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862901157"
+isSender="false" 
+transactionId="z9hg4bk423d14f66507780fae00f59c62b91411" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK423d14f66507780fae00f59c62b91411;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss6d448af202c556d89a65b14f2eef8e98
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862901160"
+isSender="true" 
+transactionId="z9hg4bk423d14f66507780fae00f59c62b91411" 
+callId="2aa1568056d76a773acf33858f02827c@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2aa1568056d76a773acf33858f02827c@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss6d448af202c556d89a65b14f2eef8e98
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK423d14f66507780fae00f59c62b91411
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862956952"
+isSender="true" 
+transactionId="z9hg4bkfe1934a6065bdb4c9d837cd711c35717" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKfe1934a6065bdb4c9d837cd711c35717
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862957132"
+isSender="false" 
+transactionId="z9hg4bkfe1934a6065bdb4c9d837cd711c35717" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKfe1934a6065bdb4c9d837cd711c35717;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss7efb9c95667873650cab451a2a3435ee
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="b0c04414f7bed14b",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862957141"
+isSender="true" 
+transactionId="z9hg4bkfe1934a6065bdb4c9d837cd711c35717" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss7efb9c95667873650cab451a2a3435ee
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKfe1934a6065bdb4c9d837cd711c35717
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862957153"
+isSender="true" 
+transactionId="z9hg4bk58654c57dfcb35ffbac39d65f091f1e7" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK58654c57dfcb35ffbac39d65f091f1e7
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="2ce6168074465ff9672847c587624994",username="a4369s4MNuhqieWb",nonce="b0c04414f7bed14b",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201862957362"
+isSender="false" 
+transactionId="z9hg4bk58654c57dfcb35ffbac39d65f091f1e7" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="SIP/2.0 503 Service Unavailable" 
+>
+<![CDATA[SIP/2.0 503 Service Unavailable
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK58654c57dfcb35ffbac39d65f091f1e7;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss7efb9c95667873650cab451a2a3435ee
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201862957365"
+isSender="true" 
+transactionId="z9hg4bk58654c57dfcb35ffbac39d65f091f1e7" 
+callId="51530aff85639c2a4a333ebdc77a37dc@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 51530aff85639c2a4a333ebdc77a37dc@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss7efb9c95667873650cab451a2a3435ee
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK58654c57dfcb35ffbac39d65f091f1e7
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201863304840"
+isSender="true" 
+transactionId="z9hg4bk0edddac5878272d4f09a4b6b9f771f08" 
+callId="2a80fa5527e375bab8428f8db5d1862e@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2a80fa5527e375bab8428f8db5d1862e@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0edddac5878272d4f09a4b6b9f771f08
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201863305005"
+isSender="false" 
+transactionId="z9hg4bk0edddac5878272d4f09a4b6b9f771f08" 
+callId="2a80fa5527e375bab8428f8db5d1862e@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0edddac5878272d4f09a4b6b9f771f08;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss78e5ee1c5ff94fb5d47006949c2ed8f0
+Call-ID: 2a80fa5527e375bab8428f8db5d1862e@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="60ab6c69ab1dfcad",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201863305015"
+isSender="true" 
+transactionId="z9hg4bk0edddac5878272d4f09a4b6b9f771f08" 
+callId="2a80fa5527e375bab8428f8db5d1862e@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 2a80fa5527e375bab8428f8db5d1862e@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss78e5ee1c5ff94fb5d47006949c2ed8f0
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0edddac5878272d4f09a4b6b9f771f08
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201863599002"
+isSender="true" 
+transactionId="z9hg4bk017c7d04253c6d1dc7436e2cbbb9f97f" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK017c7d04253c6d1dc7436e2cbbb9f97f
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201863599215"
+isSender="false" 
+transactionId="z9hg4bk017c7d04253c6d1dc7436e2cbbb9f97f" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK017c7d04253c6d1dc7436e2cbbb9f97f;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss4b3c2de1b17215d886aeaca124c932df
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="7b7323f04fde0ff0",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201863599224"
+isSender="true" 
+transactionId="z9hg4bk017c7d04253c6d1dc7436e2cbbb9f97f" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss4b3c2de1b17215d886aeaca124c932df
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK017c7d04253c6d1dc7436e2cbbb9f97f
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201863599239"
+isSender="true" 
+transactionId="z9hg4bkd69c5c9ad2a21e7a254d744728cac10c" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 2 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd69c5c9ad2a21e7a254d744728cac10c
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="b9014e31c3487d3c3093a08d559374e0",username="a4369s4MNuhqieWb",nonce="7b7323f04fde0ff0",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201863599412"
+isSender="false" 
+transactionId="z9hg4bkd69c5c9ad2a21e7a254d744728cac10c" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd69c5c9ad2a21e7a254d744728cac10c;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201863615562"
+isSender="false" 
+transactionId="z9hg4bkd69c5c9ad2a21e7a254d744728cac10c" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="SIP/2.0 180 Ringing" 
+>
+<![CDATA[SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd69c5c9ad2a21e7a254d744728cac10c;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss4b3c2de1b17215d886aeaca124c932df
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 234
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201863615625"
+isSender="false" 
+transactionId="z9hg4bkd69c5c9ad2a21e7a254d744728cac10c" 
+callId="55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd69c5c9ad2a21e7a254d744728cac10c;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss4b3c2de1b17215d886aeaca124c932df
+Call-ID: 55ebbadf8ad982d5a1ac26649ddfba83@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 234
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864316101"
+isSender="true" 
+transactionId="z9hg4bk5503dbd33edbf9d2e7831893d918a940" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK5503dbd33edbf9d2e7831893d918a940
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864316266"
+isSender="false" 
+transactionId="z9hg4bk5503dbd33edbf9d2e7831893d918a940" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK5503dbd33edbf9d2e7831893d918a940;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="c51de2f6a1730328",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864316273"
+isSender="true" 
+transactionId="z9hg4bk5503dbd33edbf9d2e7831893d918a940" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK5503dbd33edbf9d2e7831893d918a940
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864316287"
+isSender="true" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="dfad94c32efe0295a1f04ea78358983f",username="a4369s4MNuhqieWb",nonce="c51de2f6a1730328",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864316454"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864322904"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 180 Ringing" 
+>
+<![CDATA[SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864330163"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864330172"
+isSender="true" 
+transactionId="z9hg4bk2bd30aae359999c75223e353cc26b67d" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="ACK sip:011447917024142@64.192.112.13 SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@64.192.112.13 SIP/2.0
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 3 ACK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK2bd30aae359999c75223e353cc26b67d
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Max-Forwards: 70
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864331798"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864332791"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864333792"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864334791"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864335806"
+isSender="false" 
+transactionId="z9hg4bkeed92d46cac44c9839e467fdbb882769" 
+callId="840960b8de0d6873e3343edbe7994bd5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKeed92d46cac44c9839e467fdbb882769;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gssb139a5a77362b857fca21bdb0465ab4f
+Call-ID: 840960b8de0d6873e3343edbe7994bd5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864427382"
+isSender="true" 
+transactionId="z9hg4bk0ae806930a92c840ab98b527b827ca85" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0ae806930a92c840ab98b527b827ca85
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864427572"
+isSender="false" 
+transactionId="z9hg4bk0ae806930a92c840ab98b527b827ca85" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0ae806930a92c840ab98b527b827ca85;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="a4d107466b10bc9f",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864427579"
+isSender="true" 
+transactionId="z9hg4bk0ae806930a92c840ab98b527b827ca85" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK0ae806930a92c840ab98b527b827ca85
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864427592"
+isSender="true" 
+transactionId="z9hg4bkd5e542dc66c5d7ddc7cc944e4179599d" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 2 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd5e542dc66c5d7ddc7cc944e4179599d
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="63f3be6796f2d0bcf0b2b1e3862f51b3",username="a4369s4MNuhqieWb",nonce="a4d107466b10bc9f",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864427759"
+isSender="false" 
+transactionId="z9hg4bkd5e542dc66c5d7ddc7cc944e4179599d" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd5e542dc66c5d7ddc7cc944e4179599d;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864434779"
+isSender="false" 
+transactionId="z9hg4bkd5e542dc66c5d7ddc7cc944e4179599d" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="SIP/2.0 180 Ringing" 
+>
+<![CDATA[SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd5e542dc66c5d7ddc7cc944e4179599d;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864437066"
+isSender="false" 
+transactionId="z9hg4bkd5e542dc66c5d7ddc7cc944e4179599d" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKd5e542dc66c5d7ddc7cc944e4179599d;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864437074"
+isSender="true" 
+transactionId="z9hg4bk02376476027208269f482ea47893210f" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="ACK sip:011447917024142@64.192.112.13 SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@64.192.112.13 SIP/2.0
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 2 ACK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK02376476027208269f482ea47893210f
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+Max-Forwards: 70
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864457781"
+isSender="false" 
+transactionId="z9hg4bk296049cd" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="BYE sip:a4369s4MNuhqieWb@192.168.1.11:10000 SIP/2.0" 
+>
+<![CDATA[BYE sip:a4369s4MNuhqieWb@192.168.1.11:10000 SIP/2.0
+Via: SIP/2.0/UDP 64.192.112.13:5060;branch=z9hG4bK296049cd
+From: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+To: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+Contact: <sip:011447917024142@64.192.112.13>
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 102 BYE
+User-Agent: Gafachi UAC v110.08
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864457902"
+isSender="true" 
+transactionId="z9hg4bk296049cd" 
+callId="055845d4a2e123135536f03a1ba7af63@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 64.192.112.13:5060;branch=z9hG4bK296049cd
+From: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss0031e6c270c3ba3160c0ae3210610d62
+To: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+Call-ID: 055845d4a2e123135536f03a1ba7af63@192.168.1.11
+CSeq: 102 BYE
+Content-Length: 0
+
+]]>
+</message>
+
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= null
+javax.sip.STACK_NAME= shootistAuth
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= sip.gafachi.com/udp
+-->
+<description
+ logDescription="shootistAuth"
+ name="shootistAuth"
+ auxInfo="null"/>
+ 
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864929268"
+isSender="true" 
+transactionId="z9hg4bkb60ed1c61ed2165e07d13c4a4e15187e" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 1 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKb60ed1c61ed2165e07d13c4a4e15187e
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864929433"
+isSender="false" 
+transactionId="z9hg4bkb60ed1c61ed2165e07d13c4a4e15187e" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="SIP/2.0 407 Proxy Authentication Required" 
+>
+<![CDATA[SIP/2.0 407 Proxy Authentication Required
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKb60ed1c61ed2165e07d13c4a4e15187e;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 1 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Proxy-Authenticate: Digest nonce="dc6e3d1e2f95e766",realm="sip.gafachi.com"
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864929442"
+isSender="true" 
+transactionId="z9hg4bkb60ed1c61ed2165e07d13c4a4e15187e" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="ACK sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+Max-Forwards: 70
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKb60ed1c61ed2165e07d13c4a4e15187e
+CSeq: 1 ACK
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864929454"
+isSender="true" 
+transactionId="z9hg4bk806ff32458187986c7bd46e7b7e9d512" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="INVITE sip:011447917024142@sip.gafachi.com SIP/2.0" 
+>
+<![CDATA[INVITE sip:011447917024142@sip.gafachi.com SIP/2.0
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 2 INVITE
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK806ff32458187986c7bd46e7b7e9d512
+Max-Forwards: 70
+Contact: "a4369s4MNuhqieWb" <sip:a4369s4MNuhqieWb@192.168.1.11:10000>
+Content-Type: application/sdp
+Call-Info: <http://www.antd.nist.gov>
+Proxy-Authorization: Digest response="95c71ac43521b1a6cc1328e60de8d19b",username="a4369s4MNuhqieWb",nonce="dc6e3d1e2f95e766",realm="sip.gafachi.com",uri="sip:011447917024142@sip.gafachi.com",algorithm=MD5
+Content-Length: 242
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864929616"
+isSender="false" 
+transactionId="z9hg4bk806ff32458187986c7bd46e7b7e9d512" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="SIP/2.0 100 Trying" 
+>
+<![CDATA[SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK806ff32458187986c7bd46e7b7e9d512;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864939824"
+isSender="false" 
+transactionId="z9hg4bk806ff32458187986c7bd46e7b7e9d512" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="SIP/2.0 180 Ringing" 
+>
+<![CDATA[SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK806ff32458187986c7bd46e7b7e9d512;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864943540"
+isSender="false" 
+transactionId="z9hg4bk806ff32458187986c7bd46e7b7e9d512" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bK806ff32458187986c7bd46e7b7e9d512;received=86.165.99.54
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 2 INVITE
+Server: Gafachi UAS v110.08
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE
+Contact: <sip:011447917024142@64.192.112.13>
+Content-Type: application/sdp
+Content-Length: 236
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864943544"
+isSender="true" 
+transactionId="z9hg4bkc1779fe41c21c16ef0e1244fd953da92" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="ACK sip:011447917024142@64.192.112.13 SIP/2.0" 
+>
+<![CDATA[ACK sip:011447917024142@64.192.112.13 SIP/2.0
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 2 ACK
+Via: SIP/2.0/UDP 192.168.1.11:10000;branch=z9hG4bKc1779fe41c21c16ef0e1244fd953da92
+From: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+To: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+Max-Forwards: 70
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="64.192.112.13:5060" 
+to="192.168.1.11:10000" 
+time="1201864950006"
+isSender="false" 
+transactionId="z9hg4bk71baad3e" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="BYE sip:a4369s4MNuhqieWb@192.168.1.11:10000 SIP/2.0" 
+>
+<![CDATA[BYE sip:a4369s4MNuhqieWb@192.168.1.11:10000 SIP/2.0
+Via: SIP/2.0/UDP 64.192.112.13:5060;branch=z9hG4bK71baad3e
+From: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+To: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+Contact: <sip:011447917024142@64.192.112.13>
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 102 BYE
+User-Agent: Gafachi UAC v110.08
+Content-Length: 0
+
+]]>
+</message>
+
+<message
+from="192.168.1.11:10000" 
+to="64.192.112.13:5060" 
+time="1201864950026"
+isSender="true" 
+transactionId="z9hg4bk71baad3e" 
+callId="eb6273b0d9145be9d165b79d64d093f5@192.168.1.11" 
+firstLine="SIP/2.0 200 OK" 
+>
+<![CDATA[SIP/2.0 200 OK
+Via: SIP/2.0/UDP 64.192.112.13:5060;branch=z9hG4bK71baad3e
+From: "Joe Darling" <sip:011447917024142@sip.gafachi.com>;tag=gss5f7a65294f3ab3b4233f774b19843e61
+To: "The Master Blaster" <sip:a4369s4MNuhqieWb@here.com>;tag=12345
+Call-ID: eb6273b0d9145be9d165b79d64d093f5@192.168.1.11
+CSeq: 102 BYE
+Content-Length: 0
+
+]]>
+</message>
+

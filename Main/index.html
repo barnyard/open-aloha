@@ -1,0 +1,251 @@
+<html>
+<title>Aloha: developers' quick guide</title>
+<body>
+<h1>Aloha</h1>
+<a name="contents"><h2>Contents</h2></a>
+<dl>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#programmingModel">Programming model</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#gettingStarted">Getting Started</a></li>
+<li><a href="#appCtx">Spring Application Context</a></li>
+<li><a href="#config">Configuration properties</a></li>
+<li><a href="#springStartupBeans">Spring Startup Beans</a></li>
+<li><a href="#databaseTips">Database Maintenance Tips &amp; Tricks</a></li>
+<li><a href="#scaling">Scaling to a multi-node architecture</a></li>
+<li><a href="docs/api/index.html">Javadoc API documentation</a></li>
+
+</dl>
+
+<a name="introduction"><h2>Introduction <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+<p>Aloha is a lightweight voice application server, created to allow java developers to create voice over IP (VoIP) applications without in-depth knowledge.</p>
+
+<p>It has been built by developers for developers. Providing a high-level Java API for call / call leg and interactive voice service control, it turns voice into a feature you can add to your application, whatever your domain.</p>
+
+<p>Unlike most other VoIP / SIP application servers, it has been designed to scale down, as well as up. Weighing in at only a few megabytes, it can go anywhere a Spring application context can.</p>
+
+<h3>Key Features</h3>
+
+<h4>Basic call features</h4>
+<ul>
+<li>Third-party call - The ability to programatically connect two phones without using a handset</li>
+<li>In-bound call handling</li>
+<li>Dynamic call leg handling - existing in-bound and out-bound call legs can be joined to form new calls</li>
+</ul>
+
+<h4>Interactive call features (in conjunction with Radisys Convedia media servers)</h4>
+<ul>
+<li>Announcement play-back</li>
+<li>Touch-tone / DTMF digit collection</li>
+<li>Multi-party conferencing</li>
+<li>Touch-tone / DTMF generation</li>
+<li>Message recording and play-back</li>
+</ul>
+
+<h4>Other features</h4>
+<ul>
+<li>Distributed application state management and synchronization based on an optimistic concurrency model</li>
+<li>Support for multiple media servers</li>
+<li>Easily switch between state management implementations (e.g. database, <a href="http://www.terracotta.org/">Terracotta (a clustered memory application server)</a> or in-memory) using Spring configuration</li>
+<li>'Mockphones' - 'soft' phones with predetermined SIP-level behaviour for testing purposes, for more on mock phones see <a href="#mockphones">here</a></li>
+<li>SIP dialog-level API for more powerful control over the SIP protocol</li>
+</ul>
+
+
+<a name="mockphones"><h2>Mock Phones <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Mock phones are defined by a pattern of behaviour defined in the application context of the Mock Phone project.
+
+<table border="1">
+<tr>
+<th>Property</th><th>Sample Value</th><th>Description</th>
+</tr>
+<tr>
+<td>rulePattern</td><td>^noanswer.*|^sleepy.*</td><td>A regular expression to define the pattern that this bean should adhere too.</td>
+</tr>
+<tr>
+<td>dialogSipBean</td><td>noAnswerMockphoneBean</td><td>A Mockphone bean as defined in mockphone-ctx.xml found in the src/SimpleSipStack/src/test/resources/ directory.</td>
+</tr>
+<tr>
+<td>dialogProperties</td><td>List of prop elements in props parent</td><td>Overriding list of prop elements with keys and values to use in the mock phone, e.g. max.call.duration and 60000</td>
+</tr>
+</table>
+
+<a name="programmingModel"><h2>Programming model <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Aloha is a <a href="http://www.springframework.org/">'Spring'</a> based application. There are three things which you will need to make use of Aloha:
+<dl>
+<dt><strong>Configure and load a Spring Application Context</strong></dt>
+<dd>
+The Spring Application Context must be loaded, and this can be achieved in a number of ways such as loading the XML based context file from disc or programmatically loading Spring Beans through the Spring API.
+</dd>
+<dt><strong>Make one or more API calls to the various Spring beans that are part of Aloha</strong></dt>
+<dd>This is simply a matter of obtaining the correct Spring bean and invoking API method calls.</dd>
+<dt><strong>Listen and respond to events that are fired from Aloha</strong></dt>
+<dd>To listen to event fired from the Aloha stack, you need register your code as a listener. Once again
+this can be done declaratively or programmatically.</dd>
+</dl>
+There are some samples provided in the Samples folder that are designed to be as simple as possible to demonstrate the above processes.
+
+
+
+
+<a name="installation"><h2>Installation <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Aloha is just a java API, so you will need to integrate it into your application. Installation is simply un-zipping the distribution into a suitable folder on your disk.
+
+
+
+<a name="dependencies"><h2>Dependencies <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+<ol>
+<li>JDK version 1.5</li>
+<li>Ant version 1.7</li>
+<li>Aloha is dependent on a few jar files and these can be found in the lib directory. These jars should all be placed on the Java classpath.</li>
+<li>If you want to use the persistent state model, you will need to include the JDBC driver of your choice.</li>
+</ol>
+
+
+<a name="gettingStarted"><h2>Getting Started <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+A simple way to quickly experience Aloha in action is run the sample program samples/src/main/java/com/bt/Aloha/samples/SimpleThirdPartyCall.java.  This sets up a call between two SIP phones by ringing one leg first and then joining the other leg.  To do this follow these steps:
+<ol>
+<li>You need to have two SIP user agents listening for calls.  These could be publicly available SIP clients (Counterpath  Xlite or SJPhone etc) or you could run the Mock phones mentioned above.</li>
+<li>Then edit samples/src/main/java/com/bt/Aloha/samples/SimpleThirdPartyCall.java to use the addresses of the two SIP phones that you set up in step 1.</li>
+<li>Next edit the /samples/src/main/resources/sip.properties file and change the simpleSipStack.ipAddress property to match the IP address of your machine.  This could be something like simpleSipStack.ipAddress=^1[0|9].* to match any IP address starting with 10.*.*.* or 19*.*.*.*</li>
+<li>From the samples directory, run "ant run.simple".</li>
+</ol>
+One of the phones should ring and when you answer it the other should be connected into the call.
+
+If you get this working then you might want to try out the other samples in the same directory.  
+
+
+<a name="appCtx"><h2>Spring Application Context <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+To use Aloha in your Spring application you need to load the following application context files in your application:<br/><br/>
+
+<table border="1">
+<tr>
+<th>XML elements</th><th>description</th><th>optional/mandatory</th>
+</tr>
+<tr>
+<td>core-ctx.xml</td><td>the core Aloha elements</td><td>Mandatory</td>
+</tr>
+<tr>
+<td>media-ctx.xml</td><td>the Aloha elements for Media Server interactions such as conferencing</td><td>Optional</td>
+</tr>
+<tr>
+<td>memory-collections-ctx.xml</td><td>needed for using in-Memory collections</td><td rowspan="2">One of either memory-collections or database-collections must be present</td>
+</tr>
+<tr>
+<td>database-collections-ctx.xml</td><td>needed for using Database persisted collections</td>
+</tr>
+<tr>
+<td>database-defaultdatasource-ctx.xml</td><td>This defines the datasource for using Database persisted collections</td><td>Only needed if you are not supplying your own datasource. If you are using your own datasource you should either create a bean with id "sss.datasource" or create an alias to an existing datasource bean with the name "sss.datasource", see how the database-defaultdatabaseource-ctx.xml implements this to create your own datasource</td>
+</tr>
+<tr>
+<td>mockphone-ctx.xml</td><td>only needed if you want to use the Aloha mockphones, read more on <a href="#mockphones">mock phones</a></td><td>optional</td>
+</tr>
+<tr>
+<td>core-jmx-ctx.xml</td><td>allows exposure of some Aloha beans via JMX. These beans can be used to manage a Aloha stack remotely using the Java JMX API or, more simply, the jconsole application provided with the JDK.</td><td>optional</td>
+</tr>
+<tr>
+<td>media-jmx-ctx.xml</td><td>allows exposure of some media-server related Aloha beans via JMX</td><td>optional</td>
+</tr>
+<tr>
+<td>config-ctx.xml</td><td>this file imports properties from 2 properties files, sip.properties and database.properties (both found in src/SimpleSipStack/src/test/resources/ directory)</td><td>If you don't import this, you must manually include the equivalent properties</td>
+</tr>
+</table>
+
+<a name="config"><h2>Configuration properties <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+The Spring application context files have several configuration properties that may be overidden using a PropertyOverrideConfigurer. By default, these properties are
+read (via config-ctx.xml) from 2 files on the classpath, sip.properties and database.properties. The properties most commonly overidden are detailed in the
+table below.<br/><br/>
+
+<table border="1">
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default value</th>
+</tr>
+<tr>
+<td>simpleSipStack.stackName</td>
+<td>A one word name for your stack instance, used mainly for logging</td>
+<td>sipStack</td>
+</tr>
+<tr>
+<td>simpleSipStack.ipAddress</td>
+<td>A regular expression defining what IP address you want the stack to run on. Useful if you have multiple NICs</td>
+<td>^127.*</td>
+</tr>
+<tr>
+<td>simpleSipStack.port</td>
+<td>The IP port you want the stack to run on</td>
+<td>5060</td>
+</tr>
+<tr>
+<td>simpleSipStack.nextHopRoutes</td>
+<td>A semi-colon delimited list of address=address values that the NextHopRouter will use for substitution.</td>
+<td> </td>
+</tr>
+<tr>
+<td>simpleSipStack.contactAddress</td>
+<td>A string to be used as a SIP contact address, used mainly for load balancing</td>
+<td> </td>
+</tr>
+<tr>
+<td>simpleSipStack.jainStackPropertiesTraceLevel</td>
+<td>Controls the amount of tracing from the underlying JainSIP stack. Can be set to 0, 16 or 32.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>simpleSipStack.jainStackPropertiesDebugLog</td>
+<td>the filename for debug tracing from the JainSIP stack. Only used if the jainStackPropertiesTraceLevel is not 0.</td>
+<td>debugLog.txt</td>
+</tr>
+<tr>
+<td>simpleSipStack.jainStackPropertiesServerLog</td>
+<td>the filename for server logging from the JainSIP stack. Only used if the jainStackPropertiesTraceLevel is not 0.</td>
+<td>serverLog.txt</td>
+</tr>
+<tr>
+<td>mediaServerAddressFactory.mediaServerAddresses</td>
+<td>a comma seperated list of media server addresses</td>
+<td>127.0.0.1:6068</td>
+</tr>
+<tr>
+<td>simpleSipStack.jainStackPropertiesThreadPoolSize</td>
+<td>The size of the JainSIP thread pool</td>
+<td>100</td>
+</tr>
+<tr>
+<td>taskExecutor.corePoolSize</td>
+<td>The size of the main thread pool</td>
+<td>100</td>
+</tr>
+<tr>
+<td>simpleSipStack.jainStackPropertiesMaxServerTransactions</td>
+<td>Maximum size of the JainSIP server transaction table. The low water mark is 80% of the high water mark. Requests are selectively dropped in the lowater mark to highwater mark range. Requests are unconditionally accepted if the table is smaller than the low water mark. The default highwater mark is 5000</td>
+<td>50000</td>
+</tr>
+</table>
+
+
+<a name="springStartupBeans"><h2>Spring Startup Beans <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Any Aloha implementation running with a single instance with a persistent data store (either a database or <a href="http://www.terracotta.org">Terracotta</a>) should be aware that there are some start up Spring Beans which may take some time to execute.  Until this process has finished, applications will not be able to place or receive calls.  The duration of this process depends on the amount of data in the persistent data store, but should typically take a maximum of a few seconds.
+These beans check for dialogs which should have been terminated, and dialogs which have already been terminated and processes those accordingly while the stack is down.  The start up beans used are:
+<ul>
+	<li>maxCallDurationTermination</li>
+	<li>maxConferenceDurationTermination</li>
+	<li>staleDialogChecker</li>
+</ul>
+
+<a name="databaseTips"><h2>Database Maintenance Tips &amp; Tricks <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Aloha has been tested for performance using PostgreSQL. It has been noticed that for experiments involving
+an high number of calls per second (that reflect on an high number of <code>insert</code>/<code>update</code>s in the database) it is essential to execute
+<code>VACUUM</code> for speed and optimal disc usage.
+Please refer to the following documentation for detailed usage of <code>VACUUM</code> and on how to configure PostgreSQL to run VACUUM automatically.
+<ul>
+	<li><a href="http://www.postgresql.org/docs/8.1/static/maintenance.html">maintenance</a></li>
+	<li><a href="http://www.postgresql.org/docs/8.1/static/maintenance.html#AUTOVACUUM">auto vacuum</a></li>
+</ul>
+
+<a name="scaling"><h2>Scaling to a multi-node architecture <a href="#contents"><small><small><small>top</small></small></small></a></h2></a>
+Aloha can run across multiple nodes to provide high availability, failover and load balancing.  We have provided <a href="loadbalancing.html">documentation on a reference implementation</a> to aid any development in this area.
+</body>
+</html>

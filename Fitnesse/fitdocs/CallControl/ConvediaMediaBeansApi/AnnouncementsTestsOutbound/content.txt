@@ -1,0 +1,6 @@
+!1 Web21c SDK Call Control
+!3 Acceptance Test Suite for the ConvediaMediaBeans API
+
+The following service-specific acceptance test suites are currently available:
+!3   * ^PlayAnnouncementTests
+!3   * ^IteratingAnnouncementsTests

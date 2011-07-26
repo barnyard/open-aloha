@@ -1,0 +1,151 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="SimpleSipStack" default="all">
+	<property file="properties/${user.name}.properties" />
+	<property file="properties/build.properties" />
+
+	<property name="src.main" value="src/main" />
+	<property name="src.test" value="src/test" />
+	<property name="build" value="build" />
+	<property name="dist" value="dist" />
+	<property name="etc" value="etc" />
+	<property name="lib" value="lib" />
+    <property name="unittest.base" value="${basedir}/../etc/ant/unittest"/>
+	<property name="reporting.base" value="${basedir}/../etc/ant/reporting"/>
+	<property name="build.logfile" value="${basedir}/simplesipstack-test.log"/>
+
+	<import file="${unittest.base}/build.xml" />
+	<import file="${reporting.base}/build.xml" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="all" depends="clean, compile, test, report, jar, dist" />
+
+	<target name="clean">
+		<delete dir="${build.report.reports}" />
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+		<delete file="${build.logfile}"/>
+	</target>
+
+	<!--target name="init">
+		<ivy:retrieve/>
+	</target-->
+
+	<target name="compile">
+		<mkdir dir="${build}/classes/main" />
+		<javac includes="**/*.java" debug="true" destdir="${build}/classes/main">
+			<src path="${src.main}/java" />
+			<classpath refid="project.classpath" />
+		</javac>
+		<mkdir dir="${build}/classes/test" />
+		<javac includes="**/*.java" debug="true" destdir="${build}/classes/test">
+			<src path="${src.test}/java" />
+			<classpath>
+				<path refid="project.classpath" />
+				<pathelement location="${build}/classes/main"/>
+			</classpath>
+		</javac>
+		<copy todir="${build}/classes/test">
+			<fileset dir="${src.test}/java" excludes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="filter.properties">
+		<mkdir dir="${build}/tmp" />
+		<echoproperties destfile="${build}/tmp/env.properties" />
+		<filter filtersfile="${build}/tmp/env.properties" />
+		<copy file="${src.test}/resources/sip.properties.template"
+			tofile="${src.test}/resources/sip.properties" overwrite="true" filtering="true" />
+		<copy file="${src.test}/resources/log4j.properties.template"
+			tofile="${src.test}/resources/log4j.properties" overwrite="true" filtering="true" />
+	</target>
+
+	<target name="test" depends="filter.properties">
+		<antcall target="unit.test"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<copy todir="${build}/classes/main">
+			<fileset dir="${src.test}/resources">
+				<include name="*-ctx.xml" />
+				<include name="*.sql" />
+			</fileset>
+		</copy>
+		<jar destfile="${build}/${ant.project.name}.dev.jar" basedir="${build}/classes/main">
+			<fileset dir="${build}/classes/test">
+				<include name="**/DbTestCase.class" />
+				<include name="**/JdbcHelper.class" />
+				<include name="**/AbstractSimpleSipStackTestCase.class" />
+				<include name="**/SipUnitPhone.class" />
+				<include name="**/sipp/*.class" />
+			</fileset>
+		</jar>
+
+		<!-- now make a pukka one for dist -->
+	    <delete dir="${build}/classes/main"/>
+	    <mkdir  dir="${build}/classes/main"/>
+		<javac includes="**/*.java" excludes="**/testing/*.java" debug="true" destdir="${build}/classes/main">
+			<src path="${src.main}/java" />
+			<classpath refid="project.classpath" />
+		</javac>
+		<copy todir="${build}/classes/main">
+			<fileset dir="${src.test}/resources">
+				<include name="*-ctx.xml" />
+				<include name="*applicationContextTest.xml" />
+				<exclude name="*conflicts*"/>
+				<exclude name="performance*.sql"/>
+				<exclude name="drop*.sql"/>
+				<include name="*.sql" />
+			</fileset>
+		</copy>
+		<jar destfile="${build}/${ant.project.name}.jar" basedir="${build}/classes/main"/>
+	</target>
+
+	<target name="dist" depends="jar">
+		<mkdir dir="${dist}" />
+		<copy todir="${dist}" file="${build}/${ant.project.name}.dev.jar" />
+		<copy todir="${dist}" file="${build}/${ant.project.name}.jar" />
+	</target>
+
+	<target name="dist.with.label">
+		<copy file="${build}/${ant.project.name}.jar" tofile="${dist}/${label}.jar"/>
+	</target>
+
+	<target name="report">
+        <antcall target="build.report"/>
+	</target>
+
+	<target name="log.enhancer" unless="skip.log.enhancer">
+		<java classname="com.bt.aloha.testing.SimpleSipStackLogEnhancer">
+			<arg value="${build.logfile}"/>
+			<arg value="${basedir}/build/simple_sip_stack_build_log.html"/>
+			<classpath>
+				<path refid="project.classpath"/>
+				<pathelement location="${build}/classes/main"/>
+			</classpath>
+		</java>
+    </target>
+</project>

@@ -1,0 +1,68 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="Conferencing" default="all">
+
+	<target name="all" depends="clean,compile,run"/>
+
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="lib" value="../../Fitnesse/lib/testapp" />
+
+	<path id="project.classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="../../Fitnesse/lib/testapp">
+			<include name="SimpleSipStack.jar" />
+			<include name="ConvediaMediaBeans.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete file="app.log" />
+		<delete dir="${build}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build}" />
+		<javac includes="**/*.java" debug="true" destdir="${build}">
+			<src path="${src}" />
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="run">
+		<java maxmemory="128m" classname="conferencing.Main" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<sysproperty key="com.sun.management.jmxremote.port" value="1299"/>
+			<sysproperty key="com.sun.management.jmxremote.authenticate" value="false"/>
+			<sysproperty key="com.sun.management.jmxremote.ssl" value="false"/>
+			<classpath>
+				<pathelement location="${build}" />
+				<pathelement location="${src}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+</project>

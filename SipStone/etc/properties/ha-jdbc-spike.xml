@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!-- ha-jdbc xmlns="http://ha-jdbc.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ha-jdbc.sourceforge.net
+D:\Java\ha-jdbc-2.0.8\ha-jdbc-2.0.xsd" -->
+<ha-jdbc>
+    <!--distributable config="jgroup-stacks.xml" stack="udp-sync" timeout="1000" -->
+
+    <sync id="full" class="net.sf.hajdbc.sync.FullSynchronizationStrategy">
+        <property name="fetchSize">1000</property>
+        <property name="maxBatchSize">100</property>
+    </sync>
+
+    <cluster balancer="round-robin"
+             default-sync="full"
+             dialect="PostgreSQL"
+             meta-data-cache="lazy"
+             transaction-mode="parallel"
+             auto-activate-schedule="0 * * * * ?"
+             failure-detect-schedule="30 * * * * ?"
+             detect-identity-columns="false"
+             min-threads="0"
+             max-threads="40"
+             max-idle="60"
+    >
+
+        <database id="database1" weight="1" local="true">
+            <driver>org.postgresql.Driver</driver>
+            <url>jdbc:postgresql://radon190.nat.bt.com:5432/springringha1</url>
+            <!-- In the default READ_UNCOMMITED mode, a transaction can write over rows inserted or updated by another uncommitted transaction. Setting this property to true will raise an exception when such a write is attempted (SET PROPERTY) -->
+            <property name="sql.tx_no_multi_rewrite">true</property>
+            <user>springringuser</user>
+            <password>springringuser</password>
+        </database>
+
+        <database id="database2" weight="1" local="false">
+            <driver>org.postgresql.Driver</driver>
+            <url>jdbc:postgresql://radon195.nat.bt.com:5432/springringha2</url>
+            <property name="sql.tx_no_multi_rewrite">true</property>
+            <user>springringuser</user>
+            <password>springringuser</password>
+        </database>
+
+    </cluster>
+
+</ha-jdbc>

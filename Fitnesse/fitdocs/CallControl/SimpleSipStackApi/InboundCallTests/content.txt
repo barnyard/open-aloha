@@ -1,0 +1,83 @@
+   * I would like to generate inbound call which will be declined.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-decline@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+
+   * I would like to generate inbound call which will be put on hold.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-hold@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+
+   * I would like to generate inbound call which will be handled by creating a new dialog with happy mockphone and joining the incoming dialog with the mockphone dialog.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-forward@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|enter|forwardToPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|check|waitForCallConnectedEvent|OK|
+
+   * I would like to connect the happy phone, then generate inbound call which will be handled by joining with existing happy mockphone
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-forward@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|enter|forwardToPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createForwardDialog|OK|
+|check|connectForwardDialog|OK|
+|check|waitForForwardConnectedEvent|OK|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|check|waitForCallConnectedEvent|OK|
+
+   * I would like to generate inbound call which will be handled by creating a new dialog with busy mockphone and joining the incoming dialog with the mockphone dialog.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-forward@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|enter|forwardToPhoneUri|sip:busy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForCallConnectionFailedEventWithSecondRemotePartyBusy|OK|
+
+
+   * I would like to generate inbound call with Video media which will be handled by creating a new dialog with happy mockphone and joining the incoming dialog with the mockphone dialog.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-forward@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|enter|forwardToPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialogWithVideo|OK|
+|check|waitForConnectedEvent|OK|
+|check|waitForCallConnectedEvent|OK|
+

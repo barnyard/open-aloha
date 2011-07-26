@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright (c) 2008, British Telecommunications plc
+ 	
+All rights reserved.
+ 	
+Redistribution, copy, create derivative works, distribute, issue, perform,
+assisting performance, broadcast, adapt, possess, display, make, sell, offer
+to sell and import in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+ 	
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer. * Redistributions in binary
+form must reproduce the above copyright notice, this list of conditions and
+the following disclaimer in the documentation and/or other materials provided
+with the distribution. * Neither the name of the British Telecommunications
+plc nor the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY OR SATISFACTORY QUALITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- the bean that runs the test -->
+	<bean id="testRunner" class="com.bt.aloha.batchtest.v2.TestRunner">
+	   <!-- a map of scenario bean names/weights run by the runner to  -->
+		<property name="scenarioBeanNameAndWeightMap">
+            <map>
+                <!--
+                <entry key="scenario1" value="1" />
+                <entry key="scenario2" value="2" />
+                 -->
+                <entry key="createCallTerminateCallScenario" value="4" />
+                <entry key="inboundCallScenario" value="1" />
+            </map>
+		</property>
+		<!-- handles the threads that run scenarios -->
+		<property name="taskExecutor" ref="taskExecutor" />
+		<!-- handles the publishing of the results of the test -->
+        <property name="resultLogger" ref="resultLogger" />
+        <!-- shared configuration of the runner -->
+        <property name="testRunnerConfig" ref="testRunnerConfig" />
+	</bean>
+
+    <!-- holds config pieces required by multiple beans -->
+    <bean id="testRunnerConfig" class="com.bt.aloha.batchtest.v2.TestRunnerConfig">
+        <property name="numberOfRuns" value="500" />
+    </bean>
+
+    <!-- this bean executes scenario runner beans using a thread pool of specified size
+        that is, the pool size says how many scenarios (on average) will be run in parallel
+     -->
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="4" />
+        <property name="maxPoolSize" value="4" />
+	</bean>
+
+    <!-- map holding results for each scenario - key is the scenario id -->
+    <bean id="scenarioRunResultHolder" class="java.util.HashMap"/>
+
+    <!-- listens to scenario to complete and collects results in the scenario run result holder -->
+    <bean id="scenarioRunResultListener" class="com.bt.aloha.batchtest.v2.ScenarioRunResultListenerImpl">
+        <property name="results" ref="scenarioRunResultHolder" />
+    </bean>
+
+    <!-- allows scenarios and stack manager to sync. it's required to implement graceful stack stop/start -->
+    <bean id="stackManagerSemaphore" class="com.bt.aloha.batchtest.v2.StackManagerSyncronizationSemaphoreImpl" />
+
+    <!-- use this stack manager to 1) make sure stacks are all up when test starts 2) verify % complete 3) start/stop stack-->
+    <bean id="basic3StateStackManager" class="com.bt.aloha.batchtest.v2.Basic3StateStackManager">
+        <!--  required to implement the logic: stop stack when 33% of scenarios have completed, start stack when 66% of scenarios have completed -->
+        <property name="testRunnerConfig" ref="testRunnerConfig" />
+        <!-- each entry on this list handles one stack -->
+        <property name="stackRunners">
+            <list>
+                <ref local="remoteTomcatStackRunner1"/>
+                <ref local="remoteTomcatStackRunner2"/>
+            <!--
+                <ref local="mockStackRunner1"/>
+                <ref local="mockStackRunner2"/>
+              -->
+            </list>
+        </property>
+        <!-- sync with scenarios to implement graceful stack start/stop -->
+        <property name="stackManagerSyncronizationSemaphore" ref="stackManagerSemaphore" />
+    </bean>
+
+    <!-- use this stack manager to 1) make sure stacks are all up when test starts 2) verufy % complete -->
+    <bean id="basicStackManager" class="com.bt.aloha.batchtest.v2.BasicStackManager">
+        <property name="testRunnerConfig" ref="testRunnerConfig" />
+        <property name="stackRunners">
+            <list>
+                <ref local="remoteTomcatStackRunner1"/>
+                <ref local="remoteTomcatStackRunner2"/>
+            <!--
+                <ref local="mockStackRunner1"/>
+                <ref local="mockStackRunner2"/>
+              -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- starts/stops a tomcat managed app containing a stack -->
+    <bean id="remoteTomcatStackRunner1" class="com.bt.aloha.batchtest.v2.RemoteTomcatStackRunner">
+       <!-- property name="stackAddress" value="132.146.185.193:9072"/-->
+       <property name="stackAddress" value="172.25.58.146:9072"/>
+       <property name="username" value="admin"/>
+       <property name="password" value="admin"/>
+    </bean>
+
+    <!-- starts/stops a tomcat managed app containing a stack -->
+    <bean id="remoteTomcatStackRunner2" class="com.bt.aloha.batchtest.v2.RemoteTomcatStackRunner">
+       <!-- property name="stackAddress" value="132.146.185.195:9072"/-->
+       <property name="stackAddress" value="172.25.58.147:9072"/>
+       <property name="username" value="admin"/>
+       <property name="password" value="admin"/>
+    </bean>
+
+	<!--
+	<bean id="mockStackRunner1" class="com.bt.aloha.batchtest.v2.mock.StackRunnerMock" />
+	<bean id="mockStackRunner2" class="com.bt.aloha.batchtest.v2.mock.StackRunnerMock" />
+	-->
+
+    <!-- the list of listeners for scenario run results -->
+    <bean id="allScenarioRunResultListeners" class="java.util.Vector">
+        <constructor-arg index="0">
+            <list>
+                <ref bean="scenarioRunResultListener" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- the list of listeners for scenario lifecycle events -->
+    <bean id="allScenarioLifecycleListeners" class="java.util.Vector">
+        <constructor-arg index="0">
+            <list>
+                <!-- ref bean="basicStackManager" / -->
+                <ref bean="basic3StateStackManager" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- takes care of calc aggregate values and log results -->
+	<bean id="resultLogger" class="com.bt.aloha.batchtest.v2.ResultLoggerWithStackAccessCounter">
+        <property name="scenarioResults" ref="scenarioRunResultHolder" />
+	</bean>
+
+    <!-- a prototype used to wrap the scenario. this is the runnable object run by the taskExecutor -->
+    <bean id="scenarioRunner" class="com.bt.aloha.batchtest.v2.ScenarioRunner" scope="prototype">
+        <property name="lifecycleListeners" ref="allScenarioLifecycleListeners"/>
+    </bean>
+
+    <!-- SCENARIOS -->
+    <bean id="scenario1" class="com.bt.aloha.batchtest.v2.mock.Scenario1">
+        <property name="scenarioRunResultListenerList" ref="allScenarioRunResultListeners"/>
+        <property name="stackManagerSyncronizationSemaphore" ref="stackManagerSemaphore" />
+    </bean>
+
+    <bean id="scenario2" class="com.bt.aloha.batchtest.v2.mock.Scenario2">
+        <property name="scenarioRunResultListenerList" ref="allScenarioRunResultListeners"/>
+        <property name="stackManagerSyncronizationSemaphore" ref="stackManagerSemaphore" />
+    </bean>
+
+    <bean id="createCallTerminateCallScenario" class="com.bt.aloha.batchtest.v2.scenarios.CreateCallTerminateCallScenario">
+        <property name="scenarioRunResultListenerList" ref="allScenarioRunResultListeners"/>
+        <!-- property name="testEndpoint" value="sip:happy@172.25.58.147:6099" /-->
+        <property name="testEndpoint" value="sip:happy@132.146.185.195:6099" />
+        <property name="httpEndpoint" value="172.25.58.154:9072" />
+        <property name="stackManagerSyncronizationSemaphore" ref="stackManagerSemaphore" />
+    </bean>
+
+    <bean id="mockphonesApplicationContext" class="org.springframework.context.support.ClassPathXmlApplicationContext">
+    	<constructor-arg index="0">
+    		<list>
+  				<value>core-ctx.xml</value>
+  				<value>memory-collections-ctx.xml</value>
+  				<value>mockphone-ctx.xml</value>
+  				<value>com/bt/aloha/batchtest/v2/mockphonesApplicationContext.xml</value>
+  			</list>
+  		</constructor-arg>
+    </bean>
+
+    <bean id="inboundCallApplicationContext" class="org.springframework.context.support.ClassPathXmlApplicationContext">
+    	<constructor-arg index="0">
+    		<list>
+  				<value>core-ctx.xml</value>
+  				<value>memory-collections-ctx.xml</value>
+  				<value>com/bt/aloha/batchtest/v2/scenarios/inboundCallScenarioApplicationContext.xml</value>
+  			</list>
+  		</constructor-arg>
+    </bean>
+
+    <bean id="inboundCallScenario" class="com.bt.aloha.batchtest.v2.scenarios.InboundCallScenario">
+        <property name="scenarioRunResultListener" ref="scenarioRunResultListener"/>
+        <property name="applicationContext" ref="inboundCallApplicationContext"/>
+        <!-- property name="testEndpoint" value="sip:inbound@132.146.185.190:7072" /-->
+        <property name="testEndpoint" value="sip:inbound@172.25.58.154:7072" />
+        <property name="stackManagerSyncronizationSemaphore" ref="stackManagerSemaphore" />
+    </bean>
+
+</beans>

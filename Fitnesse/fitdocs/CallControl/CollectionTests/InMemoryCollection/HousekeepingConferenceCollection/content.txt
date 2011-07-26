@@ -1,0 +1,84 @@
+	* HOUSEKEEPING OF EXPIRED AND DEAD CONFERENCE
+    * I would like to create a conference and then end this conference.
+	* Housekeeper should remove that object from collection when it expires.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|press|cleanConferenceCollection|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|conferenceMaxTTL|500|
+|check|createConference||
+|enter|waitSeconds|1|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+|enter|waitSeconds|1|
+|press|storeConferenceCollectionSize|
+|press|housekeepConferenceCollection|
+|check|conferenceCollectionSizeDelta|-1|
+|check|conferenceCollectionSize|0|
+
+	* HOUSEKEEPING OF NON-EXPIRED AND DEAD CONFERENCE
+    * I would like to create a conference and then terminate this conference.
+    * I want to check that when object has not expired then the housekeeper will not remove that object from collection.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|press|cleanConferenceCollection|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|conferenceMaxTTL|5000|
+|check|createConference||
+|enter|waitSeconds|1|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+|enter|waitSeconds|1|
+|press|storeConferenceCollectionSize|
+|press|housekeepConferenceCollection|
+|check|conferenceCollectionSizeDelta|0|
+|check|cleanConferenceCollection|OK|
+|check|conferenceCollectionSize|0|
+
+	* HOUSEKEEPING OF EXPIRED BUT NOT DEAD CONFERENCE
+    * I would like to create a conference. This conference will expire but will not be ended.
+	* Housekeeper should end that conference first and when runs next time then should remove that object from collection.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|press|cleanConferenceCollection|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|conferenceMaxTTL|500|
+|check|createConference||
+|enter|waitSeconds|1|
+|press|storeConferenceCollectionSize|
+|press|housekeepConferenceCollection|
+|check|waitForConferenceEndedEventWithHousekept|OK|
+|check|conferenceCollectionSizeDelta|0|
+|check|conferenceTerminationCause|!-Housekept-!|
+|press|housekeepConferenceCollection|
+|check|conferenceCollectionSizeDelta|-1|
+|check|conferenceCollectionSize|0|
+
+	* HOUSEKEEPING OF NON-EXPIRED AND NOT DEAD CONFERENCE
+    * I would like to create a conference. It is not expired conference which is still active.
+	* Housekeeper should not end that conference, neither should remove that object from collection.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|press|cleanConferenceCollection|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|conferenceMaxTTL|5000|
+|check|createConference||
+|enter|waitSeconds|1|
+|press|storeConferenceCollectionSize|
+|press|housekeepConferenceCollection|
+|check|conferenceCollectionSizeDelta|0|
+|check|cleanConferenceCollection|OK|
+|check|conferenceCollectionSize|0|
+|enter|conferenceMaxTTL|3600000|

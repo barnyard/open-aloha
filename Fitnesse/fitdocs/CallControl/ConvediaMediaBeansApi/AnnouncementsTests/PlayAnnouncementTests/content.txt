@@ -1,0 +1,139 @@
+   * HAPPY
+   * I would like to play announcement and get announcement completed event. Since barge is set to false by default, barging should have no effect at all.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForAnnouncementCompletedEvent|OK|
+|check|isAnnouncementBarged|false|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|2|
+
+   * HAPPY
+   * I would like to play announcement and get announcement completed event. But I would like to barge and the received event should reflect that.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|enter|barge|true|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncementBarge||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForAnnouncementCompletedEvent|OK|
+|check|isAnnouncementBarged|true|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|2|
+
+   * HAPPY
+   * I would like to play multiple announcements and get announcement completed events with matching command ids.
+   * (waiting for each announcement completed event before next play announcement)
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|check|waitForAnnouncementCompletedEvent|OK|
+|check|playAnnouncement||
+|check|waitForAnnouncementCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|1|
+
+   * UNHAPPY
+   * I would like to play multiple announcements at the same time and get announcement completed event for first announcement and announcement failed event for the second one.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|check|playAnnouncement||
+|check|waitForAnnouncementCompletedEvent|OK|
+|check|waitForAnnouncementFailedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|1|
+
+   * UNHAPPY
+   * I would like to try and play non-existing announcement and get announcement failed event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/nonExistingFile.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|check|waitForAnnouncementFailedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|1|
+
+   * UNHAPPY
+   * I would like to play announcement, cancel it and get announcement terminated event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|check|cancelLastMediaCommand|OK|
+|check|waitForAnnouncementTerminatedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|1|
+
+
+   * Play an announcement to an incoming call
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundMediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-announcement@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|check|waitForCallConnectedEvent|OK|
+|check|playAnnouncement||
+|check|waitForAnnouncementCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|check|countMediaCallLegs|1|

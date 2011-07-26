@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  	<bean id="coreJmxExporter" class="org.springframework.jmx.export.MBeanExporter">
+    	<property name="beans">
+      		<map>
+        		<entry key="SimpleSipStack:name=dialogCollection" value-ref="dialogCollection"/>
+        		<entry key="SimpleSipStack:name=callCollection" value-ref="callCollection"/>
+        		<entry key="SimpleSipStack:name=SpringThreadPool" value-ref="taskExecutor"/>
+        		<entry key="SimpleSipStack:name=SipStackMessageQueueCollection" value-ref="sipStackMessageQueueCollection"/>
+        		<entry key="SimpleSipStack:name=MaxCallDurationTermination" value-ref="maxCallDurationTermination"/>
+      		</map>
+    	</property>
+    	<property name="namingStrategy" ref="sssNamingStrategy" />
+  	</bean>
+
+  	<bean id="sssNamingStrategy" class="com.bt.aloha.spring.SSSObjectNamingStrategy">
+  		<constructor-arg index="0" ref="simpleSipStack" />
+  	</bean>
+
+</beans>

@@ -1,0 +1,8 @@
+simpleSipStack.stackName=SecondSimpleSipStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=@second.sip.stack.port@
+
+simpleSipStack.jainStackPropertiesTraceLevel=@sip.trace.level@
+simpleSipStack.jainStackPropertiesThreadPoolSize=40
+
+taskExecutor.corePoolSize=40

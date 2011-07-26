@@ -1,0 +1,251 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="Fitnesse" default="all">
+
+	<target name="all" depends="init,clean,copyDependencies,compile,package,fitnesse" />
+
+	<property name="fitnesse.path" value="CallControl" />
+	<property name="simple.sip.stack.fitnesse.path" value="${fitnesse.path}/SimpleSipStack" />
+	<property name="mockphones.fitnesse.path" value="${fitnesse.path}/MockPhones" />
+	<property name="APP_NAME" value="CallControl" />
+	<property name="svn.dir.pattern" value="**/.svn/**,**/_svn/**" />
+	<property file="properties/${user.name}.properties" />
+	<property file="properties/build.properties" />
+	<property name="build.logfile" value="${basedir}/app.log"/>
+
+	<filterset id="fitnesse">
+		<filter token="USER_NAME" value="${user.name}" />
+		<filter token="SIP_STACK_IP_ADDRESS_PATTERN" value="${sip.stack.ip.address.pattern}" />
+		<filter token="SIP_STACK_PORT" value="${sip.stack.port}" />
+		<filter token="SECOND_SIP_STACK_PORT" value="${second.sip.stack.port}" />
+		<filter token="INBOUND_SIP_STACK_PORT" value="${inbound.sip.stack.port}" />
+		<filter token="MEDIA_SIP_STACK_PORT" value="${media.sip.stack.port}" />
+		<filter token="MEDIA_SERVER_ADDRESS" value="${media.server.address}" />
+		<filter token="MEDIA_SERVER_PORT" value="${media.server.port}" />
+		<filter token="MOCKPHONES_IP_ADDRESS" value="${mockphones.ip.address}" />
+		<filter token="MOCKPHONES_PORT" value="${mockphones.port}" />
+		<filter token="WAIT_TIMEOUT_SECONDS" value="${wait.timeout.seconds}" />
+		<filter token="WAIT_TIMEOUT_FOR_MANUAL_TESTS_SECONDS" value="${wait.timeout.for.manual.tests.seconds}" />
+		<filter token="SIP_LOAD_BALANCER_PORT" value="${sip.load.balancer.port}" />
+		<filter token="SIP_TRACE_LEVEL" value="${sip.trace.level}" />
+	</filterset>
+
+	<target name="init">
+		<property name="src" value="src" />
+		<property name="build" value="build" />
+		<property name="dist" value="dist" />
+		<property name="etc" value="etc" />
+		<property name="lib" value="lib" />
+
+		<path id="sipunit6b.classpath">
+			<fileset dir="${lib}/sipunit6b">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<path id="testapp.classpath">
+			<fileset dir="${lib}/testapp">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<path id="project.classpath">
+			<fileset dir="${lib}">
+				<include name="*.jar" />
+			</fileset>
+			<path refid="sipunit6b.classpath" />
+			<path refid="testapp.classpath" />
+			<pathelement location="etc/spring"/>
+			<pathelement location="etc/properties"/>
+		</path>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${build}" />
+		<delete file="${build.logfile}"/>
+		<delete dir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}" />
+	</target>
+
+	<target name="copyDependencies" depends="init" >
+		<copy overwrite="true" failonerror="false"
+			tofile="${lib}/testapp/SimpleSipStack.jar"
+			file="${simple.sip.stack.project}/dist/SimpleSipStack.dev.jar" />
+		<copy overwrite="true" failonerror="false"
+			tofile="${lib}/testapp/ConvediaMediaBeans.jar"
+			file="${convedia.media.beans.project}/dist/ConvediaMediaBeans.dev.jar" />
+	</target>
+
+	<target name="compile" depends="copyDependencies">
+		<mkdir dir="${build}" />
+		<javac includes="**/*.java" debug="true" destdir="${build}">
+			<src path="${src}" />
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="package" depends="init,compile">
+		<jar destfile="${build}/${APP_NAME}_fitnesse.jar" basedir="${build}" includes="com/**/*" excludes="com/**/*Tests.class" />
+	</target>
+
+	<target name="fitnesse-run-and-format" depends="init,fitnesse-test,fitnesse-format">
+		<condition property="fitnesse.fail">
+			<not>
+				<equals arg1="0" arg2="${fitnesse.result}"/>
+			</not>
+		</condition>
+		<fail if="fitnesse.fail" message="FitNesse tests failed, see reports for details" />
+	</target>
+
+
+	<target name="fitnesse-deploy" depends="init,clean,copyDependencies,compile,package,fitnesse-copy" />
+
+	<target name="fitnesse" depends="init,fitnesse-copy,fitnesse-test,fitnesse-format">
+		<condition property="fitnesse.fail">
+			<not>
+				<equals arg1="0" arg2="${fitnesse.result}"/>
+			</not>
+		</condition>
+		<fail if="fitnesse.fail" message="FitNesse tests failed, see reports for details" />
+	</target>
+
+	<target name="filter.properties" depends="init">
+		<mkdir dir="${build}/tmp"/>
+		<echoproperties destfile="${build}/tmp/env.properties" />
+		<filter filtersfile="${build}/tmp/env.properties" />
+		<copy file="etc/properties/sip.properties.template"
+			tofile="etc/properties/sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/sipp.properties.template"
+			tofile="etc/properties/sipp.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/second.sip.properties.template"
+			tofile="etc/properties/second.sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/mockphones.sip.properties.template"
+			tofile="etc/properties/mockphones.sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/persistency.sip.properties.template"
+			tofile="etc/properties/persistency.sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/sip.load.balancer.properties.template"
+			tofile="etc/properties/sip.load.balancer.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/media.sip.properties.template"
+			tofile="etc/properties/media.sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/inbound.sip.properties.template"
+			tofile="etc/properties/inbound.sip.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/database.properties.template"
+			tofile="etc/properties/database.properties" overwrite="true" filtering="true" />
+		<copy file="etc/properties/log4j.properties.template"
+			tofile="etc/properties/log4j.properties" overwrite="true" filtering="true" />
+	</target>
+
+	<target name="fitnesse-copy-lib" depends="init, filter.properties" >
+		<mkdir dir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}/lib" />
+		<copy overwrite="true" todir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}/lib">
+			<fileset dir="build">
+				<include name="*_fitnesse.jar" />
+			</fileset>
+			<fileset dir="lib">
+				<include name="*.jar" />
+				<include name="sipunit6b/*.jar" />
+				<include name="testapp/*.jar" />
+			</fileset>
+		</copy>
+		<mkdir dir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}/etc" />
+
+		<copy overwrite="true" todir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}/etc">
+			<fileset dir="etc/properties">
+				<include name="*.properties" />
+			</fileset>
+			<fileset dir="etc/spring">
+				<include name="*ApplicationContext.xml" />
+				<include name="*ApplicationContextBeans.xml" />
+			</fileset>
+			<fileset dir="etc">
+				<include name="sipp/*.xml" />
+			</fileset>
+			<fileset dir="etc">
+				<include name="sipp/*.pcap" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="fitnesse-copy-fitdocs" depends="init, filter.properties">
+		<mkdir dir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}" />
+		<copy todir="${fitnesse.home}/FitNesseRoot/${fitnesse.path}" overwrite="true">
+			<filterset>
+				<filter token="FITNESSE_HOME" value="${fitnesse.home}/FitNesseRoot/${fitnesse.path}" />
+			</filterset>
+			<filterset refid="fitnesse"/>
+			<fileset dir="fitdocs/${fitnesse.path}" excludes="${svn.dir.pattern}" />
+		</copy>
+	</target>
+
+	<target name="fitnesse-copy" depends="init, filter.properties,fitnesse-copy-lib,fitnesse-copy-fitdocs" />
+
+	<target name="fitnesse-test" depends="init">
+		<mkdir dir="${build}/fitnesse" />
+		<java classname="fitnesse.runner.TestRunner" fork="true" resultproperty="fitnesse.result">
+			<arg value="${fitnesse.host}" />
+			<arg value="${fitnesse.port}" />
+			<arg value="${fitnesse.path}" />
+			<arg value="-nopath" />
+			<arg value="-v" />
+			<arg value="-debug" />
+			<arg value="-nopath" />
+			<arg value="-results" />
+			<arg value="${build}/fitnesse/results.raw" />
+			<classpath>
+				<pathelement location="${build}/${APP_NAME}_fitnesse.jar" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="fitnesse-format" depends="init">
+		<java classname="fitnesse.runner.FormattingOption" fork="true">
+			<arg value="${build}/fitnesse/results.raw" />
+			<arg value="xml" />
+			<arg value="${build}/fitnesse/results.xml" />
+			<arg value="${fitnesse.host}" />
+			<arg value="${fitnesse.port}" />
+			<arg value="${fitnesse.path}" />
+			<classpath>
+				<path refid="project.classpath" />
+			</classpath>
+		</java>
+		<java classname="fitnesse.runner.FormattingOption" fork="true">
+			<arg value="${build}/fitnesse/results.raw" />
+			<arg value="html" />
+			<arg value="${build}/fitnesse/results.html" />
+			<arg value="${fitnesse.host}" />
+			<arg value="${fitnesse.port}" />
+			<arg value="${fitnesse.path}" />
+			<classpath>
+				<path refid="project.classpath" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="log.enhancer" depends="init">
+		<java classname="com.bt.aloha.testing.SimpleSipStackLogEnhancer">
+			<arg value="${build.logfile}"/>
+			<arg value="${basedir}/build/fitnesse_build_log.html"/>
+			<classpath>
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+    </target>
+</project>

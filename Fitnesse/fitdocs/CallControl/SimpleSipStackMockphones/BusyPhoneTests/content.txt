@@ -1,0 +1,13 @@
+   * I would like to ring a mock busy phone and get a busy response
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallControlFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|mySipAddress|!-mock:whitephone@localhost-!|
+|enter|remoteSipAddress|sip:busy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|remoteSipProxy|${mockphonesIpAddress}:${mockphonesPort}/udp|
+|press|createMyPhone|
+|check|sendInvite|true|
+|enter|waitTimeout|1000|
+|check|waitResponseBusy|true|
+|check|tearDown|OK|

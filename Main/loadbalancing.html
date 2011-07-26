@@ -1,0 +1,211 @@
+<html>
+<head>
+<title>Load Balacing and High Availability with Ultra Monkey</title>
+</head>
+<body>
+<h1>Load Balacing and High Availability with Ultra Monkey</h1>
+Here we discuss our reference implementation of a Spring Ring based application using Ultra Monkey for load balacing two application nodes and high availability of two load balacers.  This article is heavily borrowed from the following sources:
+</p>
+<ul>
+<li><a href="http://www.ultramonkey.org/3/topologies/ha-lb-eg.html">http://www.ultramonkey.org/3/topologies/ha-lb-eg.html</a></li>
+<li><a href="http://linux-ha.org/GettingStarted">http://linux-ha.org/GettingStarted</a></li>
+<li><a href="http://linux-ha.org/ha.cf">http://linux-ha.org/ha.cf</a></li>
+<li><a href="http://linux-ha.org/haresources">http://linux-ha.org/haresources</a></li>
+<li><a href="http://linux-ha.org/authkeys">http://linux-ha.org/authkeys</a></li>
+</ul></p>
+For instructions on installing the pre-requisites: <a href="http://linux-ha.org/download">http://linux-ha.org/download</a>
+<a name="contents"><h2>Contents</h2></a>
+<dl>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#kernelinteraction">Kernel Interaction</a></li>
+<li><a href="#startingwithloadbalancing">Starting with Load Balacing</a></li>
+<li><a href="#ldirectord">Configuring Linux Director Daemon</a></li>
+<li><a href="#highavailability">High Availability</a></li>
+<li><a href="#havingaplay">Having a Play</a></li>
+<li><a href="#lookingback">Looking Back</a></li>
+</dl>
+
+<a name="introduction"><h2>Introduction<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+One of the wonders of working with a server product is answering the questions: How do we load balance? How can we make the server highly available?  How can we make the load balancers highly available?  After some investigation, we settled on a set of Linux utility wrappers collectively called 'Ultra Monkey'.  First thing is first, what is Ultra Monkey?
+</p>
+Ultra Monkey reduces the complexity of using these utilities to configuration through two packages: <a href="http://www.vergenet.net/linux/ldirectord/">LDirectorD (Linux Director Daemon)</a> and Heartbeat.  In essence, Ultra Monkey gives a software based way of achieving load balancing and high availability without needing to configure switches and routers, which pleases me no end.
+</p>
+Time for a little background; we are trying to get to a state where Spring Ring can be run with multiple nodes.  Spring Ring is essentially a high level API for SIP protocols, so when deployed will include the application built on top of the APIs.  The first problem to solve is to get the nodes load balanced, the first image shows the overview for how we set up our servers. 
+</p>
+Before we start, the application nodes need to have their default gateway stated as the load balancer IP or the virtual IP, depending on single load balance or high availability solution.  This may hinder some set ups, as essentially the nodes need to be on the same subnetwork mask as the default gateway.
+<a name="kernelinteraction"><h2>Kernel Interaction<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+To get some fundamentals working, some kernel options need to be set.  Edit the file <code>/etc/sysctl.conf</code> and add the following options to the file:
+</p>
+<code>
+# Enables packet forwarding</br>
+net.ipv4.ip_forward = 1</br>
+# Stops stickiness being an issue</br>
+net.ipv4.vs.expire_nodest_conn = 1</br>
+</code>
+</p>
+Running the following command will boot strap these options:
+</p>
+<code>/sbin/sysctl -p</code>
+</p>
+We'll also want to make sure this is run when booting up the OS, so edit <code>/etc/init.d/boot.local</code> and add the '<code>/sbin/sysctl -p</code>' command to the bottom of the file.  This will ensure this state is restored after a restart.
+</p>
+<a name="startingwithloadbalancing"><h2>Starting with Load Balancing<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+</p>
+The only change required on the application node is setting the default gateway to be that of the load balancer, we used YAST for this.  We also needed to change the contact header on our SIP messages to that of the load balancer as well, so our non-transactional SIP messages go through the load balancer instead of being 'sticky'.  This results in us now being in a position to send HTTP and SIP requests to the load balancer instead of the nodes themselves and for them to be able to respond.  As we're also using shared state we can now also take a node out of the cluster and still see the application as a whole still continue to run.
+</p>
+<a name="ldirectord"><h2>Configuring Linux Director Daemon<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+Both single node and multinode rely on ldirectord to do it's stuff.  ldirectord is essentially a wrap for Linux Virtual Services utilities and allows IP routing.  It can be run as a resource (we'll use this later through Heartbeat), or on the command line itself.  For a single node environment, we'll be using the command line.  Our configuration is set up as such.  Two application nodes, each with a HTTP and SIP service.  The HTTP service will do a HTTP GET on the given URI and do a regular expression to validate the status of the node.  HTTP is set up as TCP on round robin.  The SIP service is sent a SIP OPTIONS messge to validate the status, and is also set up as round robin although this time using UDP protocol.  This configuration file is located in <code>/etc/ha.d/ldirectord.cf</code>  
+<code><pre>
+# timeout for real server response. if expired the server is considered not available
+checktimeout=1
+# how often to check the real server for availability
+checkinterval=1
+# set to 'yes' will reload cf file after change
+autoreload=yes
+# where to log files (only if started in non deamon mode)
+logfile="/var/log/ldirectord.log"
+# set to yes to set the virtual server weight to 0 for non available servers
+# (as opposite to deleting them from the lvs virtual table) - see man
+# for side effect on client connection persistency
+quiescent=no
+# http virtual service
+virtual=10.0.0.150:9072
+        # first real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+        real=10.0.0.147:9072 masq 1
+        # second real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+        real=10.0.0.146:9072 masq 1
+        # type of service
+        service=http
+        # where to send http request for checking availability
+        request="/SpringRing/status"
+        # what to match on the response to verify the server to be available
+        receive="Sample SpringRing web application"
+        # type of scheduling - rr: round robin
+        scheduler=rr
+        # type of protocol for this service
+        protocol=tcp
+        # type of check: negotiate means send request and verify response (see man for others)
+        checktype=negotiate
+# udp/sip virtual service
+virtual=10.0.0.150:7072
+        # first real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+        real=10.0.0.147:7072 masq 1
+        # second real server ip address, port, forwarding mecahnism, weight. masq -> NAT
+        real=10.0.0.146:7072 masq 1
+        # type of service
+        service=sip
+        # type of shceduling
+        scheduler=rr
+        # type of protocol
+        protocol=udp
+        # type of check
+        checktype=negotiate
+        # client connection pesistency timeout
+        persistent=1
+</pre></code>
+Getting a single node to work now requires starting ldirectord by using the following command: </p>
+<code>/etc/init.d/ldirectord start</code></p>
+Now any requests sent to the load balancer will be forwarded, round robin, to the application nodes.  The status messages happen automatically and any removal of an application node will change the routing table which can be viewed by the following command:</p>
+<code><pre>ipvsadm -L -n
+
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+UDP  10.0.0.150:7072 rr persistent 1
+  -> 10.0.0.147:7072           Masq    1      0          0         
+  -> 10.0.0.146:7072           Masq    1      0          0         
+TCP  10.0.0.150:9072 rr
+  -> 10.0.0.147:9072           Masq    1      0          0         
+  -> 10.0.0.146:9072           Masq    1      0          0  
+</pre></code>
+<a href="img/um-lb.jpg" border="0"><img src="img/um-lb.jpg" alt="load balanced stacks" height="75%"/></a>
+</p>
+<a name="highavailability"><h2>High Availability<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+</p>
+Moving on to high availability for the load balancers themselves, this is where the heartbeat comes in.  We have to turn ldirectord off and turn heartbeat on, on both load balancers.  In the configuration, one of the load balancers will be set as the primary.  Each application node will need to set it's default gateway to the virtual IP address, as both load balancers will use this whilst being the master load balancer.
+</p>
+To check which node is currently running as master you can type the following command.
+</p>
+<code><pre># On the master linux-director
+/etc/ha.d/resource.d/LVSSyncDaemonSwap master status
+master running
+</p>
+# On the stand-by linux-director
+/etc/ha.d/resource.d/LVSSyncDaemonSwap master status
+master stopped
+</pre></code>
+</p>
+Our ha.cf file looks like this:
+</p>
+<code><pre>
+# What interfaces to broadcast heartbeats over?
+mcast eth0 225.0.0.1 694 1 0
+# auto_failback:  determines whether a resource will
+# automatically fail back to its "primary" node, or remain
+# on whatever node is serving it until that node fails, or
+# an administrator intervenes.
+auto_failback off
+# Tell what machines are in the cluster
+# node nodename ... -- must match uname -n
+node AppNode1
+node AppNode2
+</pre></code>
+</p>
+Our <code>/etc/ha.d/haresources</code> looks like this:
+</p>
+<code><pre>
+AppNode1 \
+ LVSSyncDaemonSwap::master \
+ ldirectord::ldirectord.cf \
+ IPaddr2::10.0.0.154/25/eth0
+</pre></code>
+</p>
+It is paramount that the <code>/etc/ha.d/haresouces</code> file is identical on each load balancer.  This identifies the master load balancer, but you can see in our <code>/etc/ha.d/ha.cf</code> file we have configured auto failback to false.  This ensures when the master load balancer goes down, it will not re-take the master status unless over ridden by an administrator.  You would most likely want this behaviour so any investigations could be carried out to the failure.   
+</p>
+We also use the <a href="http://www.ultramonkey.org/3/topologies/config/ha-lb/non-fwmark/linux-director/authkeys">example</a> <code>/etc/ha.d/authkeys</code> file from the Ultra Monkey site.  The authkeys file will also need to be protected, and this can be achieved through the following command:
+</p>
+<code>chmod 600 /etc/ha.d/authkeys</code>
+</p>
+We now also have to change the ldirectord config to point to the virtual IP address mentioned in the <code>ha.cf</code> configuration.  Change the virtual IP address line to reflect the change.
+
+<a href="img/um-ha.jpg"><img src="img/um-ha.jpg" height="75%"/></a>
+</p>
+<a name="havingaplay"><h2>Having a Play<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+</p>
+Now everything is set up.  Start heartbeat on each load balancer by using the following commands, making sure ldirectord has also stopped.
+</p>
+<code>
+/etc/init.d/ldirectord stop</br>
+/etc/init.d/heartbeat start</code>
+</p>
+After a few moments you can run the "who's the master?" command to see which load balancer is active.  
+</p>
+<code>/etc/ha.d/resource.d/LVSSyncDaemonSwap master status</code>
+</p>
+The load balancer will also have started ldirectord, which you can see if you use the following commands:
+</p>
+<code>ps -ef|grep ldirectord</code> 
+</p>
+The above to see the process running and the below to see what routes the load balancer is currently letting through.
+</p>
+<code>/sbin/ipvsadm -L -n</code>
+</p>
+This command will display what protocols and servers packets are being forwarded too.  In our example here you will see two TCP and two UDP connections, one each to each application node.
+</p>
+If you now 'take down' an application node, you will that the master load balancer will update it's packet forwarding table, again you can see this by using the following command.
+</p>
+<code>/sbin/ipvsadm -L -n</code>
+</p>
+Failover of high availability can also be simulated by stopping heartbeat on the master load balancer.
+</p>
+<code>/etc/init.d/heartbeat stop</code>
+</p>
+This will result in the secondary load balancer taking ownership of the virtual IP address. This can be monitored through the following command:
+</p>
+<code>ip addr sh</code>
+</p>
+<a name="lookingback"><h2>Looking back<a href="#contents"><small><small><small>top</small></small></small></a></h2>
+</p>
+What does this achieve exactly?  It's a fairly easy to configure, software based load balancing and high availability solution.  I won't hold back, it took a few of us more then a few hours to get this all right and if you try this, your environment will almost certainly be different.  Hopefully this will guide you in the right direction though.
+</body>
+</html>

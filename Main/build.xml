@@ -1,0 +1,198 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="Aloha" default="all">
+
+    <property file="properties/${user.name}.properties" />
+    <property file="properties/build.properties" />
+	<property name="root.dir" value="../" />
+
+	<target name="all" depends="sss, cmb, fitnesse"/>
+
+	<target name="sss">
+		<ant inheritAll="false" antfile="${root.dir}/SimpleSipStack/build.xml" target="dist"/>
+	</target>
+
+	<target name="cmb" depends="sss">
+		<ant inheritAll="false" antfile="${root.dir}/ConvediaMediaBeans/build.xml" target="copyDependencies"/>
+		<ant inheritAll="false" antfile="${root.dir}/ConvediaMediaBeans/build.xml" target="dist"/>
+	</target>
+
+	<target name="fitnesse" depends="cmb">
+		<ant inheritAll="false" antfile="${root.dir}/Fitnesse/build.xml" target="package"/>
+		<ant inheritAll="false" antfile="${root.dir}/Fitnesse/build.xml" target="copyDependencies"/>
+	</target>
+	
+	<target name="zipfile" depends="clean, init, copy, build.samples, javadoc, zip"/>
+	
+	<target name="clean">
+		<delete dir="zip"/>
+		<delete dir="dist"/>
+	</target>
+
+	<target name="init">
+		<mkdir dir="zip/Aloha"/>
+	</target>
+
+	<target name="copy">
+		<copy file="index.html" todir="zip/Aloha"/>
+		<copy file="loadbalancing.html" todir="zip/Aloha"/>
+        <mkdir dir="zip/Aloha/img"/>
+        <copy file="img/um-lb.jpg" todir="zip/Aloha/img"/>
+		<copy file="img/um-ha.jpg" todir="zip/Aloha/img"/>
+		
+		<mkdir dir="zip/Aloha/src/SimpleSipStack"/>
+		<copy todir="zip/Aloha/src/SimpleSipStack">
+			<fileset dir="${root.dir}/SimpleSipStack" includes="src/**, build.xml, properties/build.properties"/>
+		</copy>
+		
+		<mkdir dir="zip/Aloha/src/ConvediaMediaBeans"/>
+		<copy todir="zip/Aloha/src/ConvediaMediaBeans">
+			<fileset dir="${root.dir}/ConvediaMediaBeans" includes="src/**, build.xml, properties/build.properties"/>
+		</copy>
+		
+		<mkdir dir="zip/Aloha/src/Fitnesse"/>
+		<copy todir="zip/Aloha/src/Fitnesse">
+			<fileset dir="${root.dir}/Fitnesse" includes="src/**, build.xml, fitdocs/**, properties/build.properties, etc/**"/>
+		</copy>
+		
+		<mkdir dir="zip/Aloha/samples"/>
+		<copy todir="zip/Aloha/samples">
+			<fileset dir="${root.dir}/Samples" includes="src/**" excludes="**/ultramonkey/*, **/test/**"/>
+		</copy>
+		<copy file="${root.dir}/Samples/build.for.zip.xml" tofile="zip/Aloha/samples/build.xml"/>
+		
+		<mkdir dir="zip/Aloha/lib"/>
+		<copy todir="zip/Aloha/lib">
+			<fileset dir="${root.dir}/SimpleSipStack/dist" includes="SimpleSipStack-build*.jar"/>
+			<fileset dir="${root.dir}/ConvediaMediaBeans/dist" includes="ConvediaMediaBeans-build*.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/jain-sip-api-1.2.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/jain-sip-ri-1.2.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/commons-logging-1.1.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/concurrent-1.3.3.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/log4j-1.2.14.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/nist-sdp-1.0.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/pe-sdk-common.jar"/>
+			<fileset file="${root.dir}/SimpleSipStack/lib/spring-2.0.5.jar"/>
+			<fileset file="${root.dir}/Samples/lib/junit-4.3.1.jar"/>
+			<fileset file="${root.dir}/Samples/lib/servlet-api-2.5-6.1.6.jar"/>
+			<fileset file="${root.dir}/ConvediaMediaBeans/lib/jsr173_1.0_api.jar"/>
+			<fileset file="${root.dir}/ConvediaMediaBeans/lib/xbean-2.3.0.jar"/>
+		</copy>
+	</target>
+	
+	<target name="build.samples" description="make sure what we send out at least builds">
+		<ant antfile="build.xml" dir="zip/Aloha/samples"/>
+		<delete dir="zip/Aloha/samples/build"/>
+	</target>
+	
+	<target name="javadoc" >
+		<mkdir dir="zip/Aloha/docs/api"/>
+		<javadoc destdir="zip/Aloha/docs/api"	windowtitle="SpringRing API">
+			<fileset dir="${root.dir}/SimpleSipStack/src/main/java">
+				<include name="com/bt/aloha/call/CallBean.java"/>
+				<include name="com/bt/aloha/call/CallListener.java"/>
+				<include name="com/bt/aloha/call/CallInformation.java"/>
+				
+				<include name="com/bt/aloha/call/event/Call*Event.java"/>
+				
+				<include name="com/bt/aloha/call/state/CallLegCausingTermination.java"/>
+				<include name="com/bt/aloha/call/state/CallLegConnectionState.java"/>
+				<include name="com/bt/aloha/call/state/CallState.java"/>
+				<include name="com/bt/aloha/call/state/CallTerminationCause.java"/>
+				
+				<include name="com/bt/aloha/callleg/CallLegBean.java"/>
+				<include name="com/bt/aloha/callleg/CallLegInformation.java"/>
+				<include name="com/bt/aloha/callleg/CallLegListener.java"/>
+				<include name="com/bt/aloha/callleg/InboundCallLegListener.java"/>
+				<include name="com/bt/aloha/callleg/OutboundCallLegBean.java"/>
+				<include name="com/bt/aloha/callleg/OutboundCallLegListener.java"/>
+
+				<include name="com/bt/aloha/callleg/event/*CallLeg*Event.java"/>
+				<exclude name="com/bt/aloha/callleg/event/Abstract*Event.java"/>
+				
+				<include name="com/bt/aloha/media/DtmfCollectCommand.java"/>
+				<include name="com/bt/aloha/media/DtmfCollectCommandException.java"/>
+				<include name="com/bt/aloha/media/MediaCallBean.java"/>
+				<include name="com/bt/aloha/media/MediaCallLegBean.java"/>
+				<include name="com/bt/aloha/media/MediaCallLegListener.java"/>
+				<include name="com/bt/aloha/media/MediaCallListener.java"/>
+				<include name="com/bt/aloha/media/PromptAndRecordCommand.java"/>
+
+				<include name="com/bt/aloha/media/conference/event/Conference*Event.java"/>
+				<include name="com/bt/aloha/media/conference/event/Participant*Event.java"/>
+				<include name="com/bt/aloha/media/conference/state/ConferenceInformation.java"/>
+				<include name="com/bt/aloha/media/conference/state/ConferenceState.java"/>
+				<include name="com/bt/aloha/media/conference/state/ConferenceTerminationCause.java"/>
+				<include name="com/bt/aloha/media/conference/state/ParticipantState.java"/>
+
+				<include name="com/bt/aloha/media/event/call/Call*Event.java"/>
+				<include name="com/bt/aloha/media/event/callleg/Call*Event.java"/>
+				
+				<include name="com/bt/aloha/testing/mockphones/*.java"/>
+				<include name="com/bt/aloha/util/*.java"/>
+				<exclude name="com/bt/aloha/util/*Helper.java"/>
+			</fileset>
+			<fileset dir="${root.dir}/ConvediaMediaBeans/src/main/java">
+				<include name="com/bt/aloha/media/convedia/conference/ConferenceBean.java"/>
+				<include name="com/bt/aloha/media/convedia/conference/ConferenceListener.java"/>
+				<include name="com/bt/aloha/media/testing/mockphones/Convedia*.java"/>
+			</fileset>
+			<fileset dir="zip/Aloha/samples/src/main/java" excludes="**/*.html"/>
+			<classpath>
+				<fileset dir="${root.dir}/SimpleSipStack/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${root.dir}/ConvediaMediaBeans/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${root.dir}/Samples/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<pathelement location="${root.dir}/SimpleSipStack/src/main/java"/>
+				<pathelement location="${root.dir}/ConvediaMediaBeans/src/main/java"/>
+			</classpath>
+		</javadoc>
+	</target>
+	
+	<target name="stampLabel" unless="label" >
+	    <tstamp>
+            <format property="timestamp" pattern="yyyyMMddhhmmss"/>
+        </tstamp>
+        <property name="label" value="${ant.project.name}-${timestamp}" />
+	</target>
+	
+	<target name="zip" depends="stampLabel">
+		<mkdir dir="dist"/>
+		<zip destfile="dist/${label}.zip" basedir="zip"/>
+	</target>
+	
+	<target name="commit.artifacts">
+		<record name="commit.artifacts.buildlog" loglevel="verbose" />
+		<copy file="dist/${label}.zip" todir="../distribution"/>
+        <exec executable="${svn.cmd}">
+            <arg line="add ../distribution/${label}.zip" />
+        </exec>
+        <exec executable="${svn.cmd}">
+            <arg line="commit --username ${svn.username} --password ${svn.password} -m 'latest zip file' ../distribution" />
+        </exec>
+	</target>
+
+</project>

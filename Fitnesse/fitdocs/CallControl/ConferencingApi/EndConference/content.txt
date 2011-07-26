@@ -1,0 +1,49 @@
+!3 Acceptance Test Suite for the Conferencing API - EndConference
+
+   * HAPPY
+   * Create a 2 party conference and end it after a short wait.
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|activeParticipant|2|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|enter|waitSeconds|2|
+|press|endConference|
+|enter|activeParticipant|1|
+|check|waitForParticipantTerminatedEvent|OK|
+|enter|activeParticipant|2|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+|check|conferenceTerminationCause|EndedByApplication|
+|check|conferenceState|Ended|
+
+   * UNHAPPY
+   * End already ended conference
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|check|conferenceState|Initial|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+|check|conferenceState|Ended|
+|check|conferenceTerminationCause|EndedByApplication|
+|check|endConference||
+

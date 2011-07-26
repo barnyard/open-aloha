@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="prompt-and-collect">
+  <recv request="INVITE" crlf="true">
+  	<action>
+  		<ereg regexp="record" search_in="msg" check_it="false" assign_to="2"/>
+  	</action>
+  </recv>
+  
+  <send>
+    <![CDATA[
+SIP/2.0 100 Trying
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+Content-Length: 0
+    ]]>
+  </send>
+
+  <send>
+    <![CDATA[
+SIP/2.0 180 Ringing
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+Content-Length: 0
+    ]]>
+  </send>
+
+  <send>
+    <![CDATA[
+SIP/2.0 200 OK
+[last_Via:]
+[last_From:]
+[last_To:];tag=[call_number]
+[last_Call-ID:]
+[last_CSeq:]
+Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+Allow: INVITE,ACK,CANCEL,OPTIONS,BYE,REFER,NOTIFY,MESSAGE,SUBSCRIBE,INFO
+Content-Type: application/sdp
+Content-Length: [len]
+
+v=0
+o=user1 53655765 2353687637 IN IP[local_ip_type] [local_ip]
+s=-
+c=IN IP[media_ip_type] [media_ip]
+t=0 0
+m=audio [auto_media_port] RTP/AVP 8 101
+a=rtpmap:8 PCMA/8000
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-11,16
+]]>
+  </send>
+
+
+  <recv request="ACK"
+        optional="false"
+        rtd="true"
+        crlf="true">
+  </recv>
+
+  <pause milliseconds="1000">
+  </pause>
+
+  <nop next="11" test="2" />	
+
+  <nop next="22">
+    <action>
+  		<log message="variable 1 = [$1], playing 2833_1"/>
+      <exec play_pcap_audio="dtmf_2833_1.pcap"/>
+    </action>
+  </nop>
+
+  <label id="11"/>
+  <nop>
+    <action>
+  		<log message="variable 2 = [$2], playing g711a"/>
+      <exec play_pcap_audio="dtmf_2833_1.pcap"/>
+      <exec play_pcap_audio="g711a.pcap"/>
+    </action>
+  </nop>
+  
+  <label id="22"/>
+
+  <recv request="BYE">
+  </recv>
+
+  <send>
+    <![CDATA[
+
+      SIP/2.0 200 OK
+      [last_Via:]
+      [last_From:]
+      [last_To:]
+      [last_Call-ID:]
+      [last_CSeq:]
+      Max-Forwards: 70
+      Contact: <sip:[local_ip]:[local_port];transport=[transport]>
+      Content-Length: 0
+
+    ]]>
+  </send>
+
+</scenario>
+

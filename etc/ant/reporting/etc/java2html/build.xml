@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+	 This is the java2html target for running within the Common Build Library
+	 
+	 It converts the source into html for viewing within the web site
+-->
+
+
+<project name="java2html">
+
+	<property name="java2html.home" value="${build.report.etc}/java2html"/>
+
+	<path id="java2html.classpath">
+		<fileset dir="${java2html.home}/lib" includes="*.jar"/>
+	</path>
+
+	<taskdef 
+		name="java2html"
+		classname="de.java2html.anttasks.Java2HtmlTask"
+		classpathref="java2html.classpath"/>
+
+	<target name="prepare.java2html">
+		<property name="java2html.out" value="${build.report.reports}/java2html"/>
+		<property name="java2html.etc" value="${build.report.etc}/java2html"/>
+
+		<mkdir dir="${java2html.out}"/>
+		<java2html 
+			srcdir="${build.report.src}" 
+			destdir="${java2html.out}"
+			includes="**/*.java" 
+			outputFormat="html" 
+			tabs="2"
+			style="kawa" 
+			showLineNumbers="true" 
+			showFileName="true"
+			useShortFileName="true" 
+			showTableBorder="false"
+			addLineAnchors="true" 
+			overwrite="true"
+			includeDocumentHeader="true" 
+			includeDocumentFooter="true"/>
+		
+		<!-- Run it again for the unittest source -->
+		<java2html 
+					srcdir="${unittest.src.test}" 
+					destdir="${java2html.out}"
+					includes="**/*.java" 
+					outputFormat="html" 
+					tabs="2"
+					style="kawa" 
+					showLineNumbers="true" 
+					showFileName="true"
+					useShortFileName="true" 
+					showTableBorder="false"
+					addLineAnchors="true" 
+					overwrite="true"
+					includeDocumentHeader="true" 
+					includeDocumentFooter="true"/>
+	</target>
+</project>
+
+

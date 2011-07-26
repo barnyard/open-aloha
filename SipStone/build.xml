@@ -1,0 +1,179 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<?xml version="1.0"?>
+
+<project name="SipStone" default="memory">
+	<record name="${basedir}/build.log" loglevel="verbose" />
+	<property file="properties/${user.name}.properties" />
+	<property file="properties/build.properties" />
+
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="dist" value="dist" />
+	<property name="etc" value="etc" />
+	<property name="lib" value="lib" />
+	<property name="fitnesse.lib.testapp" value="../Fitnesse/lib/testapp" />
+	<property name="terracotta.dso.boot.jar" value="/opt/terracotta/lib/dso-boot/dso-boot-hotspot_linux_150_13.jar"/>
+	<property name="terracotta.home" value="/opt/terracotta"/>
+	<property name="terracotta.data.dir" value="/home/terracotta"/>
+	<property name="runner.class" value="com.bt.aloha.sipstone.Runner" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="memory" depends="clean,copyDependenciesSCP,compile,run.memory" />
+    <target name="database" depends="clean,copyDependenciesSCP,compile,run.database" />
+    <target name="database.ha" depends="clean,copyDependenciesSCP,compile,run.database.ha" />
+	<target name="terracotta" depends="clean,copyDependenciesSCP,compile,run.terracotta" />
+	<target name="memory.dev" depends="clean,copyDependencies,compile,run.memory" />
+	<target name="database.dev" depends="clean,copyDependencies,compile,run.database" />
+	<target name="terracotta.dev" depends="clean,copyDependencies,compile,run.terracotta" />
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete>
+			<fileset dir="${basedir}" includes="app.log, sip-messages.log.*"/>
+		</delete>
+	</target>
+
+	<target name="copyDependencies">
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/SimpleSipStack.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/commons-logging-1.1.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/commons-pool-1.3.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/concurrent-1.3.3.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/hsqldb.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/jain-sip-api-1.2.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/jain-sip-ri-1.2.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/jmf.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/jsr173_1.0_api.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/log4j-1.2.14.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/nist-sdp-1.0.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/pe-sdk-common.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/spring-2.0.5.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/spring-aspects-2.0.5.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/spring-mock-2.0.5.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="${fitnesse.lib.testapp}/xbean-2.3.0.jar" />
+		<copy overwrite="true" failonerror="false" toDir="${lib}" file="../Mockphones/build/Mockphones.jar" />
+	</target>
+
+	<target name="copyDependenciesSCP">
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/SimpleSipStack.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/commons-logging-1.1.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/commons-pool-1.3.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/concurrent-1.3.3.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/hsqldb.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/jain-sip-api-1.2.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/jain-sip-ri-1.2.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/jmf.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/jsr173_1.0_api.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/log4j-1.2.14.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/nist-sdp-1.0.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/pe-sdk-common.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/spring-2.0.5.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/spring-aspects-2.0.5.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/spring-mock-2.0.5.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/xbean-2.3.0.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Mockphones/build/Mockphones.jar" todir="lib"/>
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${build}" />
+		<javac includes="**/*.java" debug="true" destdir="${build}">
+			<src path="${src}" />
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="run.memory" depends="compile">
+		<java fork="yes"  classname="${runner.class}" failonerror="true">
+			<classpath>
+				<pathelement location="${etc}/properties"/>
+				<pathelement location="${build}"/>
+				<path refid="project.classpath" />
+			</classpath>
+            <jvmarg value="-server"  />
+            <jvmarg value="-Xms256M" />
+            <jvmarg value="-Xmx1g"   />
+            <jvmarg value="-XX:+UseParNewGC"        />
+            <jvmarg value="-XX:+UseBiasedLocking"   />
+            <jvmarg value="-XX:ParallelGCThreads=2" />
+            <jvmarg value="-XX:+UseConcMarkSweepGC" />
+            <jvmarg value="-XX:+CMSIncrementalMode" />
+		</java>
+	</target>
+
+	<target name="run.database" depends="compile">
+		<java fork="yes" classname="${runner.class}" failonerror="true">
+			<classpath>
+				<pathelement location="${etc}/properties"/>
+				<pathelement location="${build}"/>
+				<path refid="project.classpath" />
+			</classpath>
+            <jvmarg value="-server"  />
+			<jvmarg value="-Xms256M" />
+			<jvmarg value="-Xmx1g"   />
+			<jvmarg value="-XX:+UseParNewGC"        />
+			<jvmarg value="-XX:+UseBiasedLocking"   />
+			<jvmarg value="-XX:ParallelGCThreads=2" />
+			<jvmarg value="-XX:+UseConcMarkSweepGC" />
+			<jvmarg value="-XX:+CMSIncrementalMode" />
+			<arg value="database"/>
+		</java>
+	</target>
+
+	<target name="run.database.ha" depends="compile">
+		<java fork="yes" classname="${runner.class}" failonerror="true">
+			<classpath>
+				<pathelement location="${etc}/properties"/>
+				<pathelement location="${build}"/>
+				<path refid="project.classpath" />
+			</classpath>
+            <jvmarg value="-server"  />
+			<jvmarg value="-Xms256M" />
+			<jvmarg value="-Xmx1g"   />
+			<jvmarg value="-XX:+UseParNewGC"        />
+			<jvmarg value="-XX:+UseBiasedLocking"   />
+			<jvmarg value="-XX:ParallelGCThreads=2" />
+			<jvmarg value="-XX:+UseConcMarkSweepGC" />
+			<jvmarg value="-XX:+CMSIncrementalMode" />
+			<arg value="ha-database"/>
+		</java>
+	</target>
+
+	<target name="run.terracotta" depends="compile">
+		<java fork="yes"  maxmemory="512m" classname="${runner.class}" failonerror="true">
+			<classpath>
+				<pathelement location="${etc}/properties"/>
+				<pathelement location="${build}"/>
+				<path refid="project.classpath" />
+			</classpath>
+			<jvmarg value="-Xbootclasspath/p:${terracotta.dso.boot.jar}" />
+			<jvmarg value="-Dtc.install-root=${terracotta.home}" />
+			<jvmarg value="-Dtc.config=etc/terracotta/tc-config.xml" />
+			<jvmarg value="-server" />
+		</java>
+	</target>
+
+
+</project>

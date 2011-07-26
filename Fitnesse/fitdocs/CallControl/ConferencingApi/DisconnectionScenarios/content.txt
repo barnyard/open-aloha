@@ -1,0 +1,36 @@
+!3 Acceptance Test Suite for the Conferencing API - Participant disconnection scenarios
+
+   * Create a 3 party conference and users will disconnect after a short wait.
+   * Expect to get all the appropriate events
+
+!|Action Fixture.|
+|start|com.bt.aloha.fitnesse.ConferenceFixture|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.3000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:hangup.4000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:hangup.5000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|activeParticipant|2|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|enter|activeParticipant|3|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|enter|waitSeconds|2|
+|enter|activeParticipant|1|
+|check|waitForParticipantDisconnectedEvent|OK|
+|enter|activeParticipant|2|
+|check|waitForParticipantDisconnectedEvent|OK|
+|enter|activeParticipant|3|
+|check|waitForParticipantDisconnectedEvent|OK|
+|check|waitForConferenceEndedEventWithLastParticipantDisconnected|OK|
+|check|conferenceTerminationCause|LastParticipantDisconnected|
+

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/aop
+              http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+  <import resource="classpath:core-ctx.xml" />
+  <import resource="classpath:media-ctx.xml" />
+  <import resource="classpath:database-collections-ctx.xml" />
+  <import resource="classpath:database-defaultdatasource-ctx.xml" />
+  <import resource="classpath:mockphone-ctx.xml" />
+  <!-- import resource="classpath:core-jmx-ctx.xml" />
+  <import resource="classpath:media-jmx-ctx.xml" / -->
+  <import resource="classpath:beanBatchTestApplicationContext.xml" />
+  <import resource="classpath:propertyListenerApplicationContext.default.xml" />
+
+  <!-- test beans -->
+  <bean id="createCallTerminateCallScenario"
+    class="com.bt.aloha.batchtest.scenarios.CreateCallTerminateCallScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+  </bean>
+  
+  <bean id="infoScenario"
+    class="com.bt.aloha.batchtest.scenarios.InfoScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+  </bean>
+  
+  <bean id="byeScenario" class="com.bt.aloha.batchtest.scenarios.ByeScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="testEndpoint2" value="sip:endpoint" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+  </bean>
+
+  <bean id="maxCallDurationScenario" class="com.bt.aloha.batchtest.scenarios.MaxCallDurationScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+  </bean>
+
+  <bean id="callAnswerTimeoutScenario" class="com.bt.aloha.batchtest.scenarios.CallAnswerTimeoutScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="callAnswerTimeoutEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+  </bean>
+
+  <bean id="badAddressScenario" class="com.bt.aloha.batchtest.scenarios.BadAddressScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+  </bean>
+
+  <bean id="twoCallsSharingCallLegScenario" class="com.bt.aloha.batchtest.scenarios.TwoCallsSharingCallLegScenario">
+    <property name="testEndpoint" value="$sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+    <property name="callCollection" ref="callCollection" />
+  </bean>
+
+  <bean id="announcementCallScenario" class="com.bt.aloha.batchtest.scenarios.AnnouncementCallScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="mediaCallBean" ref="mediaCallBean" />
+  </bean>
+
+  <bean id="promptAndCollectScenario" class="com.bt.aloha.batchtest.scenarios.PromptAndCollectScenario">
+    <property name="promptEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="mediaCallBean" ref="mediaCallBean" />
+  </bean>
+
+  <bean id="promptAndRecordScenario" class="com.bt.aloha.batchtest.scenarios.PromptAndRecordScenario">
+    <property name="promptEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="mediaCallBean" ref="mediaCallBean" />
+    <property name="basePath" value="basePath" />
+  </bean>
+
+  <bean id="basicCallAndMediaCallSharedDialogScenario" class="com.bt.aloha.batchtest.scenarios.BasicCallAndMediaCallSharedDialogScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+    <property name="callCollection" ref="callCollection" />
+    <property name="mediaCallBean" ref="mediaCallBean" />
+  </bean>
+
+  <bean id="firstCallLegFailureScenario" class="com.bt.aloha.batchtest.scenarios.FirstCallLegFailureScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="rejectTestEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+  </bean>
+
+  <bean id="secondCallLegFailureScenario" class="com.bt.aloha.batchtest.scenarios.SecondCallLegFailureScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="rejectTestEndpoint" value="sip:endpoint" />
+    <property name="fromAddress" value="sip:batch@test" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+  </bean>
+
+  <bean id="basicConferenceScenario" class="com.bt.aloha.batchtest.scenarios.BasicConferenceScenario">
+    <property name="testEndpoint" value="sip:endpoint" />
+  </bean>
+
+  <bean id="conferenceScenarioTerminateParticipants" class="com.bt.aloha.batchtest.scenarios.ConferenceScenarioTerminateParticipants">
+    <property name="testEndpoint" value="sip:endpoint" />
+    <property name="conferenceBean" ref="conferenceBean" />
+  </bean>
+
+  <bean id="inboundCallScenario" class="com.bt.aloha.batchtest.scenarios.InboundCallScenario">
+	<property name="testEndpoint" value="sip:endpoint" />
+	<property name="incomingUri" value="sip:mysocks@change-me-with-ip-port-of-the-loadbalacer"/>
+  </bean>
+
+  <!-- inbound dialog handling rules -->
+  <bean id="incomingDialogRule" class="com.bt.aloha.dialog.IncomingDialogRouterRule">
+    <property name="rulePattern" value=".*fred.*" />
+    <property name="dialogSipBean" ref="inboundCallLegBean" />
+  </bean>
+
+  <bean id="dialogRouter" class="com.bt.aloha.dialog.DialogRouter">
+    <constructor-arg index="0">
+      <list>
+        <ref local="incomingDialogRule" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <!-- dialog beans -->
+  <bean id="inboundCallLegBean" class="com.bt.aloha.callleg.InboundCallLegBeanImpl" />
+
+  <bean id="outboundCallLegBean" class="com.bt.aloha.callleg.OutboundCallLegBeanImpl" />
+
+  <bean id="callBean" class="com.bt.aloha.call.CallBeanImpl">
+    <property name="inboundCallLegBean" ref="inboundCallLegBean" />
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callListeners">
+      <list>
+        <ref local="createCallTerminateCallScenario" />
+        <ref local="promptAndCollectScenario" />
+        <ref local="promptAndRecordScenario" />
+        <ref local="maxCallDurationScenario" />
+        <ref local="callAnswerTimeoutScenario" />
+        <ref local="badAddressScenario" />
+        <ref local="twoCallsSharingCallLegScenario" />
+        <ref local="announcementCallScenario" />
+        <ref local="basicCallAndMediaCallSharedDialogScenario" />
+        <ref local="firstCallLegFailureScenario" />
+        <ref local="secondCallLegFailureScenario" />
+        <ref local="byeScenario" />
+        <ref local="infoScenario" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="mediaCallLegBean"
+    class="com.bt.aloha.media.convedia.MediaCallLegBeanImpl">
+  </bean>
+
+  <bean id="mediaCallBean"
+    class="com.bt.aloha.media.convedia.MediaCallBeanImpl">
+    <property name="callBean" ref="callBean" />
+    <property name="mediaCallLegBean" ref="mediaCallLegBean" />
+    <property name="mediaCallListeners">
+      <list>
+        <ref local="announcementCallScenario" />
+        <ref local="basicCallAndMediaCallSharedDialogScenario" />
+        <ref local="promptAndCollectScenario" />
+        <ref local="promptAndRecordScenario" />
+        <ref local="infoScenario" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="conferenceBean"
+    class="com.bt.aloha.media.convedia.conference.ConferenceBeanImpl">
+    <property name="outboundCallLegBean" ref="outboundCallLegBean" />
+    <property name="callBean" ref="callBean" />
+    <property name="conferenceListeners">
+      <list>
+        <ref local="basicConferenceScenario" />
+        <ref local="conferenceScenarioTerminateParticipants" />
+      </list>
+    </property>
+  </bean>
+</beans>
+

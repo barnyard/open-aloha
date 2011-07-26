@@ -1,0 +1,112 @@
+   * HAPPY
+   * I would like to play iterated announcement with interval and get announcement completed event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|2|
+|enter|interval|500|
+|check|playAnnouncementIterations||
+|check|waitForAnnouncementCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * HAPPY
+   * I would like to play iterated announcement with interval set to 0 and get announcement completed event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|2|
+|enter|interval|0|
+|check|playAnnouncementIterations||
+|check|waitForAnnouncementCompletedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * HAPPY
+   * I would like to play infinite loop of an announcements (-1 as number of iterations), and cancel it to stop playback.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|-1|
+|check|playAnnouncementIterations||
+|enter|waitSeconds|2|
+|check|cancelLastMediaCommand|OK|
+|check|waitForAnnouncementTerminatedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to play iterated announcement with 0 as number of iterations which is illegal and get proper exception.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|0|
+|enter|interval|500|
+|check|playAnnouncementIterations|!-IllegalArgumentException-!|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to play iterated announcement with negative number (but not -1) as number of iterations which is illegal and get proper exception.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|-100|
+|enter|interval|500|
+|check|playAnnouncementIterations|!-IllegalArgumentException-!|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to play iterated announcement with negative interval which is illegal.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|20|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|iterations|2|
+|enter|interval|-100|
+|check|playAnnouncementIterations|!-IllegalArgumentException-!|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+

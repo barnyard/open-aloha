@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="default">
+
+	
+	<!-- The location of where the output from the previous compliation and unit tests will go-->
+	<property name="build.report.build" value="${basedir}/build"/>
+	
+	<property name="build.report.junit.data.dir" value="${build.report.build}/junit"/>
+	<property name="build.report.reports" value="${basedir}/reports"/>
+	<property name="build.report.exclude" value=""/>
+	<property name="build.report.src" value="src/main/java"/>
+	<property name="build.report.classes" value="${build.report.build}/classes/main"/>
+	<property name="build.report.lib" value="lib"/>
+
+	<!--This is used to also run checkstyle against the unit tests -->
+	<property name="unittest.src.test" value="src/test/java"/>
+	
+	
+	<!-- These are the standards that a project must meet -->
+	<property name="tests.errors.max" value="0" />
+	<property name="tests.failures.max" value="0" />
+	<property name="bugs.high.max" value="0" />
+	<property name="bugs.low.max" value="0" />
+	<property name="bugs.medium.max" value="0" />
+	<property name="conventions.errors.max" value="0" />
+	<property name="coverage.classes.min" value="100" />
+	<property name="coverage.lines.min" value="85" />
+	<property name="coverage.methods.min" value="90" />
+	<property name="cycles.cycles.max" value="0" />
+	<property name="duplication.lines.max" value="12" />
+
+	<property name="build.report.etc" value="${basedir}/../etc/ant/reporting/etc"/>
+	<property name="build.report.stats" value="${build.report.build}/stats"/>
+	<property name="build.report.tmp" value="${build.report.build}/tmp"/>
+     
+	<!-- These are the build files that the report relies upon-->
+	<import file="${build.report.etc}/junit/build.xml" />
+	<import file="${build.report.etc}/emma/build.xml" />
+	<import file="${build.report.etc}/jdepend/build.xml" />
+	<import file="${build.report.etc}/findbugs/build.xml" />
+	<import file="${build.report.etc}/same/build.xml" />
+	<import file="${build.report.etc}/checkstyle/build.xml" />
+	<import file="${build.report.etc}/java2html/build.xml" />
+	<import file="${build.report.etc}/report/build.xml" />
+
+
+	
+	<path id="run.classpath">
+		<pathelement location="${build.report.classes}"/>
+		<fileset dir="${build.report.lib}" includes="**/*.jar"/>
+	</path>	
+
+	<!-- This is the main target that is called from the project to run report-->
+	<target name="build.report">
+		<delete dir="${build.report.stats}" />
+		<mkdir dir="${build.report.stats}" />
+		<delete dir="${build.report.tmp}" />
+		<mkdir dir="${build.report.tmp}" />
+		<delete dir="${build.report.reports}" />
+		<mkdir dir="${build.report.reports}" />
+		<copy todir="${build.report.reports}">
+			<fileset dir="${build.report.etc}" includes="style/*"/>
+		</copy>
+		<antcall target="prepare.junit"/>
+		<antcall target="prepare.emma"/>
+		<antcall target="prepare.jdepend"/>
+		<antcall target="prepare.findbugs"/>
+		<antcall target="prepare.same"/>
+		<antcall target="prepare.checkstyle"/>
+		<antcall target="prepare.java2html"/>
+		<antcall target="prepare.report"/>
+		
+		<xmlproperty file="${build.report.stats}/stats-properties.xml"
+			semanticAttributes="true"
+			keeproot="false"/>
+			
+		<antcall target="check.junit"/>
+		<antcall target="check.emma"/>
+		<antcall target="check.jdepend"/>
+		<antcall target="check.findbugs"/>
+		<antcall target="check.same"/>
+		<antcall target="check.checkstyle"/>
+	</target>
+
+	
+</project>

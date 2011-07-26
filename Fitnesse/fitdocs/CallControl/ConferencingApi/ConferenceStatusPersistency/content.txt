@@ -1,0 +1,88 @@
+This suite is meant to emulate the resiliency of the stack to JVM crashes. 
+NOTE: in progress transactions are not taken into account and those wont survive the JVM crash
+
+	* This test shows that an outbound call can be initiated in a stack running in a JVM and terminated in a stack running in a new JVM
+
+The JVM restart is emulated by destroying and reinitializing the stack application context. This happens at the beginning of the terminateCall
+
+|Timed Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceCallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|createConference||
+|enter|setActiveParticipant|1|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|check|destroyAndStartApplicationContext|OK|
+|enter|setWaitTimeoutSeconds|20|
+|press|endConference|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+
+* This test shows that an outbound call can be initiated in a stack running in a JVM and terminated in a stack running in a new JVM at the scheduled time
+
+|Timed Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceCallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:hangup.120000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|createConferenceWithOneMinuteDuration||
+|enter|setActiveParticipant|1|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|check|destroyAndStartApplicationContext|OK|
+|enter|setWaitTimeoutSeconds|62|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithMaxDurationExceeded|OK|
+
+* This test connects one participant and brings down the JVM, while down the participant disconnects and when we come back up the stack pings should discover that the participant is no longer in the call and throw a participantDisconnected event this should ultimately throw a ConferenceEndedEvent
+
+|Timed Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceCallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:hangup.5000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|createConference||
+|enter|setActiveParticipant|1|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|setJvmDownTime|10000|
+|check|destroyAndStartApplicationContext|OK|
+|enter|setWaitTimeoutSeconds|20|
+|check|waitForParticipantDisconnectedEvent|OK|
+|check|waitForConferenceEndedEventWithLastParticipantDisconnected|OK|
+
+* This test shows that after a JVM restart, the number of participants is correct if some participant has disconnected during downtime
+
+|Timed Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceCallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:hangup.9000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setSecondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|createConference||
+|enter|setActiveParticipant|1|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|enter|setActiveParticipant|2|
+|check|inviteParticipant||
+|check|waitForParticipantConnectedEvent|OK|
+|enter|setJvmDownTime|5000|
+|check|destroyAndStartApplicationContext|OK|
+|enter|setWaitTimeoutSeconds|20|
+|enter|setActiveParticipant|1|
+|check|waitForParticipantDisconnectedEvent|OK|
+|check|numberOfActiveParticipants|1|
+|press|endConference|
+|check|waitForParticipantTerminatedEvent|OK|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+

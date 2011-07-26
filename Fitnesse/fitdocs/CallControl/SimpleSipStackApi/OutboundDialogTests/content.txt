@@ -1,0 +1,218 @@
+	* ALERTING - CONNECTED - TERMINATED
+	* I would like to create and connect a dialog, then be able to terminate it
+		* I would like to be notified of events representing each of the above three steps
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForAlertingEvent|OK|
+|check|firstDialogStatus|Early|
+|check|waitForConnectedEvent|OK|
+|check|firstDialogStatus|Confirmed|
+|enter|waitSeconds|1|
+|press|terminateFirstDialog|
+|check|waitForTerminatedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|TerminatedByServer|
+
+	* DIAL TIMEOUT
+	* I would like to create a dialog with dial timeout, such that the dialog is hung up automatically if there is no answer within the specified period
+		* Upon timeout, I would like a Connection Failed event raised and status set to Terminated
+		* NOTE: currently there is an issue with mockphones' processing of CANCEL, hence we do not assert on final state being Terminated
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|firstDialogCallAnswerTimeout|2000|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|enter|waitSeconds|1|
+|check|firstDialogStatus|Early|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|CallAnswerTimeout|
+
+	* ALERTING - CONNECTED - DISCONNECTED
+	* I would like to create and connect a dialog, then be notified if the other party disconnects
+		* A Disconnected event should be raised
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:hangup.1000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForAlertingEvent|OK|
+|check|firstDialogStatus|Early|
+|check|waitForConnectedEvent|OK|
+|check|firstDialogStatus|Confirmed|
+|enter|waitSeconds|2|
+|check|waitForDisconnectedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|RemotePartyHungUp|
+
+	* CALL SETUP FAILURE
+	* I would like to dial a dialog, and be notified if an error response is received before call setup
+		* A ConnectionFailed event should be raised
+		
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:busy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|RemotePartyBusy|
+
+	* CONNECTED - CALL_LEG_CONNECTED
+	* I would like to create, connect and reinvite a dialog, then be able to terminate it
+		* I would like to be notified of events representing the re-invite of the dialog
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|enter|waitSeconds|1|
+|check|waitForConnectedEvent|OK|
+|check|reinviteFirstDialog|OK|
+|check|waitForCallLegConnectedEvent|OK|
+|press|terminateFirstDialog|
+
+	* CALL SETUP FAILURE - ServiceUnavailable TerminationCause
+	* I would like to dial a dialog, and be notified if an error response is received before call setup
+		* A ConnectionFailed event should be raised
+		
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:broken@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|ServiceUnavailable|
+
+	* CALL SETUP FAILURE - RemotePartyUnknown TerminationCause
+	* I would like to dial a dialog, and be notified if an error response is received before call setup
+		* A ConnectionFailed event should be raised
+		
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:loser@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|RemotePartyUnknown|
+
+	* CALL SETUP FAILURE - RemotePartyUnavailable TerminationCause
+	* I would like to dial a dialog, and be notified if an error response is received before call setup
+		* A ConnectionFailed event should be raised
+		
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|firstDialogCallAnswerTimeout|8000|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|RemotePartyUnavailable|
+
+	* CALL SETUP FAILURE - SipSessionError TerminationCause
+	* I would like to dial a dialog, and be notified if an error response is received before call setup
+		* A ConnectionFailed event should be raised
+		
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:error@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|SipSessionError|
+
+	* INVITE - AUTHENTICATE - CONNECTED - TERMINATED
+	* I would like to create and connect a dialog where the far end requires authentication, then be able to terminate it
+		* I would like to be notified of events representing each of the above steps
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:authenticating@${mockphonesIpAddress}:${mockphonesPort};username=Fred;password=Wilma|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForAlertingEvent|OK|
+|check|firstDialogStatus|Early|
+|check|waitForConnectedEvent|OK|
+|check|firstDialogStatus|Confirmed|
+|enter|waitSeconds|1|
+|press|terminateFirstDialog|
+|check|waitForTerminatedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|TerminatedByServer|
+
+
+	* INVITE - AUTHENTICATE - FAIL
+	* I would like to attempt to connect a dialog where the far end requires authentication and we send bad credentials.  I would like the call to be denied.
+		* I would like to be notified of events representing each of the above steps
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:authenticating@${mockphonesIpAddress}:${mockphonesPort};username=Fred;password=BadWilma|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|enter|waitSeconds|1|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|Forbidden|
+
+	* INVITE - AUTHENTICATE - FAIL
+	* I would like to attempt to connect a dialog where the far end requires authentication and we don't send any credentials.  I would like the call to be denied.
+		* I would like to be notified of events representing each of the above steps
+
+!|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.OutboundDialogFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:authenticating@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|enter|waitSeconds|1|
+|check|waitForConnectionFailedEvent|OK|
+|check|firstDialogStatus|Terminated|
+|check|firstDialogTerminationCause|Forbidden|

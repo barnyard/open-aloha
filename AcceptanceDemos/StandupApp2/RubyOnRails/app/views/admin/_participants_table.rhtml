@@ -1,0 +1,52 @@
+  <table>
+    <tr>
+	 <th>Selected Participants</th>
+	 <th>Available Participants</th>
+    </tr>
+    <tr>
+	  <td>
+	    <div id="selected_participants">
+		
+<ul id="selected_participants_list">
+  <% session[:selected_participants].each do |item| %>
+    <% domid = "selected_participant_#{item.id}" %>
+    <li class="selected_participant" id='<%= domid %>'><%= item.name %></li>
+    <%= draggable_element(domid, :ghosting=>true, :revert=>true) %>
+  <% end %>
+</ul>
+
+	    </div>
+	  </td>
+	  <td>
+	    <div id="unselected_participants">
+
+<ul id="unselected_participants_list">
+  <% session[:unselected_participants].each do |item| %>
+    <% domid = "unselected_participant_#{item.id}" %>
+    <li class="unselected_participant" id='<%= domid %>'><%= item.name %></li>
+    <%= draggable_element(domid, :ghosting=>true, :revert=>true) %>
+  <% end %>
+</ul>
+
+	    </div>
+	  </td>
+	</tr>
+  </table>
+    <%= drop_receiving_element('unselected_participants',
+		:accept => 'selected_participant',
+	#	:complete => "Element.show('participants_table');",
+	#	:before => "Element.hide('participants_table');",
+		:hoverclass => 'hover',
+		:with => "'partid=' + encodeURIComponent(element.id.split('_').last())",
+		:update => 'participants_table'	,
+		:url => {:action=>:participant_unselected, :id => @conference} )%>
+  
+  <%= drop_receiving_element('selected_participants', 
+		:accept => 'unselected_participant',
+	#	:complete => "Element.show('participants_table');",
+	#	:before => "Element.hide('participants_table');",
+		:hoverclass => 'hover',
+		:with => "'partid=' + encodeURIComponent(element.id.split('_').last())",
+		:update => 'participants_table',
+		:url => {:action=>:participant_selected, :id => @conference } )%>
+

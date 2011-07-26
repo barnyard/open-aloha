@@ -1,0 +1,51 @@
+<project name="build-bootstrapper" default="default">
+    <property file="../props/build.properties" />
+
+    <target name="default" depends="checkProjectNameSet, recordAll, clean, checkout, build, stamp, tag"/>
+
+    <target name="checkProjectNameSet">
+        <fail unless="projectname" />
+    </target>
+
+    <target name="clean">
+        <delete dir="../../${projectname}"/>
+    </target>
+
+    <target name="checkout">
+        <exec executable="${svn.cmd}">
+            <arg line="update ../../etc" />
+        </exec>
+        <exec executable="${svn.cmd}">
+            <arg line="co ${svn.repository}/trunk/${projectname} ../../${projectname}" />
+        </exec>
+    </target>
+
+    <target name="recordAll">
+        <record name="../cruisecontrol/logs/${projectname}.all.buildlog" loglevel="verbose" />
+    </target>
+
+    <target name="build">
+        <ant dir="../../${projectname}" antfile="build.xml" inheritRefs="true"/>
+    </target>
+
+	<target name="stampLabel" unless="label" >
+	    <tstamp>
+            <format property="timestamp" pattern="yyyyMMddhhmmss"/>
+        </tstamp>
+        <property name="label" value="${projectname}-${timestamp}" />
+	</target>
+	
+	<target name="stampCCTimestamp" unless="cctimestamp" >
+	    <tstamp>
+            <format property="cctimestamp" pattern="yyyyMMddhhmmss"/>
+        </tstamp>
+	</target>
+	
+    <target name="stamp" depends="stampLabel,stampCCTimestamp" />
+
+    <target name="tag">
+		<exec executable="${svn.cmd}">
+			<arg line='--username ${svn.username} --password ${svn.password} -m "Successful build...tagging" copy ${svn.repository}/trunk/${projectname} ${svn.repository}/tags/${label}' />
+		</exec>
+    </target>
+</project>

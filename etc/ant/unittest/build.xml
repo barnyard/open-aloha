@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="unittest">
+	<!-- Set up all the inputs required for junit -->
+	<property name="unittest.etc" value="${unittest.base}/etc"/>
+	<property name="unittest.build" value="${basedir}/build"/>
+	<property name="unittest.tmp" value="${unittest.build}/tmp"/>
+	<property name="unittest.classes" value="${unittest.build}/classes/main"/>
+	<property name="unittest.classes.test" value="${unittest.build}/classes/test"/>
+	<property name="unittest.junit.data.dir" value="${unittest.build}/junit"/>
+
+	<property name="junit.logging.properties" value="${unittest.etc}/junit/logging.properties"/>
+
+	<property name="unittest.test.include" value="**/Test*.java,**/*Test.java"/>
+	<property name="unittest.test.exclude" value="**/Abstract*.java"/>
+	<property name="unittest.reports.exclude" value=""/>
+	<property name="unittest.src.test" value="src/test/java"/>
+	<property name="unittest.src.test.resources" value="src/test/resources"/>
+	<property name="unittest.lib" value="lib"/>
+	<property name="unittest.haltonfailure" value="false"/>
+	<property name="unittest.haltonerror" value="false"/>
+	<property name="unittest.jvmargs" value="-Ddummyname=dummyvalue"/>
+	<property name="unittest.maxmemory" value="256m"/>
+	<property name="unittest.junit.forkmode" value="perTest"/>
+
+	<!-- This sets up the classpath for emma -->
+	<path id="emma.classpath">
+		<pathelement location="${unittest.etc}/emma/lib/emma.jar" />
+		<pathelement location="${unittest.etc}/emma/lib/emma_ant.jar" />
+	</path>
+
+	<!-- This is the main target called from a projects main build file, it runs junit and also emma which checks the level of code coverage for your
+	     unit tests.
+	-->
+	<target name="unit.test">
+		<delete dir="${unittest.junit.data.dir}"/>
+		<antcall target="emma.instrument"/>
+		<antcall target="junit.exec"/>
+	</target>
+
+	<!--This is required for emma to run, it sets up the emma task -->
+	<taskdef resource="emma_ant.properties" classpathref="emma.classpath" />
+
+	<!--Executes the emma task, for more information see http://emma.sourceforge.net/ -->
+	<target name="emma.instrument">
+	    <echo message="excluding ${unittest.reports.exclude} from instrumentation"/>
+		<delete file="${unittest.junit.data.dir}/metadata.emma" />
+		<delete dir="${unittest.tmp}/emma-include"/>
+		<mkdir dir="${unittest.tmp}/emma-include"/>
+		<copy todir="${unittest.tmp}/emma-include">
+			<fileset dir="${unittest.classes}" excludes="${unittest.reports.exclude}"/>
+		</copy>
+
+		<delete dir="${unittest.tmp}/instrumented-classes"/>
+		<mkdir dir="${unittest.tmp}/instrumented-classes"/>
+		<emma>
+			<instr instrpath="${unittest.tmp}/emma-include" 
+				metadatafile="${unittest.junit.data.dir}/metadata.emma" 
+				merge="false" 
+				mode="copy" 
+				destdir="${unittest.tmp}/instrumented-classes"/>
+		</emma>
+	</target>
+
+	<!-- default empty path that can be overridden by calling script to allow it to 
+	include jars that are not in the "lib" directory -->
+	<path id="external.classpath"/>
+
+	<!-- Get all the libraries that you need to run your unit tests -->
+	<path id="unit.run.classpath">
+		<fileset dir="${unittest.lib}" includes="**/*.jar"/>
+		<path refid="external.classpath"/>
+	</path>	
+
+	<!-- Setup the junit classpath -->
+	<path id="junit.exec.classpath">
+		<pathelement location="${unittest.tmp}/instrumented-classes"/>
+		<pathelement location="${unittest.classes}"/>
+		<pathelement location="${unittest.classes.test}"/>
+		<pathelement location="${unittest.src.test.resources}"/>
+		<path refid="emma.classpath"/>
+		<path refid="unit.run.classpath"/>
+	</path>
+	
+	<!-- Runs the Junit target, it also output the results to an xml file which is later used in the reporting  -->
+	<target name="junit.exec">
+		<delete file="${unittest.junit.data.dir}/coverage.emma"/>
+		<junit reloading="true" forkmode="${unittest.junit.forkmode}"
+            dir="${basedir}"      
+			printsummary="on"
+			haltonfailure="${unittest.haltonfailure}"
+			haltonerror="${unittest.haltonerror}"
+			maxmemory="${unittest.maxmemory}"
+			showoutput="yes">
+			<jvmarg value="-Djava.util.logging.config.file=${junit.logging.properties}"/>
+			<jvmarg value="-Demma.coverage.out.file=${unittest.junit.data.dir}/coverage.emma"/>
+			<jvmarg value="-Demma.coverage.out.merge=true"/>
+			<jvmarg value="${unittest.jvmargs}"/>
+			<syspropertyset>
+				<propertyref builtin="all"/>
+			</syspropertyset>
+			<classpath>
+				<path refid="junit.exec.classpath"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="${unittest.junit.data.dir}">
+				<fileset dir="${unittest.src.test}" includes="${unittest.test.include}" excludes="${unittest.test.exclude}"/>
+			</batchtest>
+		</junit>
+	</target>
+</project>

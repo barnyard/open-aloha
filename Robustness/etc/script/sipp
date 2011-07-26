@@ -1,0 +1,88 @@
+#! /bin/sh
+# sipp home dir
+SIPPHOME=/opt/sipp
+
+# the following defines what userid will be used to start process with
+CCUSER=ccuser
+
+# scenario to run
+SCENARIO=/opt/cruisecontrol/projects/pe-sdk-rd/Robustness/etc/sipp/uac.xml
+
+# port
+SIPP_PORT=6073
+LOCAL_IP=132.146.185.193
+LOCAL_PORT=6789
+LOCAL_ADDRESS=$LOCAL_IP:$SIPP_PORT
+
+# what cmd to run to start sipp 
+SIPPBIN=$SIPPHOME/sipp 
+SIPPCMD="$SIPPBIN -rsa $LOCAL_ADDRESS -s test $LOCAL_IP -sf $SCENARIO -p $LOCAL_PORT -mp 9100"
+
+echo "Running Sipp: $SIPPCMD" 
+
+test -x $SIPPBIN || { echo "$SIPPBIN not installed"; 
+	if [ "$1" = "stop" ]; then exit 0;
+	else exit 5; fi; }
+
+. /etc/rc.status
+
+# Reset status of this service
+rc_reset
+
+# Return values acc. to LSB for all commands but status:
+# 0	  - success
+# 1       - generic or unspecified error
+# 2       - invalid or excess argument(s)
+# 3       - unimplemented feature (e.g. "reload")
+# 4       - user had insufficient privileges
+# 5       - program is not installed
+# 6       - program is not configured
+# 7       - program is not running
+# 8--199  - reserved (8--99 LSB, 100--149 distrib, 150--199 appl)
+# 
+# Note that starting an already running service, stopping
+# or restarting a not-running service as well as the restart
+# with force-reload (in case signaling is not supported) are
+# considered a success.
+
+case "$1" in
+    start)
+	echo -n "Starting Sipp deamon "
+	## Start daemon with startproc(8). If this fails
+	## the return value is set appropriately by startproc.
+	cd $SIPPHOME
+	USER=$CCUSER
+	HOME=$SIPPHOME
+	startproc -v -u $CCUSER -l $SIPPHOME/sipp.log $SIPPCMD
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    stop)
+	echo -n "Shutting down Sipp deamon "
+	## Stop daemon with killproc(8) and if this fails
+	## killproc sets the return value according to LSB.
+
+	PID=`ps -fu $CCUSER | grep sipp | grep -v grep | awk '{ print $2 }'`
+	if [ -n "$PID" ]; then
+		kill -TERM $PID
+	fi
+
+	# Remember status and be verbose
+	rc_status -v
+	;;
+    restart)
+	## Stop the service and regardless of whether it was
+	## running or not, start it again.
+	$0 stop
+	$0 start
+
+	# Remember status and be quiet
+	rc_status
+	;;
+    *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+	;;
+esac
+rc_exit

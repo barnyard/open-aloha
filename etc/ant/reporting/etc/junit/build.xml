@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+This is the build file for junit as part of the Build Reporting Library
+-->
+<project name="junit-stats">
+
+  <target name="prepare.junit" description="do some xslt on the junit output files">
+    <mkdir dir="${build.report.reports}/junit"/>
+  	
+  	<!-- 
+  		Run the junit reporting task it gets the output from the unit testing target and transforms it using junit-frames.xsl 
+  	
+  	-->
+    <junitreport todir="${build.report.reports}/junit">
+      <fileset dir="${build.report.junit.data.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report
+        format="frames"
+        todir="${build.report.reports}/junit"
+        styledir="${build.report.etc}/junit"/>
+    </junitreport>
+
+  	
+  	<!-- Get the output from the unit testing and assign it an id -->
+    <fileset dir="${build.report.junit.data.dir}" id="junit.xml.files">
+      <include name="TEST*.xml"/>
+    </fileset>
+  	
+  	<!-- Convert the content of the junit report use the semi colon as the file separator -->
+    <pathconvert
+      pathsep=";"
+      targetos="unix"
+      property="junit.xml.files.list"
+      refid="junit.xml.files">
+    </pathconvert>
+  	
+  	<!-- Clean the output before running the next task-->
+    <delete file="${build.report.stats}/junit.xml" quiet="true" />
+  	
+  	<!-- 
+  	   Gets the junit output from the previous task and transforms it.  
+  	   The transform involves removing the whitespace before the closing of the element
+  	-->
+    <xslt
+      in="${build.report.etc}/junit/empty.xml"
+      out="${build.report.tmp}/junit.xml"
+      style="${build.report.etc}/junit/merge.xsl"
+      force="true">
+      <param name="xmlfiles" expression="${junit.xml.files.list}"/>
+    </xslt>
+
+  	<!-- Output the number of errors failures and passes
+  	The output will be something like
+  	
+	  	<?xml version="1.0" encoding="iso-8859-1"?>
+		<tool type="tests" name="junit" description="Tests" root="junit/">
+			<statistic name="errors" description="Errors" value="0"/>
+			<statistic name="failures" description="Failures" value="0"/>
+			<statistic name="passed" description="Passed" value="100.00" unit="%"/>
+		</tool>
+  	
+  	If you can't find it it renames the file to 001.tests.xml and is located in the 
+  	build output location.  This is then used as an input to the main page.
+  	-->
+  	<xslt
+      in="${build.report.tmp}/junit.xml"
+      out="${build.report.stats}/tests.xml"
+      style="${build.report.etc}/junit/stats.xsl">
+    </xslt>
+  </target>
+  
+  <target name="check.junit">
+	<fail if="tests.errors.fail" message="${tests.errors.fail}"/>
+	<fail if="tests.failures.fail" message="${tests.failures.fail}"/>
+  </target>
+
+</project>

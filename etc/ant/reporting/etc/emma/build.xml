@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!--
+ This is the build file for emma as part of the Build Reporting Library
+-->
+<project name="emma-stats">
+
+	<target name="prepare.emma" description="do some xslt on the emma output files">
+		<!-- Clean and create the output directory -->
+		<delete dir="${build.report.reports}/emma"/>
+		<mkdir dir="${build.report.reports}/emma"/>
+
+		<path id="emma.classpath">
+			<pathelement location="${build.report.etc}/emma/lib/emma.jar" />
+			<pathelement location="${build.report.etc}/emma/lib/emma_ant.jar" />
+		</path>
+
+		<!-- Bring the emma task into the project -->
+		<taskdef resource="emma_ant.properties" classpathref="emma.classpath" />
+
+		<!-- Generate the emma report both in xml and html -->
+		<emma>
+			<report
+				sourcepath="${build.report.src}"
+				metrics="class:${coverage.classes.min},method:${coverage.methods.min},line:${coverage.lines.min},block:${coverage.lines.min}">
+				<fileset dir="${build.report.junit.data.dir}">
+					<include name="*.emma"/>
+				</fileset>
+				<html outfile="${build.report.reports}/emma/raw.html" depth="method"/>
+				<xml outfile="${build.report.tmp}/emma.xml" depth="method"/>
+			</report>
+		</emma>
+		
+		<!-- Convert the emma output into a web page that includes the packages, classes and summary-->
+		<xslt	
+			basedir="${build.report.tmp}"
+			destdir="${build.report.reports}/emma"
+			includes="emma.xml"
+			style="${build.report.etc}/emma/report.xsl">
+			<param name="output.dir" expression="${build.report.reports}/emma"/>
+		</xslt>
+
+		<!-- This task gets the coverage value as a numeric value, ie it removed the %
+		     The input would look something like
+		     
+		     <?xml version="1.0" encoding="UTF-8"?>
+
+			<report>
+			  <stats>
+			    <packages value="1"/>
+			    <classes value="1"/>
+			    <methods value="3"/>
+			  </stats>
+			  <data>
+			    <all name="all classes">
+			      <coverage type="class, %" value="100% (1/1)"/>
+			      <coverage type="method, %" value="67%  (2/3)"/>
+			      <coverage type="block, %" value="42%  (5/12)"/>
+			
+			      <package name="com.bt.demo">
+			        <coverage type="class, %" value="100% (1/1)"/>
+			        <coverage type="method, %" value="67%  (2/3)"/>
+			        <coverage type="block, %" value="42%  (5/12)"/>
+			
+			        <class name="HelloWorld">
+			          <coverage type="class, %" value="100% (1/1)"/>
+			          <coverage type="method, %" value="67%  (2/3)"/>
+			          <coverage type="block, %" value="42%  (5/12)"/>
+			
+			          <method name="main (String []): void">
+			            <coverage type="method, %" value="0%   (0/1)"/>
+			            <coverage type="block, %" value="0%   (0/7)"/>
+			          </method>
+			          <method name="HelloWorld (): void">
+			            <coverage type="method, %" value="100% (1/1)"/>
+			            <coverage type="block, %" value="100% (3/3)"/>
+			          </method>
+			          <method name="aMethod (): String">
+			            <coverage type="method, %" value="100% (1/1)"/>
+			            <coverage type="block, %" value="100% (2/2)"/>
+			          </method>
+			        </class>
+			      </package>
+			    </all>
+			  </data>
+			</report>
+		
+		    And the output would be
+		    
+		    <?xml version="1.0" encoding="iso-8859-1"?>
+
+			<report>
+			  <stats>
+			    <packages value="1"/>
+			    <classes value="1"/>
+			    <methods value="3"/>
+			  </stats>
+			  <data>
+			    <all name="all classes">
+			      <coverage numeric="100" type="class, %" value="100% (1/1)"/>
+			      <coverage numeric="67" type="method, %" value="67%  (2/3)"/>
+			      <coverage numeric="42" type="block, %" value="42%  (5/12)"/>
+			
+			      <package name="com.bt.demo">
+			        <coverage numeric="100" type="class, %" value="100% (1/1)"/>
+			        <coverage numeric="67" type="method, %" value="67%  (2/3)"/>
+			        <coverage numeric="42" type="block, %" value="42%  (5/12)"/>
+			
+			        <class name="HelloWorld">
+			          <coverage numeric="100" type="class, %" value="100% (1/1)"/>
+			          <coverage numeric="67" type="method, %" value="67%  (2/3)"/>
+			          <coverage numeric="42" type="block, %" value="42%  (5/12)"/>
+			
+			          <method name="main (String []): void">
+			            <coverage numeric="0" type="method, %" value="0%   (0/1)"/>
+			            <coverage numeric="0" type="block, %" value="0%   (0/7)"/>
+			          </method>
+			          <method name="HelloWorld (): void">
+			            <coverage numeric="100" type="method, %" value="100% (1/1)"/>
+			            <coverage numeric="100" type="block, %" value="100% (3/3)"/>
+			          </method>
+			          <method name="aMethod (): String">
+			            <coverage numeric="100" type="method, %" value="100% (1/1)"/>
+			            <coverage numeric="100" type="block, %" value="100% (2/2)"/>
+			          </method>
+			        </class>
+			      </package>
+			    </all>
+			  </data>
+			</report>
+	    -->
+		<xslt
+			in="${build.report.tmp}/emma.xml"
+			out="${build.report.tmp}/emma.numeric.xml"
+			style="${build.report.etc}/emma/preparse.xsl">
+		</xslt>
+		
+		<!-- 
+		Converts the previous report to get overall coverage example like below, this is used on the front page of the report
+			<tool type="coverage" name="emma" description="Code Coverage" root="emma/">
+				<statistic unit="%" name="coverage" value="0" description="Coverage"/>
+				<statistic unit="%" name="classes" value="100" description="Classes"/>
+				<statistic unit="%" name="methods" value="67" description="Methods"/>
+				<statistic unit="%" name="lines" value="" description="Lines"/>
+				<statistic unit="%" name="minlines" value="" description="Minimum lines"/>
+			</tool>
+		-->
+		<xslt
+			in="${build.report.tmp}/emma.numeric.xml"
+			out="${build.report.stats}/coverage.xml"
+			style="${build.report.etc}/emma/stats.xsl">
+		</xslt>
+	</target>
+	
+	<target name="check.emma">
+		<fail if="coverage.classes.fail" message="${coverage.classes.fail}"/>
+		<fail if="coverage.methods.fail" message="${coverage.methods.fail}"/>
+		<fail if="coverage.lines.fail" message="${coverage.lines.fail}"/>
+	</target>
+
+</project>

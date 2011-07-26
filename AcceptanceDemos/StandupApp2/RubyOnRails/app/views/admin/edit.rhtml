@@ -1,0 +1,17 @@
+<h1>Editing conference</h1>
+
+<% form_tag :action => 'update', :id => @conference do %>
+  <%= render :partial => 'form' %>
+ 
+  <div id="participants_table">
+  <%= render :partial => "participants_table" %>
+  </div>
+  
+
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+
+
+<%= link_to 'Show', :action => 'show', :id => @conference %> |
+<%= link_to 'Back', :action => 'list' %>

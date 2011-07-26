@@ -1,0 +1,230 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<project name="Robustness" default="memory">
+	<record name="${basedir}/${ant.project.name}.build.log" loglevel="verbose" />
+
+	<target name="memory" depends="clean,copyDependenciesSCP,compile,filter.properties,set.memory,run.simple,check.fail"/>
+	<target name="memory.dev" depends="clean,copyDependencies,compile,filter.properties,set.memory,run.simple,check.fail"/>
+	<target name="database" depends="clean,copyDependenciesSCP,compile,filter.properties,set.database,run.simple,check.fail"/>
+	<target name="database.dev" depends="clean,copyDependencies,compile,filter.properties,set.database,run.simple,check.fail"/>
+	<target name="database.multistack" depends="clean,copyDependenciesSCP,compile,filter.properties,set.database,run.multistack,check.fail"/>
+	<target name="database.multistack.dev" depends="clean,copyDependencies,compile,filter.properties,set.database,run.multistack,check.fail"/>
+	<target name="weekend" depends="clean,copyDependencies,compile,filter.properties,override.port.for.weekend,set.memory,run.weekend" />
+	<target name="weekend.nodep" depends="clean,compile,filter.properties,override.port.for.weekend,set.memory,run.weekend" />
+	<target name="performance" depends="clean,copyDependenciesSCP,compile,filter.properties,override.port.for.performance,set.performance,run.performance,check.fail" />
+	<target name="performance.dev" depends="clean,copyDependencies,compile,filter.properties,override.port.for.performance,set.performance,run.performance,check.fail" />
+	<target name="jmxrunner" depends="clean,copyDependencies,compile,filter.properties,override.port.for.weekend,run.jmxrunner,log.enhancer" />
+	<target name="performance.terracotta" depends="clean,copyDependenciesSCP,compile,filter.properties,override.port.for.performance,set.terracotta,run.performance.terracotta,check.fail" />
+	<target name="performance.terracotta.dev" depends="clean,copyDependencies,compile,filter.properties,override.port.for.performance,set.terracotta,run.performance.terracotta,check.fail" />
+
+	<property file="properties/${user.name}.properties" />
+	<echo message="properties/${user.name}.properties" />
+	<property file="properties/build.properties" />
+	<property name="build.logfile" value="${basedir}/app.log"/>
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="etc" value="etc" />
+	<property name="lib" value="lib" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="etc/spring"/>
+		<pathelement location="etc/properties"/>
+		<pathelement location="etc/sql"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete file="${build.logfile}"/>
+		<delete>
+			<fileset dir="${basedir}" includes="scenario.log, app.log.*, serverLog.txt, debugLog.txt, unitPerSecond.jpg, unitPerSecond-historical.jpg"/>
+		</delete>
+	</target>
+
+	<target name="copyDependenciesSCP">
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/SimpleSipStack.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/lib/testapp/ConvediaMediaBeans.jar" todir="lib"/>
+		<scp file="ccuser:change1t@132.146.185.195:/opt/cruisecontrol/projects/Aloha/Fitnesse/build/CallControl_fitnesse.jar" todir="lib"/>
+	</target>
+
+	<target name="copyDependencies">
+		<copy overwrite="true" failonerror="false" tofile="${lib}/SimpleSipStack.jar" file="${simple.sip.stack.project}/dist/SimpleSipStack.dev.jar" />
+		<copy overwrite="true" failonerror="false" tofile="${lib}/ConvediaMediaBeans.jar" file="${convedia.media.beans.project}/dist/ConvediaMediaBeans.dev.jar" />
+		<copy overwrite="true" failonerror="false" tofile="${lib}/CallControl_fitnesse.jar" file="${fitnesse.project}/build/CallControl_fitnesse.jar" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build}" />
+		<javac includes="**/*.java" debug="true" destdir="${build}">
+			<src path="${src}" />
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="filter.properties">
+		<mkdir dir="${build}/tmp" />
+		<echoproperties destfile="${build}/tmp/env.properties" />
+		<filter filtersfile="${build}/tmp/env.properties" />
+		<copy file="${etc}/properties/batchrun.sip.properties.template" tofile="${build}/batchrun.sip.properties" overwrite="true" filtering="true" />
+		<copy file="${etc}/properties/batchrun2.sip.properties.template" tofile="${build}/batchrun2.sip.properties" overwrite="true" filtering="true" />
+		<copy file="${etc}/terracotta/tc-config.xml.template" tofile="${etc}/terracotta/tc-config.xml" overwrite="true" filtering="true"/>
+		<copy file="${etc}/properties/mockphones.sip.properties.template" tofile="${build}/mockphones.sip.properties" overwrite="true" filtering="true"/>
+		<copy file="${etc}/properties/sip.load.balancer.properties.template" tofile="${build}/sip.load.balancer.properties" overwrite="true" filtering="true"/>
+	</target>
+
+	<target name="override.port.for.weekend">
+		<replace file="${build}/batchrun.sip.properties" token="sip.stack.port=${batch.run.sip.stack.port}" value="sip.stack.port=${weekend.run.sip.stack.port}" />
+	</target>
+
+	<target name="override.port.for.performance">
+		<replace file="${build}/batchrun.sip.properties" token="sip.stack.name=${sip.stack.name}" value="sip.stack.name=${performance.sip.stack.name}" />
+		<replace file="${build}/batchrun.sip.properties" token="sip.stack.port=${batch.run.sip.stack.port}" value="sip.stack.port=${performance.run.sip.stack.port}" />
+		<replace file="${build}/batchrun.sip.properties" token="batch.test.endpoint=${batch.test.endpoint}" value="batch.test.endpoint=${batch.test.performance.endpoint}" />
+		<replace file="${build}/batchrun2.sip.properties" token="sip.stack2.name=${sip.stack2.name}" value="sip.stack.name=${performance.sip.stack2.name}" />
+		<replace file="${build}/batchrun2.sip.properties" token="sip.stack2.port=${batch.run.sip.stack2.port}" value="sip.stack.port=${performance.run.sip.stack2.port}" />
+		<replace file="${build}/batchrun2.sip.properties" token="batch.test.endpoint=${batch.test.endpoint}" value="batch.test.endpoint=${batch.test.performance.endpoint}" />
+	</target>
+
+	<target name="set.memory">
+		<copy file="${etc}/spring/MemoryBatchTestApplicationContext.xml" tofile="${etc}/spring/batchTestApplicationContext.xml" overwrite="true"/>
+		<copy file="${etc}/spring/propertyListenerApplicationContext.performance.xml" tofile="${etc}/spring/propertyListenerApplicationContext.1.xml" overwrite="true"/>
+		<copy file="${etc}/properties/robustnessLog4j.properties" tofile="${etc}/properties/log4j.properties" overwrite="true"/>
+	</target>
+
+	<target name="set.terracotta">
+		<copy file="${etc}/spring/MemoryBatchTestApplicationContext.xml" tofile="${etc}/spring/batchTestApplicationContext.xml" overwrite="true"/>
+		<copy file="${etc}/spring/propertyListenerApplicationContext.performance.xml" tofile="${etc}/spring/propertyListenerApplicationContext.1.xml" overwrite="true"/>
+		<copy file="${etc}/properties/performanceLog4j.properties" tofile="${etc}/properties/log4j.properties" overwrite="true"/>
+	</target>
+
+	<target name="set.database">
+		<copy file="${etc}/spring/DatabaseBatchTestApplicationContext.xml" tofile="${etc}/spring/batchTestApplicationContext.xml" overwrite="true"/>
+		<copy file="${etc}/spring/propertyListenerApplicationContext.default.xml" tofile="${etc}/spring/propertyListenerApplicationContext.1.xml" overwrite="true"/>
+		<copy file="${etc}/properties/robustnessLog4j.properties" tofile="${etc}/properties/log4j.properties" overwrite="true"/>
+	</target>
+
+	<target name="set.performance">
+		<copy file="${etc}/spring/PerformanceBatchTestApplicationContext.xml" tofile="${etc}/spring/batchTestApplicationContext.xml" overwrite="true"/>
+		<copy file="${etc}/spring/propertyListenerApplicationContext.performance.xml" tofile="${etc}/spring/propertyListenerApplicationContext.1.xml" overwrite="true"/>
+		<copy file="${etc}/properties/performanceLog4j.properties" tofile="${etc}/properties/log4j.properties" overwrite="true"/>
+	</target>
+
+	<target name="run.simple">
+		<java resultproperty="run.result" maxmemory="128m" classname="com.bt.aloha.batchtest.BatchTest" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run.multistack">
+		<java resultproperty="run.result" maxmemory="128m" classname="com.bt.aloha.batchtest.MultiStackBatchTest" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run.weekend">
+		<java resultproperty="run.result" maxmemory="512m" classname="com.bt.aloha.batchtest.WeekendBatchTest" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<sysproperty key="com.sun.management.jmxremote.port" value="1299"/>
+			<sysproperty key="com.sun.management.jmxremote.authenticate" value="false"/>
+			<sysproperty key="com.sun.management.jmxremote.ssl" value="false"/>
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run.performance">
+		<java resultproperty="run.result" maxmemory="512m" classname="com.bt.aloha.batchtest.PerformanceBatchTest" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<sysproperty key="com.sun.management.jmxremote.port" value="1399"/>
+			<sysproperty key="com.sun.management.jmxremote.authenticate" value="false"/>
+			<sysproperty key="com.sun.management.jmxremote.ssl" value="false"/>
+			<sysproperty key="test.type" value="performance.database"/>
+			<jvmarg value="-server" />
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run.performance.terracotta">
+		<java resultproperty="run.result" maxmemory="512m" classname="com.bt.aloha.batchtest.PerformanceBatchTest" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value="" />
+			<sysproperty key="com.sun.management.jmxremote.port" value="1399" />
+			<sysproperty key="com.sun.management.jmxremote.authenticate" value="false" />
+			<sysproperty key="com.sun.management.jmxremote.ssl" value="false" />
+			<sysproperty key="test.type" value="performance.terracotta"/>
+			<jvmarg value="-Xbootclasspath/p:${terracotta.dso.boot.jar}" />
+			<jvmarg value="-Dtc.install-root=${terracotta.home}" />
+			<jvmarg value="-Dtc.config=etc/terracotta/tc-config.xml" />
+			<jvmarg value="-server" />
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run.jmxrunner">
+		<java resultproperty="run.result" maxmemory="64m" classname="com.bt.aloha.batchtest.JmxScenarioRunner" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value="" />
+			<sysproperty key="com.sun.management.jmxremote.port" value="1299" />
+			<sysproperty key="com.sun.management.jmxremote.authenticate" value="false"/>
+			<sysproperty key="com.sun.management.jmxremote.ssl" value="false"/>
+			<classpath>
+				<pathelement location="${build}" />
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="log.enhancer">
+		<java classname="com.bt.aloha.testing.SimpleSipStackLogEnhancer">
+			<arg value="${build.logfile}"/>
+			<arg value="${basedir}/build/batchtest_build_log.html"/>
+			<classpath>
+				<path refid="project.classpath"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="check.fail">
+		<condition property="run.fail">
+			<not>
+				<equals arg1="0" arg2="${run.result}"/>
+			</not>
+		</condition>
+		<fail if="run.fail" message="Batch tests failed" />
+	</target>
+
+</project>

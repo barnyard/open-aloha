@@ -1,0 +1,15 @@
+   * I would like to ring a mock noanswer phone which should not accept the call and get a service unavailable response after 1,5 sec.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallControlFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|mySipAddress|!-mock:whitephone@localhost-!|
+|enter|remoteSipAddress|sip:noanswer@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|remoteSipProxy|${mockphonesIpAddress}:${mockphonesPort}/udp|
+|press|createMyPhone|
+|check|sendInvite|true|
+|enter|waitTimeout|1500|
+|check|waitResponseRinging|true|
+|enter|waitTimeout|8500|
+|check|waitResponseTemporarilyUnavailable|true|
+|check|tearDown|OK|

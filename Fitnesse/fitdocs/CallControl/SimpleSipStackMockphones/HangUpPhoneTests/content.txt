@@ -1,0 +1,17 @@
+   * I would like to ring a mock hangup phone which should pick up the call and after 5 sec hang up.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallControlFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|mySipAddress|!-mock:whitephone@localhost-!|
+|enter|remoteSipAddress|sip:hangup@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|remoteSipProxy|${mockphonesIpAddress}:${mockphonesPort}/udp|
+|press|createMyPhone|
+|check|sendInvite|true|
+|enter|waitTimeout|1000|
+|check|waitResponseOk|true|
+|check|sendInviteOkAck|true|
+|enter|waitTimeout|5000|
+|check|waitForBye|true|
+|check|respondToBye|true|
+|check|tearDown|OK|

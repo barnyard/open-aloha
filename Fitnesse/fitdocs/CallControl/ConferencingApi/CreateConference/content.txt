@@ -1,0 +1,44 @@
+!3 Acceptance Test Suite for the Conferencing API - Create Conference
+
+ * Upon conference creation, I want to have a conference ID I can use to refer to that conference later.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|check|conferenceIdSet|true|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+
+ * I want to be able to specify a max number of participants when creating a conference
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setMaxNumberParticipants|16|
+|check|createConference||
+|check|conferenceIdSet|true|
+|check|maxNumberParticipants|16|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|
+
+ * I want to show that it is impossible to create a conference with negative number of participants
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|secondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setMaxNumberParticipants|-5|
+|check|createConference|!-IllegalArgumentException-!|
+|enter|setMaxNumberParticipants|10|

@@ -1,0 +1,571 @@
+	* I would like to execute a 'prompt and collect digits' command against the media server, where a prompt is played to the user, and DTMF digits collected & returned to the application.
+	* I would like to start with collecting a fixed number of digits, with configurable parameters for
+		* first digit timeout
+		* inter-digit timeout
+		* additional (extra) digit timeout
+		* non barged
+		* clearing the buffer
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|7|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsCollectedEvent|1|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to repeat the above (fixed length digits) but with barged digit entry
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|3|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,2|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|3|
+|enter|sendDtmfToMediaDialog|12|
+|check|waitForDigitsCollectedEvent|12|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to repeat the above (fixed length digits) but with disabled barge
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|false,true,5,5,5,2|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12|
+|enter|waitTimeoutSeconds|1|
+|check|waitForDigitsCollectedEvent|No event|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|check|waitForDigitsCollectedEvent|12|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to repeat the above (fixed length digits) with barged digit entry and a cancel key specified
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|3|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,2,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|3|
+|enter|sendDtmfToMediaDialog|1*|
+|check|waitForDigitsFailedEvent|1*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to collect a series of digits based on a pattern defined by
+		* minimum number of digits
+		* maximum number of digits
+		* return key (e.g. #)
+	* where the prompt was barged, return key was pressed and the number of digits matches the expected pattern.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,1,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12*|
+|check|waitForDigitsCollectedEvent|12*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to collect a series of digits based on a pattern defined by
+		* minimum number of digits
+		* maximum number of digits
+		* return key (e.g. #)
+	* where the prompt was barged, return key was not pressed (timeout) and the number of digits matches the expected pattern.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,1,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12|
+|check|waitForDigitsCollectedEvent|12t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to collect a series of digits based on a pattern defined by
+		* minimum number of digits
+		* maximum number of digits
+		* return key (e.g. #)
+		* cancel key (e.g. *)
+	* where prompt was barged, user entered maximum expected number of digits, the return key was not pressed
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,1,3,#,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|123|
+|check|waitForDigitsCollectedEvent|123t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to repeat the above with barge disabled.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|false,true,5,5,5,1,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12*|
+|enter|waitTimeoutSeconds|1|
+|check|waitForDigitsCollectedEvent|No event|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|check|waitForDigitsCollectedEvent|12*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* Same as above with barge set, with a cancel key specified and entered
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,1,3,#,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12*|
+|check|waitForDigitsFailedEvent|12*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to collect a series of digits based on a pattern defined by
+		* minimum number of digits
+		* maximum number of digits
+		* return key (e.g. #)
+	* where the prompt was barged, return key was not pressed (timeout) and the number of digits matches the expected pattern.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,1,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|12|
+|check|waitForDigitsCollectedEvent|12t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to collect a series of digits based on a pattern defined by
+		* minimum number of digits
+		* maximum number of digits
+	* This is similar to the above, but without the return key - DTMF collection should return when the max number of digits has been entered
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigits|true,true,5,5,5,1,3|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|2|
+|enter|sendDtmfToMediaDialog|123|
+|check|waitForDigitsCollectedEvent|123|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If no digits are supplied, I would like to receive a Failure event with no digits (barged)
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|7|
+|check|waitForDigitsFailedEvent|t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If too few digits are entered, I would like to receive a Failure event with timeout identified by a 't' on the end of the digit pattern (barged)
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,2,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsFailedEvent|1t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* Similar to above but with fixed number of expected digits.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,2|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsFailedEvent|1t|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If too many digits are entered, I would like to receive a Success event with the excess digits discarded
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,2,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1234*|
+|check|waitForDigitsCollectedEvent|123|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If the announcement fails to play (non supported media file), I would like to receive a failure event
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/broken.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsFailedEvent|blank|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* If the announcement file does not exist, I would like to receive a failure event
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/nonexisting.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsFailedEvent|blank|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to see the effect of the first digit timeout parameter
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,1,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|7|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsFailedEvent|t|
+|enter|dtmfCollectCommand|true,true,0,5,5,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|7|
+|enter|sendDtmfToMediaDialog|1|
+|check|waitForDigitsCollectedEvent|1|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to see the effect of the inter-digit timeout parameter
+		* barged
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommand|true,true,5,1,5,2|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1|
+|enter|waitSeconds|2|
+|enter|sendDtmfToMediaDialog|2|
+|check|waitForDigitsFailedEvent|1t|
+|enter|dtmfCollectCommand|true,true,5,5,5,2|
+|enter|waitMilliSeconds|150|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|3|
+|enter|waitSeconds|2|
+|enter|sendDtmfToMediaDialog|4|
+|check|waitForDigitsCollectedEvent|34|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to see the effect of the extra digit timeout parameter
+		* which specifies the length of time the media server will wait after a match to detect a termination key if one is specified.
+		* barged
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,1,1,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|123|
+|enter|waitSeconds|2|
+|enter|sendDtmfToMediaDialog|*|
+|check|waitForDigitsCollectedEvent|123t|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,3,1,3,*|
+|enter|waitMilliSeconds|150|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|789|
+|enter|waitSeconds|2|
+|enter|sendDtmfToMediaDialog|*|
+|check|waitForDigitsCollectedEvent|789*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* I would like to be able to see the effect of the clear buffer parameter
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,2,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|1234|
+|check|waitForDigitsCollectedEvent|123|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,false,5,5,5,2,3,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|1|
+|enter|sendDtmfToMediaDialog|56*|
+|check|waitForDigitsCollectedEvent|456*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * UNHAPPY
+   * I would like to start a prompt and collect, cancel it and get prompt and cancel terminated event.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|check|createFirstDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,true,5,5,5,2,3,*|
+|check|promptAndCollectDigits||
+|check|cancelLastMediaCommand|OK|
+|check|waitForDigitsTerminatedEvent|OK|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* Trying to recreate Inova issue
+	* I would like to start with collecting a fixed number of digits, with configurable parameters for
+		* first digit timeout of 300 seconds
+		* no inter-digit timeout (defaults to 4)
+		* additional (extra) digit timeout of 1 second
+		* barged
+		* not clearing the buffer
+		* min = 1
+		* max = 1
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigits|true,false,300,4,1,1,1|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|3|
+|enter|sendDtmfToMediaDialog|5|
+|check|waitForDigitsCollectedEvent|5|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+	* Trying to recreate Inova issue
+	* I would like to start with collecting a fixed number of digits, with configurable parameters for
+		* first digit timeout of 300 seconds
+		* no inter-digit timeout (defaults to 4)
+		* additional (extra) digit timeout of 1 second
+		* barged
+		* not clearing the buffer
+		* min = 1
+		* max = 1
+		* return key = *
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri|!-/provisioned/short.wav-!|
+|check|createFirstDialogAsMediaDialog|OK|
+|check|createMediaCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,false,300,4,1,1,1,*|
+|check|promptAndCollectDigits||
+|enter|waitSeconds|3|
+|enter|sendDtmfToMediaDialog|5*|
+|check|waitForDigitsCollectedEvent|5*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+   * Prompt and Collect digits from an incoming call - HAPPY
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundMediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|enter|sippScenarioFile|!-@FITNESSE_HOME@/etc/sipp/inboundPromptCollect.xml-!|
+|check|startSippInboundCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,false,1,4,1,1,1,#,*|
+|check|promptAndCollectDigits||
+|check|waitForDigitsCollectedEvent|1#|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|press|stopSipp|
+
+   * Prompt and Collect digits from an incoming call - UNHAPPY - user presses cancel key
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundMediaCallFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|audioFileUri|!-/provisioned/behave.wav-!|
+|enter|sippScenarioFile|!-@FITNESSE_HOME@/etc/sipp/inboundPromptCollectCancel.xml-!|
+|check|startSippInboundCall|OK|
+|check|waitForCallConnectedEvent|OK|
+|enter|dtmfCollectCommandWithMinMaxNumberOfDigitsAndReturnKey|true,false,1,4,1,1,1,#,*|
+|check|promptAndCollectDigits||
+|check|waitForDigitsFailedEvent|1*|
+|press|terminateCall|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+|press|stopSipp|
+

@@ -1,0 +1,381 @@
+<!--
+/*
+ * Aloha Open Source SIP Application Server- https://trac.osmosoft.com/Aloha
+ *
+ * Copyright (c) 2008, British Telecommunications plc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+ -->
+<cruisecontrol>
+	<property file="projects/Aloha/CruiseControl/props/build.properties" />
+	
+	<property name="robbie" value="robbie.clutton@bt.com"/>
+	<property name="raghav" value="raghav.ramesh@bt.com"/>
+	<property name="gabby" value="gabriela.marcionetti@bt.com"/>
+	<property name="uros" value="uros.rapajic@bt.com"/>
+	<property name="adrian" value="adrian.p.smith@bt.com"/>
+	<property name="joe" value="joe.darling@bt.com"/>
+
+	<plugin name="htmlemail" mailhost="132.146.185.197"
+				returnaddress="btsdk@bt.com"
+				reportsuccess="always"
+				buildresultsurl="http://172.25.58.153:8082/cruisecontrol/buildresults/${project.name}"
+				css="webapps/cruisecontrol/css/cruisecontrol.css"
+				xsldir="webapps/cruisecontrol/xsl"
+				skipusers="yes"
+				spamwhilebroken="true"
+				logdir="logs/${project.name}">
+				<always address="${adrian}"/>
+				<always address="${robbie}"/>
+				<always address="${raghav}"/>
+				<always address="${uros}"/>
+				<always address="${joe}"/>
+	</plugin>
+
+	<plugin name="project" >
+		<labelincrementer defaultLabel="${project.name}-build.1"/>
+
+		<listeners>
+			<currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+		</listeners>
+
+		<bootstrappers>
+			<svnbootstrapper username="${svn.username}" password="${svn.password}" localWorkingCopy="projects/Aloha/CruiseControl" />
+		</bootstrappers>
+
+		<schedule interval="300">
+			<ant antWorkingDir="projects"
+				anthome="apache-ant-1.7.0"
+				uselogger="true"
+				usedebug="false"
+				buildfile="Aloha/CruiseControl/buildfiles/build-bootstrapper.xml"/>
+		</schedule>
+	</plugin>
+
+	<project name="RobustnessDatabase" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/Robustness" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/Robustness/build.xml"
+				target="database"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/Robustness/app.log" dest="artifacts/${project.name}" subdirectory="siplogs"/>
+		</publishers>
+	</project>
+
+	<project name="RobustnessDatabaseMultistack" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/Robustness" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="86400">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/Robustness/build.xml"
+				target="database.multistack"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/Robustness/app.log" dest="artifacts/${project.name}" subdirectory="siplogs"/>
+		</publishers>
+	</project>
+
+	<project name="RobustnessPerformance" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/Robustness" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/Robustness/build.xml"
+				target="performance"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/Robustness/app.log" dest="artifacts/${project.name}" subdirectory="siplogs"/>
+			<artifactspublisher file="projects/Aloha/Robustness/unitPerSecond.jpg" dest="artifacts/${project.name}" subdirectory="stats"/>
+			<artifactspublisher file="projects/Aloha/Robustness/unitPerSecond-historical.jpg" dest="artifacts/${project.name}" subdirectory="stats"/>
+		</publishers>
+
+	</project>
+
+	<project name="RobustnessMemory" buildafterfailed="false">
+
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/Robustness" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/Robustness/build.xml"
+				target="memory"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/Robustness/app.log" dest="artifacts/${project.name}" subdirectory="siplogs"/>
+		</publishers>
+
+	</project>
+
+	<project name="RobustnessPerformanceTerracotta" buildafterfailed="false">
+
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/Robustness" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/Robustness/build.xml"
+				target="performance.terracotta"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/Robustness/app.log" dest="artifacts/${project.name}" subdirectory="siplogs"/>
+			<artifactspublisher file="projects/Aloha/Robustness/unitPerSecond.jpg" dest="artifacts/${project.name}" subdirectory="stats"/>
+			<artifactspublisher file="projects/Aloha/Robustness/unitPerSecond-historical.jpg" dest="artifacts/${project.name}" subdirectory="stats"/>
+		</publishers>
+	</project>
+
+	<project name="SipStoneMemory" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/SipStone" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/SipStone/build.xml"
+				target="memory"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/SipStone/build.log" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone1.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone2.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipp.csv" dest="artifacts/${project.name}"/>
+		</publishers>
+	</project>
+
+	<project name="SipStoneDatabase" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/SipStone" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/SipStone/build.xml"
+				target="database"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/SipStone/build.log" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone1.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone2.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipp.csv" dest="artifacts/${project.name}"/>
+		</publishers>
+	</project>
+
+	<project name="SipStoneDatabaseHA" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/SipStone" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/SipStone/build.xml"
+				target="database.ha"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/SipStone/build.log" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone1.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone2.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipp.csv" dest="artifacts/${project.name}"/>
+		</publishers>
+	</project>
+
+	<project name="SipStoneTerracotta" buildafterfailed="false">
+		<log>
+		</log>
+
+		<bootstrappers>
+			<svnbootstrapper localWorkingCopy="projects/Aloha/CruiseControl" />
+			<svnbootstrapper localWorkingCopy="projects/Aloha/SipStone" />
+		</bootstrappers>
+
+		<modificationset>
+			<alwaysbuild/>
+		</modificationset>
+
+		<schedule interval="604800">
+			<ant antWorkingDir="projects"
+				uselogger="true"
+				usedebug="false"
+				anthome="apache-ant-1.7.0"
+				buildfile="Aloha/SipStone/build.xml"
+				target="terracotta"/>
+		</schedule>
+
+		<publishers>
+			<htmlemail />
+			<artifactspublisher file="projects/Aloha/SipStone/build.log" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone1.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipstone2.jpg" dest="artifacts/${project.name}"/>
+			<artifactspublisher file="projects/Aloha/SipStone/sipp.csv" dest="artifacts/${project.name}"/>
+		</publishers>
+	</project>
+
+	<project name="callflow-robustness" buildafterfailed="false">
+  		<listeners>
+   			<currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+ 		</listeners>
+
+   		<bootstrappers>
+			<svnbootstrapper username="ccwebc" password="Web21cAdmin4" localWorkingCopy="projects/pe-sdk-rd/CruiseControl" />
+   		</bootstrappers>
+
+   		<modificationset quietperiod="60"> 
+			<alwaysbuild/>
+    	</modificationset>
+
+   		<schedule interval="3600">
+     		<ant anthome="projects/pe-build/ant" 
+				buildfile="projects/pe-sdk-rd/CruiseControl/buildfiles/build-${project.name}.xml" target="all"	uselogger="true" usedebug="false" timeout="3600">
+                <property name="user.name" value="build" />
+			</ant>
+   		</schedule>
+
+   		<log logdir="logs/${project.name}" >
+   		</log>
+
+   		<publishers>
+	  		<htmlemail mailhost="132.146.185.197"
+				returnaddress="btsdk@bt.com" 
+				buildresultsurl="http://172.25.58.147:8082/cruisecontrol/buildresults/${project.name}"
+				skipusers="no" 
+				spamwhilebroken="true">
+                <always address="${robbie}"/>
+                <always address="${raghav}"/>
+				<always address="${gabby}"/>
+				<always address="${uros}"/>
+				<always address="${adrian}"/>
+				<always address="${joe}"/>
+	  		</htmlemail>
+			<artifactspublisher file="logs/build-callflow-robustness.all.buildlog" dest="artifacts/${project.name}" />
+			<artifactspublisher file="projects/pe-callflow/Project/VoiceFlowRobustness/app.log" dest="artifacts/${project.name}" />
+			<artifactspublisher file="/opt/jboss/server/default/log/callflow.log" dest="artifacts/${project.name}" />
+		</publishers>	
+  	</project>
+
+</cruisecontrol>

@@ -1,0 +1,72 @@
+This suite is meant to emulate the resiliancy of the stack to JVM crashes.
+NOTE: in progress transactions are not taken into account and those wont survive the JVM crash
+
+	* This test shows that an outbound call can be initiated in a stack running in a JVM and terminated in a stack running in a new JVM
+
+The JVM restart is emulated by destroing and reinitializing the stack application context. This happens at the beginning of the terminateCall
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setSecondPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|connectCall||
+|check|waitForCallConnectedEvent|OK|
+|check|destroyAndStartApplicationContext|OK|
+|check|terminateCall|OK|
+|check|waitForCallTerminatedEventWithTerminatedByApplication|OK|
+
+
+	* This test shows that a call scheduled to be terminated before a JVM crash is still terminated when it reaches max call duration
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:hangup.90000@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setSecondPhoneUri|sip:hangup.90000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|connectCallWithOneMinuteDuration||
+|check|waitForCallConnectedEvent|OK|
+|check|destroyAndStartApplicationContext|OK|
+|enter|setWaitTimeoutSeconds|62|
+|check|waitForCallTerminatedEventWithMaxCallDurationExceeded|OK|
+
+
+	* This test shows that a call which terminated while JVM was down gets marked as terminated after restart
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.CallPersistencyFixture-!|
+|enter|setIpAddressPattern|${localIpPattern}|
+|enter|setWaitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|setFirstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|setSecondPhoneUri|sip:hangup.15000@${mockphonesIpAddress}:${mockphonesPort}|
+|check|startApplicationContext|OK|
+|check|connectCall||
+|check|waitForCallConnectedEvent|OK|
+|enter|setJvmDownTime|30000|
+|check|destroyAndStartApplicationContext|OK|
+|check|waitForCallDisconnectedEventWithSecondRemotePartyHungUp|OK|
+
+    * Start a media call and ensure it still is able to play and announcement after a JVM restart
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.MediaCallPersistencyFixture-!|
+|enter|setIpAddressPattern                                       |${localIpPattern}                                 |
+|enter|setWaitTimeoutSeconds                                     |${waitTimeoutSeconds}                             |
+|enter|setFirstPhoneUri                                          |sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|audioFileUri                                              |!-/provisioned/short.wav-!                       |
+|check|startApplicationContext                                   |OK                                                |
+|check|createFirstDialog                                         |OK                                                |
+|check|createMediaCall                                           |OK                                                |
+|check|waitForMediaCallConnectedEvent                            |OK                                                |
+|check|playAnnouncement                                          |                                                  |
+|check|waitForAnnouncementCompletedEvent                         |OK                                                |
+|check|destroyAndStartApplicationContext                         |OK                                                |
+|check|playAnnouncement                                          |                                                  |
+|check|waitForAnnouncementCompletedEvent                         |OK                                                |
+|check|terminateMediaCall                                        |                                                  |
+|check|waitForMediaCallTerminatedEventWithTerminatedByApplication|OK                                                |
+

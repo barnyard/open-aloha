@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright (c) 2008, British Telecommunications plc
+ 	
+All rights reserved.
+ 	
+Redistribution, copy, create derivative works, distribute, issue, perform,
+assisting performance, broadcast, adapt, possess, display, make, sell, offer
+to sell and import in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+ 	
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer. * Redistributions in binary
+form must reproduce the above copyright notice, this list of conditions and
+the following disclaimer in the documentation and/or other materials provided
+with the distribution. * Neither the name of the British Telecommunications
+plc nor the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY OR SATISFACTORY QUALITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+--><!--
+	This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+Checkstyle-Configuration: checkstyle
+Description:
+basic set of checks for design, metrics and style
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <module name="EmptyStatement"/>
+        <module name="IllegalInstantiation"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="DesignForExtension">
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="FinalClass"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InterfaceIsType"/>
+        <module name="VisibilityModifier"/>
+        <module name="ThrowsCount"/>
+        <module name="MutableException"/>
+        <module name="CovariantEquals"/>
+        <module name="DefaultComesLast"/>
+        <module name="DeclarationOrder"/>
+        <module name="ExplicitInitialization"/>
+        <module name="JUnitTestCase"/>
+        <module name="MissingCtor"/>
+        <module name="ModifiedControlVariable"/>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="NestedTryDepth"/>
+        <module name="ParameterAssignment"/>
+        <module name="StringLiteralEquality"/>
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
+        <module name="ArrayTrailingComma"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="IllegalType">
+            <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
+        </module>
+        <module name="RedundantThrows"/>
+        <module name="DoubleCheckedLocking"/>
+        <module name="EqualsHashCode"/>
+        <module name="FallThrough"/>
+        <module name="IllegalCatch"/>
+        <module name="IllegalThrows"/>
+        <module name="IllegalTokenText"/>
+        <module name="InnerAssignment"/>
+        <module name="MagicNumber"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="MultipleStringLiterals"/>
+        <module name="NestedIfDepth"/>
+        <module name="PackageDeclaration"/>
+        <module name="FileLength"/>
+        <module name="MethodLength"/>
+        <module name="ParameterNumber"/>
+        <module name="BooleanExpressionComplexity"/>
+        <module name="ClassFanOutComplexity"/>
+        <module name="CyclomaticComplexity"/>
+        <module name="JavaNCSS"/>
+        <module name="NPathComplexity"/>
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="ArrayTypeStyle"/>
+        <module name="UpperEll"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="TrailingComment"/>
+        <module name="CovariantEquals"/>
+        <module name="DefaultComesLast"/>
+        <module name="DeclarationOrder"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsHashCode"/>
+        <module name="HiddenField"/>
+        <module name="IllegalCatch"/>
+        <module name="IllegalThrows"/>
+        <module name="JUnitTestCase"/>
+        <module name="MissingCtor"/>
+        <module name="StringLiteralEquality"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="TypeName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="CamelCase on classes - first upper case"/>
+        </module>
+        <module name="StaticVariableName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="camelCase on static variable names"/>
+        </module>
+        <module name="ParameterName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="camelCase on parameter names - first lower"/>
+        </module>
+        <module name="MethodName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="camelCase on parameter names"/>
+        </module>
+        <module name="MemberName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="camelCase on members"/>
+        </module>
+        <module name="ConstantName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ALL_CAPITAL on constants (final static)"/>
+        </module>
+        <module name="AnonInnerLength">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="anonymous inner classes should be small"/>
+        </module>
+        <module name="EmptyBlock">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="empty blocks should be avoided"/>
+        </module>
+        <module name="GenericIllegalRegexp">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="checks printstacktrace"/>
+            <property name="format" value="printStackTrace"/>
+            <property name="ignoreCase" value="true"/>
+            <property name="ignoreComments" value="true"/>
+            <property name="message" value="remove any occurrence of printStackTrace - use logger instead"/>
+        </module>
+        <module name="ClassDataAbstractionCoupling">
+            <property name="max" value="10"/>
+        </module>
+        <module name="RequiredRegexp">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Check presence of copyright message"/>
+            <property name="format" value="Copyright \(c\) \d\d\d\d, British Telecommunications plc"/>
+        </module>
+    </module>
+	<!-- removed the following check, because the open-source copyright trips it up. The "same" check elsewhere in the build is more sophisticated -->
+    <!--module name="StrictDuplicateCode"/-->
+</module>

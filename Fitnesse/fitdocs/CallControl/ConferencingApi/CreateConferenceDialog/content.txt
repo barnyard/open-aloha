@@ -1,0 +1,36 @@
+!3 Acceptance Test Suite for the Conferencing API - CreateConferenceDialog
+
+   * I would like to create a conference dialog for a given conference and sip URI.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|OK|
+|check|dialogNotNull|true|
+
+   * I would like to receive a meaningful error message when creating dialog with a bad URI.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|not_sip_uri|
+|check|createConference||
+|enter|activeParticipant|1|
+|check|createDialog|!-Exception:IllegalArgumentException-!|
+
+   * I would like to receive a meaningful error message when creating dialog for non-existent conference
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.ConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|enter|conferenceId|xyz|
+|enter|activeParticipant|1|
+|check|createDialog|!-Exception:IllegalArgumentException-!|
+   

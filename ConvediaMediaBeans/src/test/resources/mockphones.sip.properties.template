@@ -1,0 +1,11 @@
+simpleSipStack.stackName=MockphonesStack
+simpleSipStack.ipAddress=@sip.stack.ip.address.pattern@
+simpleSipStack.port=6068
+
+simpleSipStack.jainStackPropertiesThreadPoolSize=20
+simpleSipStack.jainStackPropertiesMaxServerTransactions=5000
+
+sipStackMessageQueueCollection.maxTimeToLive=10000
+sipStackMessageQueueCollection.queuedSipMessageBlockingInterval=50
+
+taskExecutor.corePoolSize=20

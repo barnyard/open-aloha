@@ -1,0 +1,11 @@
+!1 Web21c SDK Call Control
+!3 Acceptance Test Suite
+
+The following service-specific acceptance test suites are currently available:
+!3   * ^BusyPhoneTests
+!3   * ^BrokenPhoneTests
+!3   * ^NoAnswerPhoneTests
+!3   * ^SlowAnswerPhoneTests
+!3   * ^HangUpPhoneTests
+!3   * ^ErrorPhoneTests
+!3   * ^AuthenticatingPhoneTests

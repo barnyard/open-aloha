@@ -1,0 +1,27 @@
+!3 Acceptance Test Suite for the Conferencing API - Conference With Inbound Leg
+
+   * HAPPY
+   * I would like to invite an inbound and an outbound participant to a conference.
+
+|Action Fixture.|
+|start|!-com.bt.aloha.fitnesse.InboundConferenceFixture-!|
+|enter|ipAddressPattern|${localIpPattern}|
+|enter|waitTimeoutSeconds|${waitTimeoutSeconds}|
+|enter|firstPhoneUri|sip:inbound-conference@${localIpPattern}:${inboundSimpleSipStackPort}|
+|enter|secondPhoneUri|sip:external1@${localIpPattern}:${simpleSipStackPort}|
+|enter|thirdPhoneUri|sip:happy@${mockphonesIpAddress}:${mockphonesPort}|
+|check|createConference||
+|enter|activeParticipant|3|
+|check|createDialog|OK|
+|check|inviteParticipant|OK|
+|check|waitForParticipantConnectedEvent|OK|
+|check|waitForConferenceActiveEvent|OK|
+|check|createFirstDialog|OK|
+|check|connectFirstDialog|OK|
+|check|waitForConnectedEvent|OK|
+|enter|activeParticipant|1|
+|check|waitForParticipantConnectedEvent|OK|
+|check|numberOfActiveParticipants|2|
+|enter|waitSeconds|2|
+|press|endConference|
+|check|waitForConferenceEndedEventWithEndedByApplication|OK|

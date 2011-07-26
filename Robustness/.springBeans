@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>
+		<config>src/com/bt/sdk/callcontrol/batchtest/v2/RobustnessV2.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[Performance]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[Database]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/SimpleSipStack/src/test/resources/config-ctx.xml</config>
+				<config>/SimpleSipStack/src/test/resources/core-ctx.xml</config>
+				<config>/SimpleSipStack/src/test/resources/database-collections-ctx.xml</config>
+				<config>/SimpleSipStack/src/test/resources/database-defaultdatasource-ctx.xml</config>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[Memory]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/SimpleSipStack/src/test/resources/config-ctx.xml</config>
+				<config>/SimpleSipStack/src/test/resources/core-ctx.xml</config>
+				<config>/SimpleSipStack/src/test/resources/memory-collections-ctx.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

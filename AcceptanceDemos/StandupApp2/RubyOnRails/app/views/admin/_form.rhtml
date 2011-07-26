@@ -1,0 +1,10 @@
+<%= error_messages_for 'conference' %>
+
+<!--[form:conference]-->
+<p><label for="conference_name">Name</label><br/>
+<%= text_field 'conference', 'name'  %></p>
+
+<p><label for="conference_time">Time</label><br/>
+<%= time_select 'conference', 'time', {:minute_step => 5}  %></p>
+<!--[eoform:conference]-->
+
